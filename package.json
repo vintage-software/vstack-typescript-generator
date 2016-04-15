@@ -17,7 +17,7 @@
   },
   "homepage": "https://github.com/vintage-software/vstack-typescript-generator#readme",
   "dependencies": {
-    "typescript": "^1.8.10"
+    "ts-runner": "^0.1.1"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
