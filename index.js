@@ -5,7 +5,9 @@ let typescript = require('typescript');
 
 let fileContentsCache = {};
 
-let tsCode = getReferencesAndSelf('./implementation/index.ts')
+let tsSources = getReferencesAndSelf('./implementation/index.ts');
+
+let tsCode = tsSources
     .map(filePath => fileContentsCache[filePath])
     .join('\n');
 
@@ -26,5 +28,5 @@ function getReferencesAndSelf(filePath) {
         references = getReferencesAndSelf(`${folder}/${reference}`).concat(references);
     }
     
-    return references;
+    return references.filter((value, index, self) => self.indexOf(value) === index);
 }
