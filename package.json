@@ -1,0 +1,29 @@
+{
+  "name": "vstack-typescript-generator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "jasmine-node --color --matchall spec"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/vintage-software/vstack-typescript-generator.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/vintage-software/vstack-typescript-generator/issues"
+  },
+  "homepage": "https://github.com/vintage-software/vstack-typescript-generator#readme",
+  "dependencies": {
+    "typescript": "^1.8.10"
+  },
+  "devDependencies": {
+    "gulp": "^3.9.1",
+    "gulp-tslint": "^4.3.5",
+    "gulpclass": "^0.1.0",
+    "jasmine-node": "^1.14.5",
+    "tslint": "^3.7.4"
+  }
+}
