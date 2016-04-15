@@ -1,0 +1,26 @@
+/// <reference path='../../typings/main.d.ts' />
+
+'use strict';
+
+import * as tsGenerator from '../index.js';
+
+let sampleFile = `using System;
+
+namespace MyNamespace.Domain
+{
+    public class MyDto<T>
+    {
+        public T GenericTypeValue {get;set;}
+    }
+}`;
+
+let expectedOutput = `interface MyDto<T> {
+    GenericTypeValue: T;
+}`;
+
+describe('vstack-typescript-generation dto generator', () => {
+	it('should transform a dto with a single generic type correctly', () => {
+		let result = tsGenerator.generateDto(sampleFile);
+        expect(result).toEqual(expectedOutput);
+	});
+});

@@ -6,7 +6,8 @@ let config = {
   typescript: {
     src: [
       './**/*.ts',
-      '!node_modules/**/*.ts'
+      '!./typings/**/*.ts',
+      '!./node_modules/**/*.ts'
     ]
   }
 };

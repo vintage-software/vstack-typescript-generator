@@ -4,7 +4,7 @@ let fs = require('fs');
 let typescript = require('typescript');
 
 const testFolders = [
-    
+    './spec/dto-generation'
 ];
 
 testFolders.forEach(folder => {

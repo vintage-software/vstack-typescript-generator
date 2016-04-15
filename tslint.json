@@ -5,7 +5,7 @@
     "class-name": true,
     "comment-format": [ "check-lowercase" ],
     "curly": true,
-    "eofline": false,
+    "eofline": true,
     "forin": true,
     "indent": [ true, 4 ],
     "interface-name": [ true, "always-prefix" ],
@@ -23,7 +23,7 @@
     "no-any": false,
     "no-arg": true,
     "no-bitwise": true,
-    "no-conditional-assignment": true,
+    "no-conditional-assignment": false,
     "no-consecutive-blank-lines": true,
     "no-console": [
       true,
