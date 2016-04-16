@@ -17,13 +17,13 @@
   },
   "homepage": "https://github.com/vintage-software/vstack-typescript-generator#readme",
   "dependencies": {
-    "ts-runner": "^0.1.1"
+    "ts-runner": "0.2.0"
   },
   "devDependencies": {
-    "gulp": "^3.9.1",
-    "gulp-tslint": "^4.3.5",
-    "gulpclass": "^0.1.0",
-    "jasmine-node": "^1.14.5",
-    "tslint": "^3.7.4"
+    "gulp": "3.9.1",
+    "gulp-tslint": "4.3.5",
+    "gulpclass": "0.1.0",
+    "jasmine-node": "1.14.5",
+    "tslint": "3.7.4"
   }
 }

@@ -1,21 +1,4 @@
 class Utility {
-    public static typeTranslation =  {
-        int: 'number',
-        double: 'number',
-        float: 'number',
-        Int32: 'number',
-        Int64: 'number',
-        short: 'number',
-        long: 'number',
-        decimal: 'number',
-        bool: 'boolean',
-        DateTime: 'string',
-        Guid: 'string',
-        JObject: 'any',
-        string: 'string',
-        dynamic: 'any',
-    };
-
     public static stripComments(input: string): string {
         let blockCommentRegex = new RegExp('/\\*([\\s\\S]*)\\*/', 'gm');
         let lineCommentRegex = new RegExp('//(.*)', 'g');
@@ -25,5 +8,19 @@ class Utility {
             .split('\n')
             .map(line => line.replace(lineCommentRegex, ''))
             .join('\n');
+    }
+    
+    public static translateType(csType: string, options: IDtoOptions) {
+        if (['string', 'String', 'Guid'].indexOf(csType) !== -1) {
+            return 'string';
+        } else if (['bool', 'Boolean'].indexOf(csType) !== -1) {
+            return 'boolean';
+        } else if (['dynamic', 'JObject'].indexOf(csType) !== -1) {
+            return 'any';
+        } else if (['int', 'short', 'decimal', 'double', 'float', 'Int32', 'Int64'].indexOf(csType) !== -1) {
+            return 'number';
+        } else if (csType === 'DateTime') {
+            return options && options.dateTimeToDate ? 'Date' : 'string';
+        }
     }
 }

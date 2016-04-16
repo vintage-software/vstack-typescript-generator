@@ -63,15 +63,9 @@ class DtoGenerator {
 
         let definition = `interface ${className} {\n`;
 
-        if (options && options.dateTimeToDate) {
-            Utility.typeTranslation.DateTime = 'Date';
-        } else {
-            Utility.typeTranslation.DateTime = 'string';
-        }
-
-        let propertyResult;
+        let propertyResult: RegExpExecArray;
         while (!!(propertyResult = propertyRegex.exec(classBody))) {
-            let varType = Utility.typeTranslation[propertyResult[1]];
+            let varType: string = Utility.translateType(propertyResult[1], options);
 
             let isOptional = propertyResult[2] === '?';
 
@@ -84,8 +78,8 @@ class DtoGenerator {
                 if (collectionMatch) {
                     let collectionType = collectionMatch[1];
 
-                    if (Utility.typeTranslation[collectionType]) {
-                        varType = Utility.typeTranslation[collectionType];
+                    if (Utility.translateType(collectionType, options)) {
+                        varType = Utility.translateType(collectionType, options);
                     } else {
                         varType = collectionType;
 
@@ -98,8 +92,8 @@ class DtoGenerator {
                 } else if (arrayMatch) {
                     let arrayType = arrayMatch[1];
 
-                    if (Utility.typeTranslation[arrayType]) {
-                        varType = Utility.typeTranslation[arrayType];
+                    if (Utility.translateType(arrayType, options)) {
+                        varType = Utility.translateType(arrayType, options);
                     } else {
                         varType = arrayType;
 
@@ -136,14 +130,13 @@ class DtoGenerator {
         let entryRegex = /([^\s,]+)\s*=?\s*(\d+)?,?/gm;
         let definition = `enum ${enumName} {\n    `;
 
-        let entryResult;
-
-        let elements = [];
+        let elements: string[] = [];
         let lastIndex = 0;
 
+        let entryResult: RegExpExecArray;
         while (!!(entryResult = entryRegex.exec(enumBody))) {
             let entryName = entryResult[1];
-            let entryValue = entryResult[2];
+            let entryValue = parseInt(entryResult[2], 10);
 
             if (entryName.indexOf('[') !== -1) {
                 continue;
@@ -154,7 +147,7 @@ class DtoGenerator {
 
                 lastIndex++;
             } else {
-                lastIndex = parseInt(entryValue, 10) + 1;
+                lastIndex = entryValue + 1;
             }
 
             elements.push(`${entryName} = ${entryValue}`);
