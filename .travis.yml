@@ -3,9 +3,7 @@ node_js:
  - "4.1"
 install:
  - npm install
- - npm install -g gulp
- - npm install -g typings
- - typints install
+ - typings install
 script:
  - npm test
  - gulp lint
