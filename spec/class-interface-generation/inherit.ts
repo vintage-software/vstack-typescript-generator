@@ -8,7 +8,7 @@ let sampleFile = `using System;
 
 namespace MyNamespace.Domain
 {
-    public class MyDto
+    public class MyDto :  BaseDto
     {
         public MyDto()
         {
@@ -21,7 +21,6 @@ namespace MyNamespace.Domain
             this.Title = value.Title;
         }
 
-        [SomeAttribute(42)]
         public int Id { get; set; }
         public string Name { get; set; }
         //public string IgnoreMe { get; set; }
@@ -33,42 +32,33 @@ namespace MyNamespace.Domain
         public string Title
         {
             get;
-            set;
-        }
+            set; }
         public List<string> ListFields { get; set; }
         public IEnumerable<string> IEnumerableFields { get; set; }
         public string[] ArrayFields { get; set; }
-        public int[] NumberArray { get; set; }
-        public List<int> NumberList { get; set; }
         public bool? OptionalBool {get; set;}
         public DateTime SomeDate {get;set;}
         public decimal SomeDecimal {get;set;}
         public Guid SomeGuid {get;set;}
-        public JObject DynamicContents { get; set; }
-        public dynamic DynamicToAny { get; set; }
     }
 }`;
 
-let expectedOutput = `interface MyDto {
+let expectedOutput = `interface MyDto extends BaseDto {
     Id: number;
     Name: string;
     Title: string;
     ListFields: string[];
     IEnumerableFields: string[];
     ArrayFields: string[];
-    NumberArray: number[];
-    NumberList: number[];
     OptionalBool?: boolean;
     SomeDate: string;
     SomeDecimal: number;
     SomeGuid: string;
-    DynamicContents: any;
-    DynamicToAny: any;
 }`;
 
-describe('vstack-typecript-generator dto generation', () => {
-	it('should transform a dto class correctly', () => {
-		let result = tsGenerator.generateDto(sampleFile);
+describe('vstack-typescript-generation class interface generator', () => {
+	it('should turn inheritence into extends', () => {
+		let result = tsGenerator.generateClassInterface(sampleFile);
         expect(result).toEqual(expectedOutput);
 	});
 });

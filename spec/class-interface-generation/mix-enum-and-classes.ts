@@ -61,16 +61,11 @@ let expectedOutput = `interface MyDto {
     SomeDate: string;
     SomeDecimal: number;
     SomeGuid: string;
-}
-
-declare enum MyEnum {
-    Green = 0,
-    Blue = 1
 }`;
 
-describe('vstack-typescript-generation dto generator', () => {
+describe('vstack-typescript-generation class interface generator', () => {
 	it('should handle enums and classes in the same file', () => {
-		let result = tsGenerator.generateDto(sampleFile);
+		let result = tsGenerator.generateClassInterface(sampleFile);
         expect(result).toEqual(expectedOutput);
 	});
 });

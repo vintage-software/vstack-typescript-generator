@@ -18,9 +18,9 @@ let expectedOutput = `interface MyDto {
     Name: string;
 }`;
 
-describe('vstack-typescript-generation dto generator', () => {
+describe('vstack-typescript-generation class interface generator', () => {
 	it('should transform an abstract class correctly', () => {
-		let result = tsGenerator.generateDto(sampleFile);
+		let result = tsGenerator.generateClassInterface(sampleFile);
         expect(result).toEqual(expectedOutput);
 	});
 });

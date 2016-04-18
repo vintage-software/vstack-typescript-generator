@@ -23,13 +23,13 @@ let expectedOutput = `interface MyDto {
     Name: string;
 }`;
 
-describe('vstack-typescript-generation dto generator', () => {
+describe('vstack-typescript-generation class interface generator', () => {
 	it('should handle the ignore inheritance option correctly', () => {
         let options = {
             ignoreInheritance: ['IMyDto']
         };
 
-		let result = tsGenerator.generateDto(sampleFile, options);
+		let result = tsGenerator.generateClassInterface(sampleFile, options);
         expect(result).toEqual(expectedOutput);
 	});
 });

@@ -1,41 +1,32 @@
-/// <reference path="types/dto-options.d.ts" />
+/// <reference path="options.ts" />
 /// <reference path="utility.ts" />
 
-class DtoGenerator {
-    public static generateDto(input: string, options?: IDtoOptions): string {
+class ClassInterfaceGenerator {
+    public static generate(input: string, options?: IClassInterfaceOptions): string {
         input = Utility.stripComments(input);
 
         let result = '';
         let match: RegExpExecArray;
 
-        let typeRegex = /^([\t ]*)(?:public\s*|partial\s*|abstract\s*)*\s*(class|enum|struct)\s+([\w\d_<>]+)(?:\s*:\s*((?:(?:[\w\d\._]+)(?:,\s+)?)+))?\s*\{((?:.|\n|\r)*?)^\1\}/gm;
+        let typeRegex = /^([\t ]*)(?:public\s*|partial\s*|abstract\s*)*\s*(?:class|struct)\s+([\w\d_<>]+)(?:\s*:\s*((?:(?:[\w\d\._]+)(?:,\s+)?)+))?\s*\{((?:.|\n|\r)*?)^\1\}/gm;
         while (!!(match = typeRegex.exec(input))) {
-            let type = match[2];
-            let typeName = match[3];
-            let inherits = match[4];
-            let body = match[5];
+            let typeName = match[2];
+            let inherits = match[3];
+            let body = match[4];
 
             if (result.length > 0) {
                 result += '\n\n';
             }
 
-            if (type === 'class' || type === 'struct') {
-                if (inherits && (!options || !options.ignoreInheritance || options.ignoreInheritance.indexOf(inherits) === -1)) {
-                    typeName += ` extends ${inherits}`;
-                }
-
-                if (options && options.prefixWithI) {
-                    typeName = `I${typeName}`;
-                }
-
-                result += DtoGenerator.generateInterface(typeName, body, options);
-            } else if (type === 'enum') {
-                if (!options || !options.baseNamespace) {
-                    result += 'declare ';
-                }
-
-                result += DtoGenerator.generateEnum(typeName, body, options);
+            if (inherits && (!options || !options.ignoreInheritance || options.ignoreInheritance.indexOf(inherits) === -1)) {
+                typeName += ` extends ${inherits}`;
             }
+
+            if (options && options.prefixWithI) {
+                typeName = `I${typeName}`;
+            }
+
+            result += ClassInterfaceGenerator.generateInterface(typeName, body, options);
         }
 
         if (options && options.baseNamespace) {
@@ -56,7 +47,7 @@ class DtoGenerator {
         return result;
     }
 
-    private static generateInterface(className: string, classBody: string, options: IDtoOptions): string {
+    private static generateInterface(className: string, classBody: string, options: IClassInterfaceOptions): string {
         let propertyRegex = /public ([^?\s]*)(\??) ([\w\d]+)\s*{\s*get;\s*set;\s*}/gm;
         let collectionRegex = /(?:List|IEnumerable)<([\w\d]+)>/;
         let arrayRegex = /([\w\d]+)\[\]/;
@@ -122,40 +113,6 @@ class DtoGenerator {
         }
 
         definition += '}';
-
-        return definition;
-    }
-
-    private static generateEnum(enumName: string, enumBody: string, options: IDtoOptions): string {
-        let entryRegex = /([^\s,]+)\s*=?\s*(\d+)?,?/gm;
-        let definition = `enum ${enumName} {\n    `;
-
-        let elements: string[] = [];
-        let lastIndex = 0;
-
-        let entryResult: RegExpExecArray;
-        while (!!(entryResult = entryRegex.exec(enumBody))) {
-            let entryName = entryResult[1];
-            let entryValue = parseInt(entryResult[2], 10);
-
-            if (entryName.indexOf('[') !== -1) {
-                continue;
-            }
-
-            if (!entryValue) {
-                entryValue = lastIndex;
-
-                lastIndex++;
-            } else {
-                lastIndex = entryValue + 1;
-            }
-
-            elements.push(`${entryName} = ${entryValue}`);
-        }
-
-        definition += elements.join(',\n    ');
-
-        definition += '\n}';
 
         return definition;
     }

@@ -22,13 +22,13 @@ let expectedOutput = `interface MyDto {
     title: string;
 }`;
 
-describe('vstack-typescript-generation dto generator', () => {
+describe('vstack-typescript-generation class interface generator', () => {
     it('should handle the propertyNameResolver option correctly', () => {
         let options = {
             propertyNameResolver : camelCaseResolver
         };
 
-        let result = tsGenerator.generateDto(sampleFile, options);
+        let result = tsGenerator.generateClassInterface(sampleFile, options);
         expect(result).toEqual(expectedOutput);
 
         function camelCaseResolver(propertyName) {

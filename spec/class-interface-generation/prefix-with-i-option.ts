@@ -41,20 +41,13 @@ namespace MyNamespace.Domain
         public DateTime SomeDate {get;set;}
         public decimal SomeDecimal {get;set;}
         public Guid SomeGuid {get;set;}
-    }
-    
-    public partial class MyOtherDto
-    {
-        public int SomeField { get; set; }
-    }
-    
-    public struct MyStruct
-    {
-        public int SomeIntField { get; set; }
+        public SomeOtherDto AnotherDto {get; set;}
+        public List<SomeOtherDto> MoreDtos {get; set;}
+        public SomeOtherDto[] ArrayDtos {get; set;}
     }
 }`;
 
-let expectedOutput = `interface MyDto {
+let expectedOutput = `interface IMyDto {
     Id: number;
     Name: string;
     Title: string;
@@ -65,19 +58,18 @@ let expectedOutput = `interface MyDto {
     SomeDate: string;
     SomeDecimal: number;
     SomeGuid: string;
-}
-
-interface MyOtherDto {
-    SomeField: number;
-}
-
-interface MyStruct {
-    SomeIntField: number;
+    AnotherDto: ISomeOtherDto;
+    MoreDtos: ISomeOtherDto[];
+    ArrayDtos: ISomeOtherDto[];
 }`;
 
-describe('vstack-typescript-generation dto generator', () => {
-	it('should handle multiple classes in the same file', () => {
-		let result = tsGenerator.generateDto(sampleFile);
+describe('vstack-typescript-generation class interface generator', () => {
+	it('should prefix with I if option is set', () => {
+        let options = {
+            prefixWithI: true
+        };
+
+		let result = tsGenerator.generateClassInterface(sampleFile, options);
         expect(result).toEqual(expectedOutput);
 	});
 });

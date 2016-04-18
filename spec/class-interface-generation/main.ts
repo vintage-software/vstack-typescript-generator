@@ -21,6 +21,7 @@ namespace MyNamespace.Domain
             this.Title = value.Title;
         }
 
+        [SomeAttribute(42)]
         public int Id { get; set; }
         public string Name { get; set; }
         //public string IgnoreMe { get; set; }
@@ -37,39 +38,37 @@ namespace MyNamespace.Domain
         public List<string> ListFields { get; set; }
         public IEnumerable<string> IEnumerableFields { get; set; }
         public string[] ArrayFields { get; set; }
+        public int[] NumberArray { get; set; }
+        public List<int> NumberList { get; set; }
         public bool? OptionalBool {get; set;}
         public DateTime SomeDate {get;set;}
         public decimal SomeDecimal {get;set;}
         public Guid SomeGuid {get;set;}
-        public SomeOtherDto AnotherDto {get; set;}
-        public List<SomeOtherDto> MoreDtos {get; set;}
-        public SomeOtherDto[] ArrayDtos {get; set;}
+        public JObject DynamicContents { get; set; }
+        public dynamic DynamicToAny { get; set; }
     }
 }`;
 
-let expectedOutput = `interface IMyDto {
+let expectedOutput = `interface MyDto {
     Id: number;
     Name: string;
     Title: string;
     ListFields: string[];
     IEnumerableFields: string[];
     ArrayFields: string[];
+    NumberArray: number[];
+    NumberList: number[];
     OptionalBool?: boolean;
     SomeDate: string;
     SomeDecimal: number;
     SomeGuid: string;
-    AnotherDto: ISomeOtherDto;
-    MoreDtos: ISomeOtherDto[];
-    ArrayDtos: ISomeOtherDto[];
+    DynamicContents: any;
+    DynamicToAny: any;
 }`;
 
-describe('vstack-typescript-generation dto generator', () => {
-	it('should prefix with I if option is set', () => {
-        let options = {
-            prefixWithI: true
-        };
-
-		let result = tsGenerator.generateDto(sampleFile, options);
+describe('vstack-typecript-generator dto generation', () => {
+	it('should transform a dto class correctly', () => {
+		let result = tsGenerator.generateClassInterface(sampleFile);
         expect(result).toEqual(expectedOutput);
 	});
 });

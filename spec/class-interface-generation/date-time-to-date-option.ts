@@ -8,7 +8,7 @@ let sampleFile = `using System;
 
 namespace MyNamespace.Domain
 {
-    public class MyDto :  BaseDto
+    public class MyDto
     {
         public MyDto()
         {
@@ -32,7 +32,8 @@ namespace MyNamespace.Domain
         public string Title
         {
             get;
-            set; }
+            set;
+        }
         public List<string> ListFields { get; set; }
         public IEnumerable<string> IEnumerableFields { get; set; }
         public string[] ArrayFields { get; set; }
@@ -40,10 +41,13 @@ namespace MyNamespace.Domain
         public DateTime SomeDate {get;set;}
         public decimal SomeDecimal {get;set;}
         public Guid SomeGuid {get;set;}
+        public SomeOtherDto AnotherDto {get; set;}
+        public List<SomeOtherDto> MoreDtos {get; set;}
+        public SomeOtherDto[] ArrayDtos {get; set;}
     }
 }`;
 
-let expectedOutput = `interface MyDto extends BaseDto {
+let expectedOutput = `interface MyDto {
     Id: number;
     Name: string;
     Title: string;
@@ -51,14 +55,21 @@ let expectedOutput = `interface MyDto extends BaseDto {
     IEnumerableFields: string[];
     ArrayFields: string[];
     OptionalBool?: boolean;
-    SomeDate: string;
+    SomeDate: Date;
     SomeDecimal: number;
     SomeGuid: string;
+    AnotherDto: SomeOtherDto;
+    MoreDtos: SomeOtherDto[];
+    ArrayDtos: SomeOtherDto[];
 }`;
 
-describe('vstack-typescript-generation dto generator', () => {
-	it('should turn inheritence into extends', () => {
-		let result = tsGenerator.generateDto(sampleFile);
+describe('vstack-typescript-generation class interface generator', () => {
+	it('should turn DateTime into Date with option set', () => {
+        let options = {
+            dateTimeToDate: true
+        };
+
+		let result = tsGenerator.generateClassInterface(sampleFile, options);
         expect(result).toEqual(expectedOutput);
 	});
 });

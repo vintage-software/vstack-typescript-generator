@@ -1,3 +1,5 @@
+/// <reference path="options.ts" />
+
 class Utility {
     public static stripComments(input: string): string {
         let blockCommentRegex = new RegExp('/\\*([\\s\\S]*)\\*/', 'gm');
@@ -10,7 +12,7 @@ class Utility {
             .join('\n');
     }
 
-    public static translateType(csType: string, options: IDtoOptions) {
+    public static translateType(csType: string, options: IClassInterfaceOptions) {
         if (['string', 'String', 'Guid'].indexOf(csType) !== -1) {
             return 'string';
         } else if (['bool', 'Boolean'].indexOf(csType) !== -1) {

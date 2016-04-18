@@ -8,7 +8,7 @@ let sampleFile = `using System;
 
 namespace MyNamespace.Domain
 {
-    public enum MyEnum : System.Int64
+    public enum MyEnum
     {
         Green,
 		Red,
@@ -18,6 +18,7 @@ namespace MyNamespace.Domain
         /*
         public string IgnoreMe4 {get; set; }
         */
+        [SomeAttribute(64)]
         Pink = 10, Ultraviolet
     }
 }`;
@@ -30,9 +31,9 @@ let expectedOutput = `declare enum MyEnum {
     Ultraviolet = 11
 }`;
 
-describe('vstack-typescript-generation dto generator', () => {
-	it('should ignore an enum\'s explicit type', () => {
-		let result = tsGenerator.generateDto(sampleFile);
+describe('vstack-typescript-generation enum generator', () => {
+	it('should transform an enum correctly', () => {
+		let result = tsGenerator.generateEnum(sampleFile);
         expect(result).toEqual(expectedOutput);
 	});
 });

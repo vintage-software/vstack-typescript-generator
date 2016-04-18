@@ -1,6 +1,8 @@
-/// <reference path="dto-generator.ts" />
+/// <reference path="enum-generator.ts" />
+/// <reference path="class-interface-generator.ts" />
 declare var module: any;
 
 module.exports = {
-    generateDto: DtoGenerator.generateDto
+    generateEnum: EnumGenerator.generate,
+    generateClassInterface: ClassInterfaceGenerator.generate
 };

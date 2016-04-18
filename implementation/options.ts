@@ -1,4 +1,4 @@
-interface IDtoOptions {
+interface IClassInterfaceOptions {
     definitionFile?: boolean;
     baseNamespace?: string;
     prefixWithI?: boolean;

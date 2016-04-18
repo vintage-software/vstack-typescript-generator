@@ -18,9 +18,9 @@ let expectedOutput = `interface MyDto<T> {
     GenericTypeValue: T;
 }`;
 
-describe('vstack-typescript-generation dto generator', () => {
+describe('vstack-typescript-generation class interface generator', () => {
 	it('should transform a dto with a single generic type correctly', () => {
-		let result = tsGenerator.generateDto(sampleFile);
+		let result = tsGenerator.generateClassInterface(sampleFile);
         expect(result).toEqual(expectedOutput);
 	});
 });

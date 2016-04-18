@@ -4,7 +4,8 @@ let fs = require('fs');
 let typescript = require('typescript');
 
 const testFolders = [
-    './spec/dto-generation'
+    './spec/enum-generation',
+    './spec/class-interface-generation'
 ];
 
 testFolders.forEach(folder => {

@@ -41,35 +41,23 @@ namespace MyNamespace.Domain
         public DateTime SomeDate {get;set;}
         public decimal SomeDecimal {get;set;}
         public Guid SomeGuid {get;set;}
-        public SomeOtherDto AnotherDto {get; set;}
-        public List<SomeOtherDto> MoreDtos {get; set;}
-        public SomeOtherDto[] ArrayDtos {get; set;}
+    }
+
+    public enum MyEnum
+    {
+        Green,
+        Blue
     }
 }`;
 
-let expectedOutput = `interface MyDto {
-    Id: number;
-    Name: string;
-    Title: string;
-    ListFields: string[];
-    IEnumerableFields: string[];
-    ArrayFields: string[];
-    OptionalBool?: boolean;
-    SomeDate: Date;
-    SomeDecimal: number;
-    SomeGuid: string;
-    AnotherDto: SomeOtherDto;
-    MoreDtos: SomeOtherDto[];
-    ArrayDtos: SomeOtherDto[];
+let expectedOutput = `declare enum MyEnum {
+    Green = 0,
+    Blue = 1
 }`;
 
-describe('vstack-typescript-generation dto generator', () => {
-	it('should turn DateTime into Date with option set', () => {
-        let options = {
-            dateTimeToDate: true
-        };
-
-		let result = tsGenerator.generateDto(sampleFile, options);
+describe('vstack-typescript-generation enum generator', () => {
+	it('should handle enums and classes in the same file', () => {
+		let result = tsGenerator.generateEnum(sampleFile);
         expect(result).toEqual(expectedOutput);
 	});
 });
