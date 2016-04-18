@@ -24,6 +24,7 @@
     "gulp-tslint": "4.3.5",
     "gulpclass": "0.1.0",
     "jasmine-node": "1.14.5",
-    "tslint": "3.7.4"
+    "tslint": "3.7.4",
+    "typings": "0.7.12"
   }
 }
