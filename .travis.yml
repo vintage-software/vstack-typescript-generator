@@ -5,5 +5,5 @@ install:
  - npm install
  - typings install
 script:
- - npm test
  - gulp lint
+ - npm test

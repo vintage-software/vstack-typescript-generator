@@ -9,7 +9,7 @@ class Utility {
             .map(line => line.replace(lineCommentRegex, ''))
             .join('\n');
     }
-    
+
     public static translateType(csType: string, options: IDtoOptions) {
         if (['string', 'String', 'Guid'].indexOf(csType) !== -1) {
             return 'string';
