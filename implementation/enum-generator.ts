@@ -2,7 +2,7 @@
 /// <reference path="c-sharp-parser.ts" />
 
 class EnumGenerator {
-    public static generate(input: string, options?: IClassInterfaceOptions): string {
+    public static generate(input: string, options?: IEnumOptions): string {
         let result = CSharpParser.parse(input)
             .filter(type => type instanceof CSharpEnum)
             .map(type => EnumGenerator.generateEnum(<CSharpEnum>type, options))
@@ -11,7 +11,7 @@ class EnumGenerator {
         return Utility.wrapResult(result, options);
     }
 
-    private static generateEnum(cSharpEnum: CSharpEnum, options: IClassInterfaceOptions): string {
+    private static generateEnum(cSharpEnum: CSharpEnum, options: IEnumOptions): string {
         let modifier = options && options.baseNamespace ? 'export' : 'declare';
 
         let nextIndex = 0;

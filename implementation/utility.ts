@@ -1,17 +1,6 @@
 /// <reference path="options.ts" />
 
 class Utility {
-    public static stripComments(input: string): string {
-        let blockCommentRegex = new RegExp('/\\*([\\s\\S]*)\\*/', 'gm');
-        let lineCommentRegex = new RegExp('//(.*)', 'g');
-
-        return input
-            .replace(blockCommentRegex, '')
-            .split('\n')
-            .map(line => line.replace(lineCommentRegex, ''))
-            .join('\n');
-    }
-
     public static translateType(csType: string, options: IClassInterfaceOptions) {
         if (['string', 'String', 'Guid'].indexOf(csType) !== -1) {
             return 'string';

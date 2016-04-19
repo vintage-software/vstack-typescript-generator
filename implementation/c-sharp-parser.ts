@@ -2,7 +2,7 @@
 
 class CSharpParser {
     public static parse(input: string): CSharpType[] {
-        input = Utility.stripComments(input);
+        input = CSharpParser.stripComments(input);
 
         let types: CSharpType[] = [];
 
@@ -23,6 +23,17 @@ class CSharpParser {
         }
 
         return types;
+    }
+
+    private static stripComments(input: string): string {
+        let blockCommentRegex = new RegExp('/\\*([\\s\\S]*)\\*/', 'gm');
+        let lineCommentRegex = new RegExp('//(.*)', 'g');
+
+        return input
+            .replace(blockCommentRegex, '')
+            .split('\n')
+            .map(line => line.replace(lineCommentRegex, ''))
+            .join('\n');
     }
 
     private static parseClassOrStruct(name: string, inherits: string, body: string) {
