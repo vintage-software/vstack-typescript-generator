@@ -25,4 +25,19 @@ class Utility {
             return options && options.dateTimeToDate ? 'Date' : 'string';
         }
     }
+
+    public static wrapResult(result: string, options: IClassInterfaceOptions) {
+        if (options && options.baseNamespace) {
+            let modifier = options.definitionFile === false ? 'module' : 'declare module';
+
+            let indentedResult = result
+                .split('\n')
+                .map(line =>  line ? `    ${line}` : '')
+                .join('\n');
+
+            return `${modifier} ${options.baseNamespace} {\n${indentedResult}\n}`;
+        }
+
+        return result;
+    }
 }

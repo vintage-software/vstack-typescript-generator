@@ -41,6 +41,7 @@ namespace MyNamespace.Domain
         public int[] NumberArray { get; set; }
         public List<int> NumberList { get; set; }
         public bool? OptionalBool {get; set;}
+        public Nullable<int> OptionalInt {get; set;}
         public DateTime SomeDate {get;set;}
         public decimal SomeDecimal {get;set;}
         public Guid SomeGuid {get;set;}
@@ -59,6 +60,7 @@ let expectedOutput = `interface MyDto {
     NumberArray: number[];
     NumberList: number[];
     OptionalBool?: boolean;
+    OptionalInt?: number;
     SomeDate: string;
     SomeDecimal: number;
     SomeGuid: string;

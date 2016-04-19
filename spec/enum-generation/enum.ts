@@ -17,6 +17,8 @@ namespace MyNamespace.Domain
         /* public string IgnoreMe3 {get; set; } */
         /*
         public string IgnoreMe4 {get; set; }
+
+        Ignore = 5
         */
         [SomeAttribute(64)]
         Pink = 10, Ultraviolet
