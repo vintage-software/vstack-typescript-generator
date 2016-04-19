@@ -1,17 +1,11 @@
 class CSharpType {
-    constructor(public name: string, public inherits: string) {
+    constructor(public namespace: string, public name: string, public inherits: string) {
     }
 }
 
 class CSharpClassOrStruct extends CSharpType {
-    constructor(public name: string, public inherits: string, public properties: CSharpProperty[]) {
-        super(name, inherits);
-    }
-}
-
-class CSharpEnum extends CSharpType {
-    constructor(public name: string, public inherits: string, public entries: CSharpEnumEntry[]) {
-        super(name, inherits);
+    constructor(public namespace: string, public name: string, public inherits: string, public constructors: CSharpContructor[], public properties: CSharpProperty[]) {
+        super(namespace, name, inherits);
     }
 }
 
@@ -20,8 +14,31 @@ class CSharpMemberType {
     }
 }
 
-class CSharpProperty {
+class CSharpContructor {
+    constructor(public parameters: CSharpParameter[]) {
+    }
+}
+
+class CSharpMember {
     constructor(public type: CSharpMemberType, public name: string) {
+    }
+}
+
+class CSharpProperty extends CSharpMember {
+    constructor(public type: CSharpMemberType, public name: string) {
+        super(type, name);
+    }
+}
+
+class CSharpParameter extends CSharpMember {
+    constructor(public type: CSharpMemberType, public name: string) {
+        super(type, name);
+    }
+}
+
+class CSharpEnum extends CSharpType {
+    constructor(public namespace: string, public name: string, public inherits: string, public entries: CSharpEnumEntry[]) {
+        super(namespace, name, inherits);
     }
 }
 

@@ -15,7 +15,7 @@ class Utility {
         }
     }
 
-    public static wrapResult(result: string, options: IClassInterfaceOptions) {
+    public static wrapResult(result: string, options: IOptions) {
         if (options && options.baseNamespace) {
             let modifier = options.definitionFile === false ? 'module' : 'declare module';
 

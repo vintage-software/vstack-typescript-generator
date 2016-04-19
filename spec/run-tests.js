@@ -5,7 +5,8 @@ let typescript = require('typescript');
 
 const testFolders = [
     './spec/enum-generation',
-    './spec/class-interface-generation'
+    './spec/class-interface-generation',
+    './spec/primary-filter-generation'
 ];
 
 testFolders.forEach(folder => {
