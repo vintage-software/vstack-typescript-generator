@@ -9,7 +9,7 @@ declare var require: (i: string) => any;
 let pluralize = require('pluralize'); // import not working
 
 module.exports = function (input: string, options: IOptions) {
-    if (input.indexOf("ts-generator-ignore") === -1) {
+    if (input.indexOf('ts-generator-ignore') === -1) {
         let results: string[] = [];
 
         let types = CSharpParser.parse(input);
