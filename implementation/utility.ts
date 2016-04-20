@@ -1,7 +1,7 @@
 /// <reference path="options.ts" />
 
 class Utility {
-    public static translateType(csType: string, options: IClassInterfaceOptions) {
+    public static translateType(csType: string, options: IOptions) {
         if (['string', 'String', 'Guid'].indexOf(csType) !== -1) {
             return 'string';
         } else if (['bool', 'Boolean'].indexOf(csType) !== -1) {
@@ -13,20 +13,5 @@ class Utility {
         } else if (csType === 'DateTime') {
             return options && options.dateTimeToDate ? 'Date' : 'string';
         }
-    }
-
-    public static wrapResult(result: string, options: IOptions) {
-        if (options && options.baseNamespace) {
-            let modifier = options.definitionFile === false ? 'module' : 'declare module';
-
-            let indentedResult = result
-                .split('\n')
-                .map(line =>  line ? `    ${line}` : '')
-                .join('\n');
-
-            return `${modifier} ${options.baseNamespace} {\n${indentedResult}\n}`;
-        }
-
-        return result;
     }
 }

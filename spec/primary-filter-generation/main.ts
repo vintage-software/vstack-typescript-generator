@@ -45,7 +45,7 @@ let expectedOutput = `class PeopleByNameAndAgeFilter implements IPrimaryFilter<P
 
 describe('vstack-typescript-generation primary filter generator', () => {
     it('should transform a filter correctly', () => {
-        let result = tsGenerator.generatePrimaryFilter(sampleFile);
+        let result = tsGenerator(sampleFile);
         expect(result).toEqual(expectedOutput);
     });
 });

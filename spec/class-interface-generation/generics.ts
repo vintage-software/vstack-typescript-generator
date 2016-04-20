@@ -20,7 +20,7 @@ let expectedOutput = `interface MyDto<T> {
 
 describe('vstack-typescript-generation class interface generator', () => {
 	it('should transform a dto with a single generic type correctly', () => {
-		let result = tsGenerator.generateClassInterface(sampleFile);
+		let result = tsGenerator(sampleFile);
         expect(result).toEqual(expectedOutput);
 	});
 });

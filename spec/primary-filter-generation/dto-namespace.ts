@@ -44,12 +44,12 @@ let expectedOutput = `class PeopleByNameAndAgeFilter implements IPrimaryFilter<d
 }`;
 
 describe('vstack-typescript-generation primary filter generator', () => {
-    it('should transform a filter correctly', () => {
+    it('should use the dtoNamespace option correctly', () => {
         let options = {
             dtoNamespace: 'dto'
         };
 
-        let result = tsGenerator.generatePrimaryFilter(sampleFile, options);
+        let result = tsGenerator(sampleFile, options);
         expect(result).toEqual(expectedOutput);
     });
 });

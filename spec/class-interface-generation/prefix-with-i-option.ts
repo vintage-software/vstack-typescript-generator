@@ -69,7 +69,7 @@ describe('vstack-typescript-generation class interface generator', () => {
             prefixWithI: true
         };
 
-		let result = tsGenerator.generateClassInterface(sampleFile, options);
+		let result = tsGenerator(sampleFile, options);
         expect(result).toEqual(expectedOutput);
 	});
 });

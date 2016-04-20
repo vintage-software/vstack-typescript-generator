@@ -12,14 +12,9 @@ namespace MyNamespace.Domain
     {
         public int SomeInt { get; set; }
     }
-
-    public enum MyEnum
-    {
-        One, Two
-    }
 }`;
 
-let expectedOutput = `declare module MyNamespace {
+let expectedOutput = `module MyNamespace {
     export interface MyDto {
         SomeInt: number;
     }
@@ -27,7 +22,11 @@ let expectedOutput = `declare module MyNamespace {
 
 describe('vstack-typescript-generation class interface generator', () => {
 	it('should use the baseNamespace option correctly', () => {
-		let result = tsGenerator.generateClassInterface(sampleFile, { baseNamespace: 'MyNamespace' });
+        let options =  {
+            baseNamespace: 'MyNamespace'
+        };
+
+		let result = tsGenerator(sampleFile, options);
         expect(result).toEqual(expectedOutput);
 	});
 });

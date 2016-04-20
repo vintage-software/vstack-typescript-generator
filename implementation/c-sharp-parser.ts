@@ -97,16 +97,20 @@ class CSharpParser {
     }
 
     private static parseMemberTypeName(typeName: string): CSharpMemberType {
+        let lastNameRegex = /\.?([\w<>\[\]\?]+)$/;
+
+        typeName = typeName.match(lastNameRegex)[1];
+
         let nullableRegex = /(?:^Nullable<([^\s]+)>$)|(?:^([^\s]+)\?$)/;
         let nullableMatch = nullableRegex.exec(typeName);
         if (nullableMatch) {
-            typeName = nullableMatch[1] || nullableMatch[2];
+            typeName = (nullableMatch[1] || nullableMatch[2]).match(lastNameRegex)[1];
         }
 
         let collectionRegex = /(?:^(?:List|IEnumerable)<([\w\d]+)>$)|(?:^([\w\d]+)\[\]$)/;
         let collectionMatch = collectionRegex.exec(typeName);
         if (collectionMatch) {
-            typeName = collectionMatch[1] || collectionMatch[2];
+            typeName = (collectionMatch[1] || collectionMatch[2]).match(lastNameRegex)[1];
         }
 
         return new CSharpMemberType(typeName, !!nullableMatch, !!collectionMatch);

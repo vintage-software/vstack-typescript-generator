@@ -23,16 +23,20 @@ let expectedOutput = `module MyNamespace {
     export interface MyDto {
         SomeInt: number;
     }
+
+    export enum MyEnum {
+        One = 0,
+        Two = 1
+    }
 }`;
 
-describe('vstack-typescript-generation class interface generator', () => {
-	it('should not use declare if there is no definition file', () => {
-        let options = {
-            baseNamespace: 'MyNamespace',
-            definitionFile: false
+describe('vstack-typescript-generation enum generator', () => {
+	it('should use the baseNamespace option correctly', () => {
+        let options =  {
+            baseNamespace: 'MyNamespace'
         };
 
-		let result = tsGenerator.generateClassInterface(sampleFile, options);
+		let result = tsGenerator(sampleFile, options);
         expect(result).toEqual(expectedOutput);
 	});
 });

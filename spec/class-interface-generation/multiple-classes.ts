@@ -42,12 +42,12 @@ namespace MyNamespace.Domain
         public decimal SomeDecimal {get;set;}
         public Guid SomeGuid {get;set;}
     }
-    
+
     public partial class MyOtherDto
     {
         public int SomeField { get; set; }
     }
-    
+
     public struct MyStruct
     {
         public int SomeIntField { get; set; }
@@ -77,7 +77,7 @@ interface MyStruct {
 
 describe('vstack-typescript-generation class interface generator', () => {
 	it('should handle multiple classes in the same file', () => {
-		let result = tsGenerator.generateClassInterface(sampleFile);
+		let result = tsGenerator(sampleFile);
         expect(result).toEqual(expectedOutput);
 	});
 });

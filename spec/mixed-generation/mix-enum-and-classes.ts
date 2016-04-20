@@ -50,14 +50,27 @@ namespace MyNamespace.Domain
     }
 }`;
 
-let expectedOutput = `declare enum MyEnum {
+let expectedOutput = `interface MyDto {
+    Id: number;
+    Name: string;
+    Title: string;
+    ListFields: string[];
+    IEnumerableFields: string[];
+    ArrayFields: string[];
+    OptionalBool?: boolean;
+    SomeDate: string;
+    SomeDecimal: number;
+    SomeGuid: string;
+}
+
+declare enum MyEnum {
     Green = 0,
     Blue = 1
 }`;
 
-describe('vstack-typescript-generation enum generator', () => {
+describe('vstack-typescript-generation', () => {
 	it('should handle enums and classes in the same file', () => {
-		let result = tsGenerator.generateEnum(sampleFile);
+		let result = tsGenerator(sampleFile);
         expect(result).toEqual(expectedOutput);
 	});
 });

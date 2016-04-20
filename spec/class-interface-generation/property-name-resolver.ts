@@ -28,7 +28,7 @@ describe('vstack-typescript-generation class interface generator', () => {
             propertyNameResolver : camelCaseResolver
         };
 
-        let result = tsGenerator.generateClassInterface(sampleFile, options);
+        let result = tsGenerator(sampleFile, options);
         expect(result).toEqual(expectedOutput);
 
         function camelCaseResolver(propertyName) {

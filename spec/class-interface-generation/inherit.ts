@@ -58,7 +58,7 @@ let expectedOutput = `interface MyDto extends BaseDto {
 
 describe('vstack-typescript-generation class interface generator', () => {
 	it('should turn inheritence into extends', () => {
-		let result = tsGenerator.generateClassInterface(sampleFile);
+		let result = tsGenerator(sampleFile);
         expect(result).toEqual(expectedOutput);
 	});
 });

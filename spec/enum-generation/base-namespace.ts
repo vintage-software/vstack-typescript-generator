@@ -8,18 +8,13 @@ let sampleFile = `using System;
 
 namespace MyNamespace.Domain
 {
-    public class MyDto
-    {
-        public int SomeInt { get; set; }
-    }
-
     public enum MyEnum
     {
         One, Two
     }
 }`;
 
-let expectedOutput = `declare module MyNamespace {
+let expectedOutput = `module MyNamespace {
     export enum MyEnum {
         One = 0,
         Two = 1
@@ -28,7 +23,11 @@ let expectedOutput = `declare module MyNamespace {
 
 describe('vstack-typescript-generation enum generator', () => {
 	it('should use the baseNamespace option correctly', () => {
-		let result = tsGenerator.generateEnum(sampleFile, { baseNamespace: 'MyNamespace' });
+        let options =  {
+            baseNamespace: 'MyNamespace'
+        };
+
+		let result = tsGenerator(sampleFile, options);
         expect(result).toEqual(expectedOutput);
 	});
 });

@@ -20,7 +20,7 @@ let expectedOutput = `interface MyDto {
 
 describe('vstack-typescript-generation class interface generator', () => {
 	it('should transform an abstract class correctly', () => {
-		let result = tsGenerator.generateClassInterface(sampleFile);
+		let result = tsGenerator(sampleFile);
         expect(result).toEqual(expectedOutput);
 	});
 });
