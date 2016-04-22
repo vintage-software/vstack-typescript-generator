@@ -39,7 +39,7 @@ let expectedOutput = `class PeopleByBirthdateFilter implements IPrimaryFilter<Pe
     }
 
     public getParameters(): string[] {
-        return [encodeUriComponent(this.birthdate.toISOString()), this.birthdates.map(i => encodeUriComponent(i.toISOString())).join(',')];
+        return [encodeURIComponent(this.birthdate.toISOString()), this.birthdates.map(i => encodeURIComponent(i.toISOString())).join(',')];
     }
 }`;
 

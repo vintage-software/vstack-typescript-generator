@@ -39,7 +39,7 @@ let expectedOutput = `class PeopleByNamesAndAgesFilter implements IPrimaryFilter
     }
 
     public getParameters(): string[] {
-        return [this.names.map(i => encodeUriComponent(i)).join(','), this.ages.map(i => i.toString()).join(',')];
+        return [this.names.map(i => encodeURIComponent(i)).join(','), this.ages.map(i => i.toString()).join(',')];
     }
 }`;
 

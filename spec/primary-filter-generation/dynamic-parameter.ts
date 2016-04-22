@@ -39,7 +39,7 @@ let expectedOutput = `class PeopleBySomePropertyFilter implements IPrimaryFilter
     }
 
     public getParameters(): string[] {
-        return [encodeUriComponent(this.property.toString()), this.properties.map(i => encodeUriComponent(i.toString())).join(',')];
+        return [encodeURIComponent(this.property.toString()), this.properties.map(i => encodeURIComponent(i.toString())).join(',')];
     }
 }`;
 
