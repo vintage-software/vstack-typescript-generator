@@ -6,16 +6,16 @@ import * as tsGenerator from '../index.js';
 
 let sampleFile = `namespace Services.Filters.Person
 {
-    public class ByNamesAndAges
+    public class ByBirthdate
         : IPrimaryRestFilter<Dmn.Person, PersonMapper, Permissions>
     {
-        private readonly string[] names;
-        private readonly int[] ages;
+        private readonly DateTime birthdate;
+        private readonly DateTime[] birthdates;
 
-        public ByNamesAndAges(string[] names, int[] ages)
+        public ByBirthdate(DateTime birthdate, DateTime[] birthdates)
         {
-            this.names = names;
-            this.ages = ages;
+            this.birthdate = birthdate;
+            this.birthdates = birthdates;
         }
 
         public RestStatus HasPrimaryPermissions(Permissions permissions, DeletedState deletedState)
@@ -30,21 +30,21 @@ let sampleFile = `namespace Services.Filters.Person
     }
 }`;
 
-let expectedOutput = `class PeopleByNamesAndAgesFilter implements IPrimaryFilter<Person> {
-    constructor(private names: string[], private ages: number[]) {
+let expectedOutput = `class PeopleByBirthdateFilter implements IPrimaryFilter<Person> {
+    constructor(private birthdate: string, private birthdates: string[]) {
     }
 
     public getFilterName(): string {
-        return 'ByNamesAndAges';
+        return 'ByBirthdate';
     }
 
     public getParameters(): string[] {
-        return [this.names.map(i => encodeUriComponent(i)).join(','), this.ages.map(i => i.toString()).join(',')];
+        return [encodeUriComponent(this.birthdate), this.birthdates.map(i => encodeUriComponent(i)).join(',')];
     }
 }`;
 
 describe('vstack-typescript-generation primary filter generator', () => {
-    it('should transform a filter with array parameters correctly', () => {
+    it('should transform a filter with date as string parameters correctly', () => {
         let result = tsGenerator(sampleFile);
         expect(result).toEqual(expectedOutput);
     });

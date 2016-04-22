@@ -40,7 +40,7 @@ let expectedOutput = `module filters {
         }
 
         public getParameters(): string[] {
-            return [this.name, this.age.toString()];
+            return [encodeUriComponent(this.name), this.age.toString()];
         }
     }
 }`;

@@ -39,7 +39,7 @@ let expectedOutput = `class PeopleByNameAndAgeFilter implements IPrimaryFilter<d
     }
 
     public getParameters(): string[] {
-        return [this.name, this.age.toString()];
+        return [encodeUriComponent(this.name), this.age.toString()];
     }
 }`;
 

@@ -93,30 +93,49 @@ function generatePrimaryFilter(type: CSharpClassOrStruct, options: IOptions): st
     let domainType = type.inherits.match(/^IPrimaryRestFilter<Dmn.([\w]+)/)[1];
     let filterType = options && options.dtoNamespace ? `${options.dtoNamespace}.${domainType}` : domainType;
 
-    let tsConstructorParams = type.constructors[0].parameters
-        .map(parameter => {
+    let tsConstructorParameters: string[] = [];
+    let filterParameters: string[] = [];
+    if (type.constructors.length === 1) {
+        for (let parameter of type.constructors[0].parameters) {
             let tsParameterType = Utility.translateType(parameter.type.name, options);
+
+            let shouldEncode = tsParameterType === 'string' || tsParameterType === 'any' || tsParameterType === 'Date';
+            let shouldToString = tsParameterType !== 'string';
+            let toString = tsParameterType === 'Date' ? 'toISOString' : 'toString';
+
             if (parameter.type.isCollection) {
                 tsParameterType += '[]';
             }
+            tsConstructorParameters.push(`private ${parameter.name}: ${tsParameterType}`);
 
-            return `private ${parameter.name}: ${tsParameterType}`;
-        });
-
-    let filterParams = type.constructors[0].parameters
-        .map(parameter => {
-            let convertToString = '';
+            let filterParameter: string;
             if (parameter.type.isCollection) {
-                convertToString = `.join(',')`;
-            } else if (parameter.type.name !== 'string') {
-                convertToString = `.toString()`;
+                let mapToExpression = 'i';
+                if (shouldToString) {
+                    mapToExpression = `i.${toString}()`;
+                }
+                if (shouldEncode) {
+                    mapToExpression = `encodeURIComponent(${mapToExpression})`;
+                }
+                let mapCall = mapToExpression !== 'i' ? `.map(i => ${mapToExpression})` : '';
+
+                filterParameter = `this.${parameter.name}${mapCall}.join(',')`;
+            } else {
+                filterParameter = `this.${parameter.name}`;
+                if (shouldToString) {
+                    filterParameter = `${filterParameter}.${toString}()`;
+                }
+                if (shouldEncode) {
+                    filterParameter = `encodeURIComponent(${filterParameter})`;
+                }
             }
-            return `this.${parameter.name}${convertToString}`;
-        });
+            filterParameters.push(filterParameter);
+        }
+    }
 
     let result = '';
     result += `${modifier}class ${filterGroup}${type.name}Filter implements IPrimaryFilter<${filterType}> {\n`;
-    result += `    constructor(${tsConstructorParams.join(', ')}) {\n`;
+    result += `    constructor(${tsConstructorParameters.join(', ')}) {\n`;
     result += `    }\n\n`;
 
     result += `    public getFilterName(): string {\n`;
@@ -124,7 +143,7 @@ function generatePrimaryFilter(type: CSharpClassOrStruct, options: IOptions): st
     result += `    }\n\n`;
 
     result += `    public getParameters(): string[] {\n`;
-    result += `        return [${filterParams.join(', ')}];\n`;
+    result += `        return [${filterParameters.join(', ')}];\n`;
     result += `    }\n`;
     result += `}`;
     return result;
