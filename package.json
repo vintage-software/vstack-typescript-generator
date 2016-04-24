@@ -20,10 +20,11 @@
     "pluralize": "1.2.1"
   },
   "devDependencies": {
-    "del": "^2.2.0",
+    "del": "2.2.0",
     "gulp": "3.9.1",
-    "gulp-diff": "^1.0.0",
+    "gulp-diff": "1.0.0",
     "gulp-tslint": "4.3.5",
+    "gulp-typescript": "2.13.0",
     "gulpclass": "0.1.0",
     "jasmine-node": "1.14.5",
     "tslint": "3.7.4",
