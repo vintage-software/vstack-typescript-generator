@@ -2,7 +2,7 @@
   "name": "vstack-typescript-generator",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
   "scripts": {
     "test": "jasmine-node --color --matchall spec"
   },
@@ -17,15 +17,15 @@
   },
   "homepage": "https://github.com/vintage-software/vstack-typescript-generator#readme",
   "dependencies": {
-    "pluralize": "1.2.1",
-    "ts-runner": "0.3.1"
+    "pluralize": "1.2.1"
   },
   "devDependencies": {
+    "del": "^2.2.0",
     "gulp": "3.9.1",
+    "gulp-diff": "^1.0.0",
     "gulp-tslint": "4.3.5",
     "gulpclass": "0.1.0",
     "jasmine-node": "1.14.5",
-    "path": "^0.12.7",
     "tslint": "3.7.4",
     "typings": "0.7.12"
   }

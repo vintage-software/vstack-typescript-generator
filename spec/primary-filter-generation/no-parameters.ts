@@ -2,7 +2,7 @@
 
 'use strict';
 
-import * as tsGenerator from '../index.js';
+import * as tsGenerator from '../dist/index.js';
 
 let sampleFile = `namespace Service.Filters.People
 {

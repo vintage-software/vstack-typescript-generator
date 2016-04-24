@@ -6,4 +6,5 @@ install:
  - typings install
 script:
  - gulp lint
+ - gulp verify-build
  - npm test
