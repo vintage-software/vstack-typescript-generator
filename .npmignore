@@ -1,0 +1,9 @@
+src
+spec
+typings
+.gitignore
+.travis.yml
+gulpfile.js
+gulpfile.ts
+tslint.json
+typings.json
