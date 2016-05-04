@@ -7,7 +7,7 @@ import * as tsGenerator from '../dist/index.js';
 let sampleFile = `namespace Services.Filters.Person
 {
     public class ByNameAndAge
-        : BasePrimaryFilter<Dmn.Person, PersonMapper, Permissions>
+        : IPrimaryRestFilter<Dmn.Person, PersonMapper, Permissions>
     {
         private readonly string name;
         private readonly int age;
@@ -30,28 +30,22 @@ let sampleFile = `namespace Services.Filters.Person
     }
 }`;
 
-let expectedOutput = `module filters {
-    export class PeopleByNameAndAgeFilter implements IPrimaryFilter<Person> {
-        constructor(private name: string, private age: number) {
-        }
+let expectedOutput = `class PeopleByNameAndAgeFilter implements IPrimaryFilter<Person> {
+    constructor(private name: string, private age: number) {
+    }
 
-        public getFilterName(): string {
-            return 'ByNameAndAge';
-        }
+    public getFilterName(): string {
+        return 'ByNameAndAge';
+    }
 
-        public getParameters(): string[] {
-            return [encodeURIComponent(this.name), this.age.toString()];
-        }
+    public getParameters(): string[] {
+        return [encodeURIComponent(this.name), this.age.toString()];
     }
 }`;
 
 describe('vstack-typescript-generation primary filter generator', () => {
-    it('should use the baseNamespace option correctly', () => {
-        let options = {
-            baseNamespace: 'filters'
-        };
-
-        let result = tsGenerator(sampleFile, options);
+    it('should transform a filter correctly', () => {
+        let result = tsGenerator(sampleFile);
         expect(result).toEqual(expectedOutput);
     });
 });

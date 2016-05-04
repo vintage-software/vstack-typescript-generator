@@ -7,7 +7,7 @@ import * as tsGenerator from '../dist/index.js';
 let sampleFile = `namespace Service.Filters.People
 {
     public class WithCondition
-        : IPrimaryRestFilter<Dmn.Person, PersonMapper, Permissions>
+        : BasePrimaryFilter<Dmn.Person, PersonMapper, Permissions>
     {
         public WithCondition()
         {

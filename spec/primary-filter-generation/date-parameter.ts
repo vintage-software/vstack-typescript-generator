@@ -7,7 +7,7 @@ import * as tsGenerator from '../dist/index.js';
 let sampleFile = `namespace Services.Filters.Person
 {
     public class ByBirthdate
-        : IPrimaryRestFilter<Dmn.Person, PersonMapper, Permissions>
+        : BasePrimaryFilter<Dmn.Person, PersonMapper, Permissions>
     {
         private readonly DateTime birthdate;
         private readonly DateTime[] birthdates;

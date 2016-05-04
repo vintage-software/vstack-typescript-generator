@@ -14,7 +14,7 @@ module.exports = function (input: string, options: IOptions) {
 
         let types = CSharpParser.parse(input);
         for (let type of types) {
-            let isPrimaryFilter = type.inherits && !!type.inherits.match(/^IPrimaryRestFilter<Dmn.([\w]+)/);
+            let isPrimaryFilter = type.inherits && !!type.inherits.match(/^(?:IPrimaryRestFilter|BasePrimaryFilter)<Dmn.([\w]+)/);
 
             if (type instanceof CSharpEnum) {
                 results.push(generateEnum(<CSharpEnum>type, options));
@@ -90,7 +90,7 @@ function generatePrimaryFilter(type: CSharpClassOrStruct, options: IOptions): st
     let modifier = options && options.baseNamespace ? 'export ' : '';
 
     let filterGroup = pluralize(type.namespace.match(/\.([\w_]+)$/)[1]);
-    let domainType = type.inherits.match(/^IPrimaryRestFilter<Dmn.([\w]+)/)[1];
+    let domainType = type.inherits.match(/^(?:IPrimaryRestFilter|BasePrimaryFilter)<Dmn.([\w]+)/)[1];
     let filterType = options && options.dtoNamespace ? `${options.dtoNamespace}.${domainType}` : domainType;
 
     let tsConstructorParameters: string[] = [];
