@@ -201,13 +201,14 @@ var CSharpParser = (function () {
 }());
 'use strict';
 var pluralize = require('pluralize');
+var primaryFilterRegex = /^(?:IPrimaryRestFilter|BasePrimaryUndeletedFilter|BasePrimaryFilter)<Dmn.([\w]+)/;
 module.exports = function (input, options) {
     if (input.indexOf('ts-generator-ignore') === -1) {
         var results = [];
         var types = CSharpParser.parse(input);
         for (var _i = 0, types_1 = types; _i < types_1.length; _i++) {
             var type = types_1[_i];
-            var isPrimaryFilter = type.inherits && !!type.inherits.match(/^(?:IPrimaryRestFilter|BasePrimaryFilter)<Dmn.([\w]+)/);
+            var isPrimaryFilter = type.inherits && !!type.inherits.match(primaryFilterRegex);
             if (type instanceof CSharpEnum) {
                 results.push(generateEnum(type, options));
             }
@@ -267,7 +268,7 @@ function generatePrimaryFilter(type, options) {
     'use strict';
     var modifier = options && options.baseNamespace ? 'export ' : '';
     var filterGroup = pluralize(type.namespace.match(/\.([\w_]+)$/)[1]);
-    var domainType = type.inherits.match(/^(?:IPrimaryRestFilter|BasePrimaryFilter)<Dmn.([\w]+)/)[1];
+    var domainType = type.inherits.match(primaryFilterRegex)[1];
     var filterType = options && options.dtoNamespace ? options.dtoNamespace + "." + domainType : domainType;
     var tsConstructorParameters = [];
     var filterParameters = [];
