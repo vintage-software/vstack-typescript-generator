@@ -201,7 +201,8 @@ var CSharpParser = (function () {
 }());
 'use strict';
 var pluralize = require('pluralize');
-var primaryFilterRegex = /^(?:IPrimaryDtoFilter)<Dmn.([\w]+)/;
+var primaryFilterRegex = /^(?:IPrimaryFilter)<Dmn.([\w]+)/;
+var primaryDtoFilterRegex = /^(?:IPrimaryDtoFilter)<Dmn.([\w]+)/;
 module.exports = function (input, options) {
     if (input.indexOf('ts-generator-ignore') === -1) {
         var results = [];
@@ -209,13 +210,14 @@ module.exports = function (input, options) {
         for (var _i = 0, types_1 = types; _i < types_1.length; _i++) {
             var type = types_1[_i];
             var isPrimaryFilter = type.inherits && !!type.inherits.match(primaryFilterRegex);
+            var isPrimaryDtoFilter = type.inherits && !!type.inherits.match(primaryDtoFilterRegex);
             if (type instanceof CSharpEnum) {
                 results.push(generateEnum(type, options));
             }
-            else if (type instanceof CSharpClassOrStruct && !isPrimaryFilter) {
+            else if (type instanceof CSharpClassOrStruct && !isPrimaryFilter && !isPrimaryDtoFilter) {
                 results.push(generateInterface(type, options));
             }
-            else if (type instanceof CSharpClassOrStruct && isPrimaryFilter) {
+            else if (type instanceof CSharpClassOrStruct && isPrimaryDtoFilter) {
                 results.push(generatePrimaryFilter(type, options));
             }
         }
@@ -268,7 +270,7 @@ function generatePrimaryFilter(type, options) {
     'use strict';
     var modifier = options && options.baseNamespace ? 'export ' : '';
     var filterGroup = pluralize(type.namespace.match(/\.([\w_]+)$/)[1]);
-    var domainType = type.inherits.match(primaryFilterRegex)[1];
+    var domainType = type.inherits.match(primaryDtoFilterRegex)[1];
     var filterType = options && options.dtoNamespace ? options.dtoNamespace + "." + domainType : domainType;
     var tsConstructorParameters = [];
     var filterParameters = [];
