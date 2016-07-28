@@ -31,13 +31,13 @@ module.exports = function (input: string, options: IOptions) {
 
         let result = results.join('\n\n');
 
-        if (options && options.baseNamespace) {
+        if (result && options && options.baseNamespace) {
             let indentedResult = result
                 .split('\n')
                 .map(line =>  line ? `    ${line}` : '')
                 .join('\n');
 
-            return `module ${options.baseNamespace} {\n${indentedResult}\n}`;
+            result = `module ${options.baseNamespace} {\n${indentedResult}\n}`;
         }
 
         return result;

@@ -222,12 +222,12 @@ module.exports = function (input, options) {
             }
         }
         var result = results.join('\n\n');
-        if (options && options.baseNamespace) {
+        if (result && options && options.baseNamespace) {
             var indentedResult = result
                 .split('\n')
                 .map(function (line) { return line ? "    " + line : ''; })
                 .join('\n');
-            return "module " + options.baseNamespace + " {\n" + indentedResult + "\n}";
+            result = "module " + options.baseNamespace + " {\n" + indentedResult + "\n}";
         }
         return result;
     }
