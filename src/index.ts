@@ -9,7 +9,7 @@ declare var require: (i: string) => any;
 let pluralize = require('pluralize'); // import not working
 
 const primaryFilterRegex = /^(?:IPrimaryFilter)<Dmn.([\w]+)/;
-const primaryDtoFilterRegex = /^(?:IPrimaryDtoFilter)<Dmn.([\w]+)/;
+const primaryDtoFilterRegex = /^(?:IPrimaryRestFilter|BasePrimaryUndeletedFilter|BasePrimaryFilter|IPrimaryDtoFilter)<Dmn.([\w]+)/;
 
 module.exports = function (input: string, options: IOptions) {
     if (input.indexOf('ts-generator-ignore') === -1) {

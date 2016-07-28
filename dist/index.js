@@ -202,7 +202,7 @@ var CSharpParser = (function () {
 'use strict';
 var pluralize = require('pluralize');
 var primaryFilterRegex = /^(?:IPrimaryFilter)<Dmn.([\w]+)/;
-var primaryDtoFilterRegex = /^(?:IPrimaryDtoFilter)<Dmn.([\w]+)/;
+var primaryDtoFilterRegex = /^(?:IPrimaryRestFilter|BasePrimaryUndeletedFilter|BasePrimaryFilter|IPrimaryDtoFilter)<Dmn.([\w]+)/;
 module.exports = function (input, options) {
     if (input.indexOf('ts-generator-ignore') === -1) {
         var results = [];
