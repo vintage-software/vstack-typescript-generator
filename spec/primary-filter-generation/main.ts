@@ -7,7 +7,7 @@ import * as tsGenerator from '../dist/index.js';
 let sampleFile = `namespace Services.Filters.Person
 {
     public class ByNameAndAge
-        : BasePrimaryFilter<Dmn.Person, PersonMapper, Permissions>
+        : IPrimaryDtoFilter<Dmn.Person, PersonMapper, Permissions>
     {
         private readonly string name;
         private readonly int age;

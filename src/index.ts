@@ -8,7 +8,7 @@ declare var require: (i: string) => any;
 
 let pluralize = require('pluralize'); // import not working
 
-const primaryFilterRegex = /^(?:IPrimaryRestFilter|BasePrimaryUndeletedFilter|BasePrimaryFilter)<Dmn.([\w]+)/;
+const primaryFilterRegex = /^(?:IPrimaryDtoFilter)<Dmn.([\w]+)/;
 
 module.exports = function (input: string, options: IOptions) {
     if (input.indexOf('ts-generator-ignore') === -1) {
