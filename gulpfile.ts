@@ -1,6 +1,7 @@
 import {Gulpclass, Task} from 'gulpclass/Decorators';
 import * as gulp from 'gulp';
 import * as tslint from 'gulp-tslint';
+import * as sourcemaps from 'gulp-sourcemaps';
 import * as typescript from 'gulp-typescript';
 import * as diff from 'gulp-diff';
 
@@ -58,6 +59,8 @@ export class Gulpfile {
   private getBuildPipeline() {
     return gulp
       .src(config.typescript.src)
-      .pipe(typescript(config.typescript.options));
+      .pipe(sourcemaps.init())
+      .pipe(typescript(config.typescript.options))
+      .pipe(sourcemaps.write('.', { sourceRoot: 'src/' }));
   }
 }

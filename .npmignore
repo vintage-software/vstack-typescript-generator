@@ -1,6 +1,7 @@
 src
 spec
 typings
+coverage
 .gitignore
 .travis.yml
 gulpfile.js

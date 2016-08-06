@@ -322,3 +322,5 @@ function generatePrimaryFilter(type, options) {
     result += "}";
     return result;
 }
+
+//# sourceMappingURL=index.js.map

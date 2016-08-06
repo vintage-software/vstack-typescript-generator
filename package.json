@@ -4,7 +4,12 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "test": "jasmine-node --color --matchall spec"
+    "build": "gulp build",
+    "test": "istanbul cover node_modules/jasmine/bin/jasmine.js && npm run remap-coverage",
+    "remap-coverage": "npm run remap-coverage-json & npm run remap-coverage-html",
+    "remap-coverage-json": "remap-istanbul -i coverage/coverage.json -o coverage/coverage-remapped.json",
+    "remap-coverage-html": "remap-istanbul -i coverage/coverage-remapped.json -o coverage/lcov-report-remapped -t html",
+    "report-coverage": "cat coverage/coverage.json | codecov -t"
   },
   "repository": {
     "type": "git",
@@ -17,16 +22,20 @@
   },
   "homepage": "https://github.com/vintage-software/vstack-typescript-generator#readme",
   "dependencies": {
+    "istanbul": "^0.4.4",
     "pluralize": "1.2.1"
   },
   "devDependencies": {
+    "codecov": "^1.0.1",
     "del": "2.2.0",
     "gulp": "3.9.1",
     "gulp-diff": "1.0.0",
+    "gulp-sourcemaps": "^1.6.0",
     "gulp-tslint": "4.3.5",
     "gulp-typescript": "2.13.0",
     "gulpclass": "0.1.0",
-    "jasmine-node": "1.14.5",
+    "jasmine": "2.4.1",
+    "remap-istanbul": "^0.6.4",
     "tslint": "3.7.4",
     "typings": "0.7.12"
   }

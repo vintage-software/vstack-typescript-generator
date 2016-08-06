@@ -8,3 +8,5 @@ script:
  - gulp lint
  - gulp verify-build
  - npm test
+after_success:
+  - npm run report-coverage
