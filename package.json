@@ -9,7 +9,7 @@
     "remap-coverage": "npm run remap-coverage-json & npm run remap-coverage-html",
     "remap-coverage-json": "remap-istanbul -i coverage/coverage.json -o coverage/coverage-remapped.json",
     "remap-coverage-html": "remap-istanbul -i coverage/coverage-remapped.json -o coverage/lcov-report-remapped -t html",
-    "report-coverage": "cat coverage/coverage.json | codecov && cat coverage/coverage-remapped.json | codecov"
+    "report-coverage": "codecov"
   },
   "repository": {
     "type": "git",
