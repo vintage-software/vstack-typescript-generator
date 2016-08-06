@@ -3,6 +3,7 @@ import * as gulp from 'gulp';
 import * as tslint from 'gulp-tslint';
 import * as sourcemaps from 'gulp-sourcemaps';
 import * as typescript from 'gulp-typescript';
+import * as ignore from 'gulp-ignore';
 import * as diff from 'gulp-diff';
 
 import * as del from 'del';
@@ -52,6 +53,7 @@ export class Gulpfile {
   @Task('verify-build')
   public verifyBuild() {
     return this.getBuildPipeline()
+      .pipe(ignore.exclude('**/*.map'))
       .pipe(diff(config.typescript.outputFolder))
       .pipe(diff.reporter({ fail: true }));
   }
