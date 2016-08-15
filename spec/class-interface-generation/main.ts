@@ -68,8 +68,8 @@ let expectedOutput = `interface MyDto {
 }`;
 
 describe('vstack-typecript-generator dto generation', () => {
-	it('should transform a dto class correctly', () => {
-		let result = tsGenerator(sampleFile);
+    it('should transform a dto class correctly', () => {
+        let result = tsGenerator(sampleFile);
         expect(result).toEqual(expectedOutput);
-	});
+    });
 });

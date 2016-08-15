@@ -33,7 +33,7 @@ export default function tsGenerator(input: string, options: Options = null) {
     if (result && options && options.baseNamespace) {
         let indentedResult = result
             .split('\n')
-            .map(line =>  line ? `    ${line}` : '')
+            .map(line => line ? `    ${line}` : '')
             .join('\n');
 
         result = `module ${options.baseNamespace} {\n${indentedResult}\n}`;

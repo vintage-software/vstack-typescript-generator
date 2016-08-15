@@ -75,8 +75,8 @@ interface MyStruct {
 }`;
 
 describe('vstack-typescript-generation class interface generator', () => {
-	it('should handle multiple classes in the same file', () => {
-		let result = tsGenerator(sampleFile);
+    it('should handle multiple classes in the same file', () => {
+        let result = tsGenerator(sampleFile);
         expect(result).toEqual(expectedOutput);
-	});
+    });
 });

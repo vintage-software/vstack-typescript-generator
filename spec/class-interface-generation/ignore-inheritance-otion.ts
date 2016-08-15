@@ -23,12 +23,12 @@ let expectedOutput = `interface MyDto {
 }`;
 
 describe('vstack-typescript-generation class interface generator', () => {
-	it('should handle the ignore inheritance option correctly', () => {
+    it('should handle the ignore inheritance option correctly', () => {
         let options = {
             ignoreInheritance: ['IMyDto']
         };
 
-		let result = tsGenerator(sampleFile, options);
+        let result = tsGenerator(sampleFile, options);
         expect(result).toEqual(expectedOutput);
-	});
+    });
 });

@@ -68,8 +68,8 @@ declare enum MyEnum {
 }`;
 
 describe('vstack-typescript-generation', () => {
-	it('should handle enums and classes in the same file', () => {
-		let result = tsGenerator(sampleFile);
+    it('should handle enums and classes in the same file', () => {
+        let result = tsGenerator(sampleFile);
         expect(result).toEqual(expectedOutput);
-	});
+    });
 });

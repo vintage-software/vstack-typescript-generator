@@ -30,8 +30,8 @@ let expectedOutput = `declare enum MyEnum {
 }`;
 
 describe('vstack-typescript-generation enum generator', () => {
-	it('should ignore an enum\'s explicit type', () => {
-		let result = tsGenerator(sampleFile);
+    it('should ignore an enum\'s explicit type', () => {
+        let result = tsGenerator(sampleFile);
         expect(result).toEqual(expectedOutput);
-	});
+    });
 });

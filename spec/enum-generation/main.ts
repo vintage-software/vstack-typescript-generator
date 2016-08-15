@@ -33,8 +33,8 @@ let expectedOutput = `declare enum MyEnum {
 }`;
 
 describe('vstack-typescript-generation enum generator', () => {
-	it('should transform an enum correctly', () => {
-		let result = tsGenerator(sampleFile);
+    it('should transform an enum correctly', () => {
+        let result = tsGenerator(sampleFile);
         expect(result).toEqual(expectedOutput);
-	});
+    });
 });

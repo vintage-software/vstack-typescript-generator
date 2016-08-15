@@ -63,12 +63,12 @@ let expectedOutput = `interface IMyDto {
 }`;
 
 describe('vstack-typescript-generation class interface generator', () => {
-	it('should prefix with I if option is set', () => {
+    it('should prefix with I if option is set', () => {
         let options = {
             prefixWithI: true
         };
 
-		let result = tsGenerator(sampleFile, options);
+        let result = tsGenerator(sampleFile, options);
         expect(result).toEqual(expectedOutput);
-	});
+    });
 });

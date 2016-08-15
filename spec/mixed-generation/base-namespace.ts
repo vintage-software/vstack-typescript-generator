@@ -30,12 +30,12 @@ let expectedOutput = `module MyNamespace {
 }`;
 
 describe('vstack-typescript-generation enum generator', () => {
-	it('should use the baseNamespace option correctly', () => {
-        let options =  {
+    it('should use the baseNamespace option correctly', () => {
+        let options = {
             baseNamespace: 'MyNamespace'
         };
 
-		let result = tsGenerator(sampleFile, options);
+        let result = tsGenerator(sampleFile, options);
         expect(result).toEqual(expectedOutput);
-	});
+    });
 });

@@ -28,7 +28,7 @@ let expectedOutput = ``;
 
 describe('vstack-typescript-generation primary filter generator', () => {
     it('should not transform a non dto filter', () => {
-        let options =  {
+        let options = {
             baseNamespace: 'MyNamespace'
         };
 
