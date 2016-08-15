@@ -18,7 +18,7 @@ let sampleFile = `namespace Services.Filters.Person
             this.age = age;
         }
 
-        public IQueryable<Dmn.Person> PrimaryFilter(PersonMapper mapper, DeletedState deletedState)
+        public IQueryable<Dmn.Person> PrimaryFilter(PersonMapper mapper)
         {
             return something;
         }

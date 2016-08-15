@@ -13,12 +13,12 @@ let sampleFile = `namespace Service.Filters.People
         {
         }
 
-        public RestStatus HasPrimaryPermissions(Permissions permissions, DeletedState deletedState)
+        public RestStatus HasPrimaryPermissions(Permissions permissions)
         {
             return RestStatus.Ok;
         }
 
-        public IQueryable<Dmn.Person> PrimaryFilter(PersonMapper mapper, DeletedState deletedState)
+        public IQueryable<Dmn.Person> PrimaryFilter(PersonMapper mapper)
         {
             return something;
         }

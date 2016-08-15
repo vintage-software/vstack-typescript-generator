@@ -19,12 +19,12 @@ let sampleFile = `namespace Services.Filters.Person
             this.age = age;
         }
 
-        public RestStatus HasPrimaryPermissions(Permissions permissions, DeletedState deletedState)
+        public RestStatus HasPrimaryPermissions(Permissions permissions)
         {
             return RestStatus.Ok;
         }
 
-        public IQueryable<Dmn.Person> PrimaryFilter(PersonMapper mapper, DeletedState deletedState)
+        public IQueryable<Dmn.Person> PrimaryFilter(PersonMapper mapper)
         {
             return something;
         }
@@ -45,12 +45,12 @@ namespace Services.Filters.Person
             this.age = age;
         }
 
-        public RestStatus HasPrimaryPermissions(Permissions permissions, DeletedState deletedState)
+        public RestStatus HasPrimaryPermissions(Permissions permissions)
         {
             return RestStatus.Ok;
         }
 
-        public IQueryable<Dmn.Person> PrimaryFilter(EmployeeMapper mapper, DeletedState deletedState)
+        public IQueryable<Dmn.Person> PrimaryFilter(EmployeeMapper mapper)
         {
             return something;
         }
