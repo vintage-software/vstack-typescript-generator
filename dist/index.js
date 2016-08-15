@@ -106,6 +106,7 @@ var CSharpParser = (function () {
     function CSharpParser() {
     }
     CSharpParser.parse = function (input) {
+        input = CSharpParser.stripIgnored(input);
         input = CSharpParser.stripComments(input);
         var namespaceMatch = input.match(/namespace\s+([\w\.]+)/);
         var namespace = namespaceMatch ? namespaceMatch[1] : '';
@@ -126,6 +127,10 @@ var CSharpParser = (function () {
             }
         }
         return types;
+    };
+    CSharpParser.stripIgnored = function (input) {
+        var ignoredRegex = /\/\/\s*ts-generator-ignore\s*.*(enum|class|struct)\s+/gm;
+        return input.replace(ignoredRegex, '');
     };
     CSharpParser.stripComments = function (input) {
         var blockCommentRegex = new RegExp('/\\*([\\s\\S]*)\\*/', 'gm');
@@ -204,33 +209,31 @@ var pluralize = require('pluralize');
 var primaryFilterRegex = /^(?:IPrimaryFilter)<Dmn.([\w]+)/;
 var primaryDtoFilterRegex = /^(?:IPrimaryRestFilter|BasePrimaryUndeletedFilter|BasePrimaryFilter|IPrimaryDtoFilter)<Dmn.([\w]+)/;
 module.exports = function (input, options) {
-    if (input.indexOf('ts-generator-ignore') === -1) {
-        var results = [];
-        var types = CSharpParser.parse(input);
-        for (var _i = 0, types_1 = types; _i < types_1.length; _i++) {
-            var type = types_1[_i];
-            var isPrimaryFilter = type.inherits && !!type.inherits.match(primaryFilterRegex);
-            var isPrimaryDtoFilter = type.inherits && !!type.inherits.match(primaryDtoFilterRegex);
-            if (type instanceof CSharpEnum) {
-                results.push(generateEnum(type, options));
-            }
-            else if (type instanceof CSharpClassOrStruct && !isPrimaryFilter && !isPrimaryDtoFilter) {
-                results.push(generateInterface(type, options));
-            }
-            else if (type instanceof CSharpClassOrStruct && isPrimaryDtoFilter) {
-                results.push(generatePrimaryFilter(type, options));
-            }
+    var results = [];
+    var types = CSharpParser.parse(input);
+    for (var _i = 0, types_1 = types; _i < types_1.length; _i++) {
+        var type = types_1[_i];
+        var isPrimaryFilter = type.inherits && !!type.inherits.match(primaryFilterRegex);
+        var isPrimaryDtoFilter = type.inherits && !!type.inherits.match(primaryDtoFilterRegex);
+        if (type instanceof CSharpEnum) {
+            results.push(generateEnum(type, options));
         }
-        var result = results.join('\n\n');
-        if (result && options && options.baseNamespace) {
-            var indentedResult = result
-                .split('\n')
-                .map(function (line) { return line ? "    " + line : ''; })
-                .join('\n');
-            result = "module " + options.baseNamespace + " {\n" + indentedResult + "\n}";
+        else if (type instanceof CSharpClassOrStruct && !isPrimaryFilter && !isPrimaryDtoFilter) {
+            results.push(generateInterface(type, options));
         }
-        return result;
+        else if (type instanceof CSharpClassOrStruct && isPrimaryDtoFilter) {
+            results.push(generatePrimaryFilter(type, options));
+        }
     }
+    var result = results.join('\n\n');
+    if (result && options && options.baseNamespace) {
+        var indentedResult = result
+            .split('\n')
+            .map(function (line) { return line ? "    " + line : ''; })
+            .join('\n');
+        result = "module " + options.baseNamespace + " {\n" + indentedResult + "\n}";
+    }
+    return result;
 };
 function generateEnum(cSharpEnum, options) {
     'use strict';
@@ -269,8 +272,8 @@ function generateInterface(type, options) {
 function generatePrimaryFilter(type, options) {
     'use strict';
     var modifier = options && options.baseNamespace ? 'export ' : '';
-    var filterGroup = pluralize(type.namespace.match(/\.([\w_]+)$/)[1]);
     var domainType = type.inherits.match(primaryDtoFilterRegex)[1];
+    var filterGroup = pluralize(domainType);
     var filterType = options && options.dtoNamespace ? options.dtoNamespace + "." + domainType : domainType;
     var tsConstructorParameters = [];
     var filterParameters = [];

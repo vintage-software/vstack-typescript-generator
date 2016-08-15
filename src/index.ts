@@ -12,36 +12,34 @@ const primaryFilterRegex = /^(?:IPrimaryFilter)<Dmn.([\w]+)/;
 const primaryDtoFilterRegex = /^(?:IPrimaryRestFilter|BasePrimaryUndeletedFilter|BasePrimaryFilter|IPrimaryDtoFilter)<Dmn.([\w]+)/;
 
 module.exports = function (input: string, options: IOptions) {
-    if (input.indexOf('ts-generator-ignore') === -1) {
-        let results: string[] = [];
+    let results: string[] = [];
 
-        let types = CSharpParser.parse(input);
-        for (let type of types) {
-            let isPrimaryFilter = type.inherits && !!type.inherits.match(primaryFilterRegex);
-            let isPrimaryDtoFilter = type.inherits && !!type.inherits.match(primaryDtoFilterRegex);
+    let types = CSharpParser.parse(input);
+    for (let type of types) {
+        let isPrimaryFilter = type.inherits && !!type.inherits.match(primaryFilterRegex);
+        let isPrimaryDtoFilter = type.inherits && !!type.inherits.match(primaryDtoFilterRegex);
 
-            if (type instanceof CSharpEnum) {
-                results.push(generateEnum(<CSharpEnum>type, options));
-            } else if (type instanceof CSharpClassOrStruct && !isPrimaryFilter && !isPrimaryDtoFilter) {
-                results.push(generateInterface(<CSharpClassOrStruct>type, options));
-            } else if (type instanceof CSharpClassOrStruct && isPrimaryDtoFilter) {
-                results.push(generatePrimaryFilter(<CSharpClassOrStruct>type, options));
-            }
+        if (type instanceof CSharpEnum) {
+            results.push(generateEnum(<CSharpEnum>type, options));
+        } else if (type instanceof CSharpClassOrStruct && !isPrimaryFilter && !isPrimaryDtoFilter) {
+            results.push(generateInterface(<CSharpClassOrStruct>type, options));
+        } else if (type instanceof CSharpClassOrStruct && isPrimaryDtoFilter) {
+            results.push(generatePrimaryFilter(<CSharpClassOrStruct>type, options));
         }
-
-        let result = results.join('\n\n');
-
-        if (result && options && options.baseNamespace) {
-            let indentedResult = result
-                .split('\n')
-                .map(line =>  line ? `    ${line}` : '')
-                .join('\n');
-
-            result = `module ${options.baseNamespace} {\n${indentedResult}\n}`;
-        }
-
-        return result;
     }
+
+    let result = results.join('\n\n');
+
+    if (result && options && options.baseNamespace) {
+        let indentedResult = result
+            .split('\n')
+            .map(line =>  line ? `    ${line}` : '')
+            .join('\n');
+
+        result = `module ${options.baseNamespace} {\n${indentedResult}\n}`;
+    }
+
+    return result;
 };
 
 function generateEnum(cSharpEnum: CSharpEnum, options: IOptions): string {
@@ -93,8 +91,8 @@ function generatePrimaryFilter(type: CSharpClassOrStruct, options: IOptions): st
 
     let modifier = options && options.baseNamespace ? 'export ' : '';
 
-    let filterGroup = pluralize(type.namespace.match(/\.([\w_]+)$/)[1]);
     let domainType = type.inherits.match(primaryDtoFilterRegex)[1];
+    let filterGroup = pluralize(domainType);
     let filterType = options && options.dtoNamespace ? `${options.dtoNamespace}.${domainType}` : domainType;
 
     let tsConstructorParameters: string[] = [];

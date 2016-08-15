@@ -2,6 +2,7 @@
 
 class CSharpParser {
     public static parse(input: string): CSharpType[] {
+        input = CSharpParser.stripIgnored(input);
         input = CSharpParser.stripComments(input);
 
         let namespaceMatch = input.match(/namespace\s+([\w\.]+)/);
@@ -26,6 +27,12 @@ class CSharpParser {
         }
 
         return types;
+    }
+
+    private static stripIgnored(input: string): string {
+        let ignoredRegex = /\/\/\s*ts-generator-ignore\s*.*(enum|class|struct)\s+/gm;
+
+        return input.replace(ignoredRegex, '');
     }
 
     private static stripComments(input: string): string {
