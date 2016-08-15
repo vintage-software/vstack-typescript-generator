@@ -1,17 +1,17 @@
-/// <reference path="options.ts" />
-/// <reference path="utility.ts" />
-/// <reference path="c-sharp-parser.ts" />
 'use strict';
 
-declare var module: any;
-declare var require: (i: string) => any;
+import { Options } from './options';
+import { Utility } from './utility';
+import { CSharpParser } from './c-sharp-parser';
+import { CSharpEnum, CSharpClassOrStruct } from './c-sharp-objects';
 
+declare var require: (i: string) => any;
 let pluralize = require('pluralize'); // import not working
 
 const primaryFilterRegex = /^(?:IPrimaryFilter)<Dmn.([\w]+)/;
 const primaryDtoFilterRegex = /^(?:IPrimaryRestFilter|BasePrimaryUndeletedFilter|BasePrimaryFilter|IPrimaryDtoFilter)<Dmn.([\w]+)/;
 
-module.exports = function (input: string, options: IOptions) {
+export default function tsGenerator(input: string, options: Options = null) {
     let results: string[] = [];
 
     let types = CSharpParser.parse(input);
@@ -42,7 +42,7 @@ module.exports = function (input: string, options: IOptions) {
     return result;
 };
 
-function generateEnum(cSharpEnum: CSharpEnum, options: IOptions): string {
+function generateEnum(cSharpEnum: CSharpEnum, options: Options): string {
     'use strict';
 
     let modifier = options && options.baseNamespace ? 'export' : 'declare';
@@ -58,7 +58,7 @@ function generateEnum(cSharpEnum: CSharpEnum, options: IOptions): string {
     return `${modifier} enum ${cSharpEnum.name} {\n    ${entryStrings.join(',\n    ')}\n}`;
 }
 
-function generateInterface(type: CSharpClassOrStruct, options: IOptions): string {
+function generateInterface(type: CSharpClassOrStruct, options: Options): string {
     'use strict';
 
     let prefixWithI = options && options.prefixWithI;
@@ -86,7 +86,7 @@ function generateInterface(type: CSharpClassOrStruct, options: IOptions): string
     return `${modifier}interface ${tsInterfaceName}${tsExtends} {\n    ${propertyStrings.join(';\n    ')};\n}`;
 }
 
-function generatePrimaryFilter(type: CSharpClassOrStruct, options: IOptions): string {
+function generatePrimaryFilter(type: CSharpClassOrStruct, options: Options): string {
     'use strict';
 
     let modifier = options && options.baseNamespace ? 'export ' : '';

@@ -2,9 +2,11 @@
   "name": "vstack-typescript-generator",
   "version": "1.0.0",
   "description": "",
-  "main": "dist/index.js",
+  "main": "bundles/index.js",
   "scripts": {
-    "build": "gulp build",
+    "clean": "rimraf dist & rimraf bundles",
+    "lint": "tslint \"src/**/*.ts\"",
+    "build": "npm run clean & tsc -p tsconfig.json & tsc -p tsconfig-spec.json",
     "test": "istanbul cover node_modules/jasmine/bin/jasmine.js && npm run remap-coverage",
     "remap-coverage": "npm run remap-coverage-json & npm run remap-coverage-html",
     "remap-coverage-json": "remap-istanbul -i coverage/coverage.json -o coverage/coverage-remapped.json",
@@ -22,22 +24,16 @@
   },
   "homepage": "https://github.com/vintage-software/vstack-typescript-generator#readme",
   "dependencies": {
-    "istanbul": "^0.4.4",
     "pluralize": "1.2.1"
   },
   "devDependencies": {
-    "codecov": "^1.0.1",
-    "del": "2.2.0",
-    "gulp": "3.9.1",
-    "gulp-diff": "1.0.0",
-    "gulp-ignore": "^2.0.1",
-    "gulp-sourcemaps": "^1.6.0",
-    "gulp-tslint": "4.3.5",
-    "gulp-typescript": "2.13.0",
-    "gulpclass": "0.1.0",
+    "@types/jasmine": "2.2.31",
+    "codecov": "1.0.1",
+    "istanbul": "0.4.4",
     "jasmine": "2.4.1",
-    "remap-istanbul": "^0.6.4",
+    "remap-istanbul": "0.6.4",
+    "rimraf": "2.5.4",
     "tslint": "3.7.4",
-    "typings": "0.7.12"
+    "typescript": "^2.0.0"
   }
 }

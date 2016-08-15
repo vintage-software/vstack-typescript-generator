@@ -1,7 +1,7 @@
-/// <reference path="options.ts" />
+import { Options } from './options';
 
-class Utility {
-    public static translateType(csType: string, options: IOptions) {
+export class Utility {
+    public static translateType(csType: string, options: Options) {
         if (['string', 'String', 'Guid'].indexOf(csType) !== -1) {
             return 'string';
         } else if (['bool', 'Boolean'].indexOf(csType) !== -1) {

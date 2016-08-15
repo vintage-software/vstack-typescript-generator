@@ -3,10 +3,9 @@ node_js:
  - "4.1"
 install:
  - npm install
- - typings install
 script:
- - gulp lint
- - gulp verify-build
+ - npm run lint
+ - npm run build
  - npm test
 after_success:
   - npm run report-coverage

@@ -1,8 +1,7 @@
-/// <reference path='../../typings/main.d.ts' />
-
 'use strict';
 
-import * as tsGenerator from '../dist/index.js';
+import 'jasmine';
+import tsGenerator from '../../src/index';
 
 let sampleFile = `using System;
 

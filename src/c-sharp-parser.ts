@@ -1,6 +1,6 @@
-/// <reference path="c-sharp-objects.ts" />
+import { CSharpType, CSharpClassOrStruct, CSharpEnum, CSharpContructor, CSharpParameter, CSharpProperty, CSharpEnumEntry, CSharpMemberType } from './c-sharp-objects';
 
-class CSharpParser {
+export class CSharpParser {
     public static parse(input: string): CSharpType[] {
         input = CSharpParser.stripIgnored(input);
         input = CSharpParser.stripComments(input);

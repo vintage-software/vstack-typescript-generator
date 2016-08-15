@@ -2,6 +2,6 @@ instrumentation:
   root: dist
   include-all-sources: true
   verbose: true
-  excludes: ['spec/run-tests.js']
+  excludes: ['spec/**']
 reporting:
   dir: 'coverage'

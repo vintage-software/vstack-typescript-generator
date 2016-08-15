@@ -1,8 +1,0 @@
-{
-  "name": "vstack-typescript-generator",
-  "version": false,
-  "dependencies": {},
-  "ambientDependencies": {
-    "jasmine": "registry:dt/jasmine#2.2.0+20160412134438"
-  }
-}
