@@ -7,7 +7,7 @@
     "patch-release": "npm version patch && npm publish && git push --follow-tags",
     "clean": "rimraf dist & rimraf bundles",
     "lint": "tslint \"src/**/*.ts\"",
-    "build": "npm run clean & tsc -p tsconfig.json & tsc -p tsconfig-spec.json",
+    "build": "npm run clean & tsc -p tsconfig.json",
     "test": "istanbul cover node_modules/jasmine/bin/jasmine.js && npm run remap-coverage",
     "remap-coverage": "npm run remap-coverage-json & npm run remap-coverage-html",
     "remap-coverage-json": "remap-istanbul -i coverage/coverage.json -o coverage/coverage-remapped.json",

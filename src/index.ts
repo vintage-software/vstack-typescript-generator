@@ -40,7 +40,7 @@ export default function tsGenerator(input: string, options: Options = null) {
     }
 
     return result;
-};
+}
 
 function generateEnum(cSharpEnum: CSharpEnum, options: Options): string {
     'use strict';
