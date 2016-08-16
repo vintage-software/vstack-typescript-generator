@@ -1,10 +1,10 @@
 {
   "name": "vstack-typescript-generator",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "",
   "main": "bundles/index.js",
   "scripts": {
-	"patch-release": "npm version patch && npm publish && git push --follow-tags",
+    "patch-release": "npm version patch && npm publish && git push --follow-tags",
     "clean": "rimraf dist & rimraf bundles",
     "lint": "tslint \"src/**/*.ts\"",
     "build": "npm run clean & tsc -p tsconfig.json & tsc -p tsconfig-spec.json",
