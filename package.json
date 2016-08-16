@@ -19,17 +19,14 @@
     "type": "git",
     "url": "git+https://github.com/vintage-software/vstack-typescript-generator.git"
   },
-  "author": "Vintage Software",
-  "license": "MIT",
-  "collaborators": [
-    {
-      "name": "Kevin Phelps",
-      "email": "kphelps@vintagesoftware.com"
-    }
-  ],
   "bugs": {
     "url": "https://github.com/vintage-software/vstack-typescript-generator/issues"
   },
+  "author": "Vintage Software",
+  "contributors": [
+    "Kevin Phelps <kphelps@vintagesoftware.com> (https://kevinphelps.me/)"
+  ],
+  "license": "MIT",
   "homepage": "https://github.com/vintage-software/vstack-typescript-generator#readme",
   "dependencies": {
     "pluralize": "1.2.1"
