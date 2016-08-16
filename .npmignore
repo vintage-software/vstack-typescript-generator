@@ -1,8 +1,11 @@
 .vscode
-src
-spec
 coverage
+dist
+spec
+src
+!dist\src
 .gitignore
+.istanbul.yml
 .travis.yml
 tsconfig.json
 tsconfig-spec.json

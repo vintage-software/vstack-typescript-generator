@@ -2,7 +2,7 @@
   "name": "vstack-typescript-generator",
   "version": "0.1.1",
   "description": "",
-  "main": "bundles/index.js",
+  "main": "dist/src/index.js",
   "scripts": {
     "patch-release": "npm version patch && npm publish && git push --follow-tags",
     "clean": "rimraf dist & rimraf bundles",
