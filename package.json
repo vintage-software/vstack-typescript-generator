@@ -5,6 +5,7 @@
   "main": "dist/src/index.js",
   "scripts": {
     "patch-release": "npm version patch && npm publish && git push --follow-tags",
+    "minor-release": "npm version minor && npm publish && git push --follow-tags",
     "clean": "rimraf dist & rimraf bundles",
     "lint": "tslint \"src/**/*.ts\"",
     "build": "npm run clean & tsc -p tsconfig.json",
