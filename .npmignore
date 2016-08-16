@@ -1,10 +1,10 @@
+.vscode
 src
 spec
 typings
 coverage
 .gitignore
 .travis.yml
-gulpfile.js
-gulpfile.ts
+tsconfig.json
+tsconfit-spec.json
 tslint.json
-typings.json

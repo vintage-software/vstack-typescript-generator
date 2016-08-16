@@ -4,6 +4,7 @@
   "description": "",
   "main": "bundles/index.js",
   "scripts": {
+	"patch-release": "npm version patch && npm publish && git push --follow-tags",
     "clean": "rimraf dist & rimraf bundles",
     "lint": "tslint \"src/**/*.ts\"",
     "build": "npm run clean & tsc -p tsconfig.json & tsc -p tsconfig-spec.json",
@@ -17,8 +18,14 @@
     "type": "git",
     "url": "git+https://github.com/vintage-software/vstack-typescript-generator.git"
   },
-  "author": "",
+  "author": "Vintage Software",
   "license": "MIT",
+  "collaborators": [
+    {
+      "name": "Kevin Phelps",
+      "email": "kphelps@vintagesoftware.com"
+    }
+  ],
   "bugs": {
     "url": "https://github.com/vintage-software/vstack-typescript-generator/issues"
   },
