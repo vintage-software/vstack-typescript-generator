@@ -1,10 +1,9 @@
 .vscode
 src
 spec
-typings
 coverage
 .gitignore
 .travis.yml
 tsconfig.json
-tsconfit-spec.json
+tsconfig-spec.json
 tslint.json
