@@ -50,21 +50,21 @@ namespace MyNamespace.Domain
 }`;
 
 let expectedOutput = `interface MyDto {
-    Id: number;
-    Name: string;
-    Title: string;
-    ListFields: string[];
-    IEnumerableFields: string[];
-    ArrayFields: string[];
-    NumberArray: number[];
-    NumberList: number[];
-    OptionalBool?: boolean;
-    OptionalInt?: number;
-    SomeDate: string;
-    SomeDecimal: number;
-    SomeGuid: string;
-    DynamicContents: any;
-    DynamicToAny: any;
+    id: number;
+    name: string;
+    title: string;
+    listFields: string[];
+    iEnumerableFields: string[];
+    arrayFields: string[];
+    numberArray: number[];
+    numberList: number[];
+    optionalBool?: boolean;
+    optionalInt?: number;
+    someDate: string;
+    someDecimal: number;
+    someGuid: string;
+    dynamicContents: any;
+    dynamicToAny: any;
 }`;
 
 describe('vstack-typecript-generator dto generation', () => {

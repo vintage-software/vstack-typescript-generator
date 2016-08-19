@@ -20,7 +20,7 @@ namespace MyNamespace.Domain
 
 let expectedOutput = `module MyNamespace {
     export interface MyDto {
-        SomeInt: number;
+        someInt: number;
     }
 
     export enum MyEnum {

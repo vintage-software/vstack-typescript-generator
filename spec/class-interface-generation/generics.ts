@@ -14,7 +14,7 @@ namespace MyNamespace.Domain
 }`;
 
 let expectedOutput = `interface MyDto<T> {
-    GenericTypeValue: T;
+    genericTypeValue: T;
 }`;
 
 describe('vstack-typescript-generation class interface generator', () => {

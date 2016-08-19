@@ -54,24 +54,24 @@ namespace MyNamespace.Domain
 }`;
 
 let expectedOutput = `interface MyDto {
-    Id: number;
-    Name: string;
-    Title: string;
-    ListFields: string[];
-    IEnumerableFields: string[];
-    ArrayFields: string[];
-    OptionalBool?: boolean;
-    SomeDate: string;
-    SomeDecimal: number;
-    SomeGuid: string;
+    id: number;
+    name: string;
+    title: string;
+    listFields: string[];
+    iEnumerableFields: string[];
+    arrayFields: string[];
+    optionalBool?: boolean;
+    someDate: string;
+    someDecimal: number;
+    someGuid: string;
 }
 
 interface MyOtherDto {
-    SomeField: number;
+    someField: number;
 }
 
 interface MyStruct {
-    SomeIntField: number;
+    someIntField: number;
 }`;
 
 describe('vstack-typescript-generation class interface generator', () => {

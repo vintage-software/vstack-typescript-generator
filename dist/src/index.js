@@ -3,6 +3,7 @@ var utility_1 = require('./utility');
 var c_sharp_parser_1 = require('./c-sharp-parser');
 var c_sharp_objects_1 = require('./c-sharp-objects');
 var pluralize = require('pluralize');
+var camelcase = require('camelcase');
 var primaryFilterRegex = /^(?:IPrimaryFilter)<Dmn.([\w]+)/;
 var primaryDtoFilterRegex = /^(?:IPrimaryRestFilter|BasePrimaryUndeletedFilter|BasePrimaryFilter|IPrimaryDtoFilter)<Dmn.([\w]+)/;
 function tsGenerator(input, options) {
@@ -35,7 +36,6 @@ function tsGenerator(input, options) {
 }
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = tsGenerator;
-;
 function generateEnum(cSharpEnum, options) {
     'use strict';
     var modifier = options && options.baseNamespace ? 'export' : 'declare';
@@ -58,7 +58,7 @@ function generateInterface(type, options) {
     var propertyStrings = [];
     for (var _i = 0, _a = type.properties; _i < _a.length; _i++) {
         var property = _a[_i];
-        var tsPropertyName = options && options.propertyNameResolver ? options.propertyNameResolver(property.name) : property.name;
+        var tsPropertyName = camelcase(property.name);
         if (property.type.isNullable) {
             tsPropertyName += '?';
         }

@@ -7,6 +7,7 @@ import { CSharpEnum, CSharpClassOrStruct } from './c-sharp-objects';
 
 declare var require: (i: string) => any;
 let pluralize = require('pluralize'); // import not working
+let camelcase = require('camelcase'); // import not working
 
 const primaryFilterRegex = /^(?:IPrimaryFilter)<Dmn.([\w]+)/;
 const primaryDtoFilterRegex = /^(?:IPrimaryRestFilter|BasePrimaryUndeletedFilter|BasePrimaryFilter|IPrimaryDtoFilter)<Dmn.([\w]+)/;
@@ -70,7 +71,7 @@ function generateInterface(type: CSharpClassOrStruct, options: Options): string 
 
     let propertyStrings: string[] = [];
     for (let property of type.properties) {
-        let tsPropertyName = options && options.propertyNameResolver ? options.propertyNameResolver(property.name) : property.name;
+        let tsPropertyName = camelcase(property.name);
         if (property.type.isNullable) {
             tsPropertyName += '?';
         }

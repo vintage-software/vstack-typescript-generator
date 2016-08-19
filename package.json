@@ -29,6 +29,7 @@
   "license": "MIT",
   "homepage": "https://github.com/vintage-software/vstack-typescript-generator#readme",
   "dependencies": {
+    "camelcase": "^3.0.0",
     "pluralize": "1.2.1"
   },
   "devDependencies": {

@@ -47,19 +47,19 @@ namespace MyNamespace.Domain
 }`;
 
 let expectedOutput = `interface IMyDto {
-    Id: number;
-    Name: string;
-    Title: string;
-    ListFields: string[];
-    IEnumerableFields: string[];
-    ArrayFields: string[];
-    OptionalBool?: boolean;
-    SomeDate: string;
-    SomeDecimal: number;
-    SomeGuid: string;
-    AnotherDto: ISomeOtherDto;
-    MoreDtos: ISomeOtherDto[];
-    ArrayDtos: ISomeOtherDto[];
+    id: number;
+    name: string;
+    title: string;
+    listFields: string[];
+    iEnumerableFields: string[];
+    arrayFields: string[];
+    optionalBool?: boolean;
+    someDate: string;
+    someDecimal: number;
+    someGuid: string;
+    anotherDto: ISomeOtherDto;
+    moreDtos: ISomeOtherDto[];
+    arrayDtos: ISomeOtherDto[];
 }`;
 
 describe('vstack-typescript-generation class interface generator', () => {

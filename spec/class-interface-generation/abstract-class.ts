@@ -14,7 +14,7 @@ namespace MyNamespace.Domain
 }`;
 
 let expectedOutput = `interface MyDto {
-    Name: string;
+    name: string;
 }`;
 
 describe('vstack-typescript-generation class interface generator', () => {
