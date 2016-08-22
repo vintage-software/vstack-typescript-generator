@@ -12,7 +12,10 @@ var Utility = (function () {
         else if (['dynamic', 'JObject'].indexOf(csType) !== -1) {
             return 'any';
         }
-        else if (['int', 'short', 'decimal', 'double', 'float', 'byte', 'Int32', 'Int64', 'Byte'].indexOf(csType) !== -1) {
+        else if (['byte', 'short', 'int', 'long', 'float', 'double', 'decimal'].indexOf(csType) !== -1) {
+            return 'number';
+        }
+        else if (['Byte', 'Int16', 'Int32', 'Int64', 'Single', 'Double', 'Decimal'].indexOf(csType) !== -1) {
             return 'number';
         }
         else if (csType === 'DateTime') {
