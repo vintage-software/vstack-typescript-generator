@@ -46,7 +46,7 @@ namespace MyNamespace.Domain
     }
 }`;
 
-let expectedOutput = `interface IMyDto {
+let expectedOutput = `export interface IMyDto {
     id: number;
     name: string;
     title: string;

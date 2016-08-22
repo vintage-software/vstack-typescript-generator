@@ -31,13 +31,13 @@ export default function tsGenerator(input: string, options: Options = null) {
 
     let result = results.join('\n\n');
 
-    if (result && options && options.baseNamespace) {
+    if (result && options && options.moduleName) {
         let indentedResult = result
             .split('\n')
             .map(line => line ? `    ${line}` : '')
             .join('\n');
 
-        result = `module ${options.baseNamespace} {\n${indentedResult}\n}`;
+        result = `module ${options.moduleName} {\n${indentedResult}\n}`;
     }
 
     return result;
@@ -45,8 +45,6 @@ export default function tsGenerator(input: string, options: Options = null) {
 
 function generateEnum(cSharpEnum: CSharpEnum, options: Options): string {
     'use strict';
-
-    let modifier = options && options.baseNamespace ? 'export' : 'declare';
 
     let nextIndex = 0;
     let entryStrings: string[] = [];
@@ -56,7 +54,7 @@ function generateEnum(cSharpEnum: CSharpEnum, options: Options): string {
         nextIndex = isNaN(entry.value) ? nextIndex + 1 : entry.value + 1;
     }
 
-    return `${modifier} enum ${cSharpEnum.name} {\n    ${entryStrings.join(',\n    ')}\n}`;
+    return `export enum ${cSharpEnum.name} {\n    ${entryStrings.join(',\n    ')}\n}`;
 }
 
 function generateInterface(type: CSharpClassOrStruct, options: Options): string {
@@ -65,7 +63,6 @@ function generateInterface(type: CSharpClassOrStruct, options: Options): string 
     let prefixWithI = options && options.prefixWithI;
     let ignoreInhertitance = options && options.ignoreInheritance && options.ignoreInheritance.indexOf(type.inherits) !== -1;
 
-    let modifier = options && options.baseNamespace ? 'export ' : '';
     let tsInterfaceName = prefixWithI ? `I${type.name}` : type.name;
     let tsExtends = type.inherits && !ignoreInhertitance ? ` extends ${type.inherits}` : '';
 
@@ -84,17 +81,15 @@ function generateInterface(type: CSharpClassOrStruct, options: Options): string 
         propertyStrings.push(`${tsPropertyName}: ${tsType}`);
     }
 
-    return `${modifier}interface ${tsInterfaceName}${tsExtends} {\n    ${propertyStrings.join(';\n    ')};\n}`;
+    return `export interface ${tsInterfaceName}${tsExtends} {\n    ${propertyStrings.join(';\n    ')};\n}`;
 }
 
 function generatePrimaryFilter(type: CSharpClassOrStruct, options: Options): string {
     'use strict';
 
-    let modifier = options && options.baseNamespace ? 'export ' : '';
-
     let domainType = type.inherits.match(primaryDtoFilterRegex)[1];
     let filterGroup = pluralize(domainType);
-    let filterType = options && options.dtoNamespace ? `${options.dtoNamespace}.${domainType}` : domainType;
+    let filterType = options && options.dtoModuleName ? `${options.dtoModuleName}.${domainType}` : domainType;
 
     let tsConstructorParameters: string[] = [];
     let filterParameters: string[] = [];
@@ -137,7 +132,7 @@ function generatePrimaryFilter(type: CSharpClassOrStruct, options: Options): str
     }
 
     let result = '';
-    result += `${modifier}class ${filterGroup}${type.name}Filter implements IPrimaryFilter<${filterType}> {\n`;
+    result += `export class ${filterGroup}${type.name}Filter implements IPrimaryFilter<${filterType}> {\n`;
     result += `    constructor(${tsConstructorParameters.join(', ')}) {\n`;
     result += `    }\n\n`;
 

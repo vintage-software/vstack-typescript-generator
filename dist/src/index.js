@@ -25,12 +25,12 @@ function tsGenerator(input, options) {
         }
     }
     var result = results.join('\n\n');
-    if (result && options && options.baseNamespace) {
+    if (result && options && options.moduleName) {
         var indentedResult = result
             .split('\n')
             .map(function (line) { return line ? "    " + line : ''; })
             .join('\n');
-        result = "module " + options.baseNamespace + " {\n" + indentedResult + "\n}";
+        result = "module " + options.moduleName + " {\n" + indentedResult + "\n}";
     }
     return result;
 }
@@ -38,7 +38,6 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.default = tsGenerator;
 function generateEnum(cSharpEnum, options) {
     'use strict';
-    var modifier = options && options.baseNamespace ? 'export' : 'declare';
     var nextIndex = 0;
     var entryStrings = [];
     for (var _i = 0, _a = cSharpEnum.entries; _i < _a.length; _i++) {
@@ -46,13 +45,12 @@ function generateEnum(cSharpEnum, options) {
         entryStrings.push(entry.name + " = " + (entry.value || nextIndex));
         nextIndex = isNaN(entry.value) ? nextIndex + 1 : entry.value + 1;
     }
-    return modifier + " enum " + cSharpEnum.name + " {\n    " + entryStrings.join(',\n    ') + "\n}";
+    return "export enum " + cSharpEnum.name + " {\n    " + entryStrings.join(',\n    ') + "\n}";
 }
 function generateInterface(type, options) {
     'use strict';
     var prefixWithI = options && options.prefixWithI;
     var ignoreInhertitance = options && options.ignoreInheritance && options.ignoreInheritance.indexOf(type.inherits) !== -1;
-    var modifier = options && options.baseNamespace ? 'export ' : '';
     var tsInterfaceName = prefixWithI ? "I" + type.name : type.name;
     var tsExtends = type.inherits && !ignoreInhertitance ? " extends " + type.inherits : '';
     var propertyStrings = [];
@@ -68,14 +66,13 @@ function generateInterface(type, options) {
         }
         propertyStrings.push(tsPropertyName + ": " + tsType);
     }
-    return modifier + "interface " + tsInterfaceName + tsExtends + " {\n    " + propertyStrings.join(';\n    ') + ";\n}";
+    return "export interface " + tsInterfaceName + tsExtends + " {\n    " + propertyStrings.join(';\n    ') + ";\n}";
 }
 function generatePrimaryFilter(type, options) {
     'use strict';
-    var modifier = options && options.baseNamespace ? 'export ' : '';
     var domainType = type.inherits.match(primaryDtoFilterRegex)[1];
     var filterGroup = pluralize(domainType);
-    var filterType = options && options.dtoNamespace ? options.dtoNamespace + "." + domainType : domainType;
+    var filterType = options && options.dtoModuleName ? options.dtoModuleName + "." + domainType : domainType;
     var tsConstructorParameters = [];
     var filterParameters = [];
     if (type.constructors.length === 1) {
@@ -114,7 +111,7 @@ function generatePrimaryFilter(type, options) {
         }
     }
     var result = '';
-    result += modifier + "class " + filterGroup + type.name + "Filter implements IPrimaryFilter<" + filterType + "> {\n";
+    result += "export class " + filterGroup + type.name + "Filter implements IPrimaryFilter<" + filterType + "> {\n";
     result += "    constructor(" + tsConstructorParameters.join(', ') + ") {\n";
     result += "    }\n\n";
     result += "    public getFilterName(): string {\n";

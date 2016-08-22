@@ -24,7 +24,7 @@ let sampleFile = `namespace Service.Filters.People
     }
 }`;
 
-let expectedOutput = `class PeopleWithConditionFilter implements IPrimaryFilter<Person> {
+let expectedOutput = `export class PeopleWithConditionFilter implements IPrimaryFilter<Person> {
     constructor() {
     }
 

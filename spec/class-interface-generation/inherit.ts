@@ -42,7 +42,7 @@ namespace MyNamespace.Domain
     }
 }`;
 
-let expectedOutput = `interface MyDto extends BaseDto {
+let expectedOutput = `export interface MyDto extends BaseDto {
     id: number;
     name: string;
     title: string;

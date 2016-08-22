@@ -56,7 +56,7 @@ namespace Services.Filters.Person
     }
 }`;
 
-let expectedOutput = `class EmployeesByNameAndAgeFilter implements IPrimaryFilter<Employee> {
+let expectedOutput = `export class EmployeesByNameAndAgeFilter implements IPrimaryFilter<Employee> {
     constructor(private name: string, private age: number) {
     }
 
@@ -70,7 +70,7 @@ let expectedOutput = `class EmployeesByNameAndAgeFilter implements IPrimaryFilte
 }`;
 
 describe('vstack-typescript-generation primary filter generator', () => {
-    it('should transform a filter correctly', () => {
+    it('should ignore filters correctly', () => {
         let result = tsGenerator(sampleFile);
         expect(result).toEqual(expectedOutput);
     });

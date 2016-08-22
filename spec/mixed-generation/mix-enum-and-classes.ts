@@ -49,7 +49,7 @@ namespace MyNamespace.Domain
     }
 }`;
 
-let expectedOutput = `interface MyDto {
+let expectedOutput = `export interface MyDto {
     id: number;
     name: string;
     title: string;
@@ -62,7 +62,7 @@ let expectedOutput = `interface MyDto {
     someGuid: string;
 }
 
-declare enum MyEnum {
+export enum MyEnum {
     Green = 0,
     Blue = 1
 }`;

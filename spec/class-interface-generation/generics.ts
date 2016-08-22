@@ -9,11 +9,11 @@ namespace MyNamespace.Domain
 {
     public class MyDto<T>
     {
-        public T GenericTypeValue {get;set;}
+        public T GenericTypeValue { get; set; }
     }
 }`;
 
-let expectedOutput = `interface MyDto<T> {
+let expectedOutput = `export interface MyDto<T> {
     genericTypeValue: T;
 }`;
 

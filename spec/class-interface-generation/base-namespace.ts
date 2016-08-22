@@ -20,9 +20,9 @@ let expectedOutput = `module MyNamespace {
 }`;
 
 describe('vstack-typescript-generation class interface generator', () => {
-    it('should use the baseNamespace option correctly', () => {
+    it('should use the moduleName option correctly', () => {
         let options = {
-            baseNamespace: 'MyNamespace'
+            moduleName: 'MyNamespace'
         };
 
         let result = tsGenerator(sampleFile, options);

@@ -21,7 +21,7 @@ namespace MyNamespace.Domain
     }
 }`;
 
-let expectedOutput = `declare enum MyEnum {
+let expectedOutput = `export enum MyEnum {
     Green = 0,
     Red = 1,
     Blue = 2,

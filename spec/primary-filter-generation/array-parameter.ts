@@ -29,7 +29,7 @@ let sampleFile = `namespace Services.Filters.Person
     }
 }`;
 
-let expectedOutput = `class PeopleByNamesAndAgesFilter implements IPrimaryFilter<Person> {
+let expectedOutput = `export class PeopleByNamesAndAgesFilter implements IPrimaryFilter<Person> {
     constructor(private names: string[], private ages: number[]) {
     }
 

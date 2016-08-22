@@ -1,8 +1,8 @@
 export interface Options {
-    baseNamespace?: string;
+    moduleName?: string;
     prefixWithI?: boolean;
     dateTimeToDate?: boolean;
     ignoreInheritance?: string[];
     propertyNameResolver?: (prop: string) => string;
-    dtoNamespace?: string;
+    dtoModuleName?: string;
 }

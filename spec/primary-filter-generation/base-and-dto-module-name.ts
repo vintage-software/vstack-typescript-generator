@@ -30,7 +30,7 @@ let sampleFile = `namespace Services.Filters.Person
 }`;
 
 let expectedOutput = `module filters {
-    export class PeopleByNameAndAgeFilter implements IPrimaryFilter<Person> {
+    export class PeopleByNameAndAgeFilter implements IPrimaryFilter<dto.Person> {
         constructor(private name: string, private age: number) {
         }
 
@@ -45,9 +45,10 @@ let expectedOutput = `module filters {
 }`;
 
 describe('vstack-typescript-generation primary filter generator', () => {
-    it('should use the baseNamespace option correctly', () => {
+    it('should use the moduleName and dtoModuleName options correctly', () => {
         let options = {
-            baseNamespace: 'filters'
+            moduleName: 'filters',
+            dtoModuleName: 'dto'
         };
 
         let result = tsGenerator(sampleFile, options);

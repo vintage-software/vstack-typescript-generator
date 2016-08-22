@@ -6,7 +6,7 @@ var expectedOutput = "";
 describe('vstack-typescript-generation primary filter generator', function () {
     it('should not transform a non dto filter', function () {
         var options = {
-            baseNamespace: 'MyNamespace'
+            moduleName: 'MyNamespace'
         };
         var result = index_1.default(sampleFile, options);
         expect(result).toEqual(expectedOutput);

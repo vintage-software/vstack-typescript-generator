@@ -29,7 +29,7 @@ let expectedOutput = ``;
 describe('vstack-typescript-generation primary filter generator', () => {
     it('should not transform a non dto filter', () => {
         let options = {
-            baseNamespace: 'MyNamespace'
+            moduleName: 'MyNamespace'
         };
 
         let result = tsGenerator(sampleFile, options);
