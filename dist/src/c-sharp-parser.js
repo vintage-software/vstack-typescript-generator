@@ -31,8 +31,8 @@ var CSharpParser = (function () {
         return input.replace(ignoredRegex, '');
     };
     CSharpParser.stripComments = function (input) {
-        var blockCommentRegex = new RegExp('/\\*([\\s\\S]*)\\*/', 'gm');
-        var lineCommentRegex = new RegExp('//(.*)', 'g');
+        var blockCommentRegex = /\*([\s\S]*?)\*/gm;
+        var lineCommentRegex = /\/\/(.*)/g;
         return input
             .replace(blockCommentRegex, '')
             .split('\n')

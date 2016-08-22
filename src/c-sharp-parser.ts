@@ -36,8 +36,8 @@ export class CSharpParser {
     }
 
     private static stripComments(input: string): string {
-        let blockCommentRegex = new RegExp('/\\*([\\s\\S]*)\\*/', 'gm');
-        let lineCommentRegex = new RegExp('//(.*)', 'g');
+        let blockCommentRegex = /\*([\s\S]*?)\*/gm;
+        let lineCommentRegex = /\/\/(.*)/g;
 
         return input
             .replace(blockCommentRegex, '')
