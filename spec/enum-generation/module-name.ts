@@ -7,16 +7,27 @@ let sampleFile = `using System;
 
 namespace MyNamespace.Domain
 {
-    public enum MyEnum
+    public enum Colors
     {
-        One, Two
+        Red,
+		Orange,
+		Yellow,
+        Green,
+        Blue,
+        Indigo,
+        Violent
     }
 }`;
 
 let expectedOutput = `module MyNamespace {
-    export enum MyEnum {
-        One = 0,
-        Two = 1
+    export enum Colors {
+        Red = 0,
+        Orange = 1,
+        Yellow = 2,
+        Green = 3,
+        Blue = 4,
+        Indigo = 5,
+        Violent = 6
     }
 }`;
 

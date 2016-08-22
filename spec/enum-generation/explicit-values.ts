@@ -7,30 +7,30 @@ let sampleFile = `using System;
 
 namespace MyNamespace.Domain
 {
-    public enum Colors : long
+    public enum Colors
     {
-        Red,
-		Orange,
-		Yellow,
-        Green,
-        Blue,
-        Indigo,
-        Violent
+        Red = 2,
+		Orange = 4,
+		Yellow = 6,
+        Green = 8,
+        Blue = 10,
+        Indigo = 12,
+        Violent = 14
     }
 }`;
 
 let expectedOutput = `export enum Colors {
-    Red = 0,
-    Orange = 1,
-    Yellow = 2,
-    Green = 3,
-    Blue = 4,
-    Indigo = 5,
-    Violent = 6
+    Red = 2,
+    Orange = 4,
+    Yellow = 6,
+    Green = 8,
+    Blue = 10,
+    Indigo = 12,
+    Violent = 14
 }`;
 
 describe('vstack-typescript-generation enum generator', () => {
-    it('should ignore an enum\'s explicit type', () => {
+    it('should transform an enum with explicit values correctly', () => {
         let result = tsGenerator(sampleFile);
         expect(result).toEqual(expectedOutput);
     });

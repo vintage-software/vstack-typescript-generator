@@ -42,7 +42,7 @@ namespace MyNamespace.Domain
         public Guid SomeGuid { get; set; }
     }
 
-    public enum MyEnum
+    public enum Colors
     {
         Green,
         Blue
@@ -62,7 +62,7 @@ let expectedOutput = `export interface MyDto {
     someGuid: string;
 }
 
-export enum MyEnum {
+export enum Colors {
     Green = 0,
     Blue = 1
 }`;

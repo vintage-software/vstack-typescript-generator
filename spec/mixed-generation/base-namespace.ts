@@ -12,7 +12,7 @@ namespace MyNamespace.Domain
         public int SomeInt { get; set; }
     }
 
-    public enum MyEnum
+    public enum Colors
     {
         One, Two
     }
@@ -23,7 +23,7 @@ let expectedOutput = `module MyNamespace {
         someInt: number;
     }
 
-    export enum MyEnum {
+    export enum Colors {
         One = 0,
         Two = 1
     }
