@@ -41,9 +41,9 @@ namespace MyNamespace.Domain
         public List<int> NumberList { get; set; }
         public bool? OptionalBool {get; set;}
         public Nullable<int> OptionalInt {get; set;}
-        public DateTime SomeDate {get;set;}
-        public decimal SomeDecimal {get;set;}
-        public Guid SomeGuid {get;set;}
+        public DateTime SomeDate { get; set; }
+        public decimal SomeDecimal { get; set; }
+        public Guid SomeGuid { get; set; }
         public JObject DynamicContents { get; set; }
         public dynamic DynamicToAny { get; set; }
     }

@@ -37,9 +37,9 @@ namespace MyNamespace.Domain
         public IEnumerable<string> IEnumerableFields { get; set; }
         public string[] ArrayFields { get; set; }
         public bool? OptionalBool {get; set;}
-        public DateTime SomeDate {get;set;}
-        public decimal SomeDecimal {get;set;}
-        public Guid SomeGuid {get;set;}
+        public DateTime SomeDate { get; set; }
+        public decimal SomeDecimal { get; set; }
+        public Guid SomeGuid { get; set; }
     }
 
     public enum MyEnum

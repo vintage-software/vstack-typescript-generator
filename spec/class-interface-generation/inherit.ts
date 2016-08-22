@@ -7,52 +7,16 @@ let sampleFile = `using System;
 
 namespace MyNamespace.Domain
 {
-    public class MyDto :  BaseDto
+    public class MyDto : BaseDto
     {
-        public MyDto()
-        {
-        }
-
-        public MyDto(RichObject value)
-        {
-            this.Id = value.Id;
-            this.Name = value.Name;
-            this.Title = value.Title;
-        }
-
         public int Id { get; set; }
         public string Name { get; set; }
-        //public string IgnoreMe { get; set; }
-        // public string IgnoreMe2 { get; set; }
-        /* public string IgnoreMe3 {get; set; } */
-        /*
-        public string IgnoreMe4 {get; set; }
-        */
-        public string Title
-        {
-            get;
-            set; }
-        public List<string> ListFields { get; set; }
-        public IEnumerable<string> IEnumerableFields { get; set; }
-        public string[] ArrayFields { get; set; }
-        public bool? OptionalBool {get; set;}
-        public DateTime SomeDate {get;set;}
-        public decimal SomeDecimal {get;set;}
-        public Guid SomeGuid {get;set;}
     }
 }`;
 
 let expectedOutput = `export interface MyDto extends BaseDto {
     id: number;
     name: string;
-    title: string;
-    listFields: string[];
-    iEnumerableFields: string[];
-    arrayFields: string[];
-    optionalBool?: boolean;
-    someDate: string;
-    someDecimal: number;
-    someGuid: string;
 }`;
 
 describe('vstack-typescript-generation class interface generator', () => {
