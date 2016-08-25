@@ -61,10 +61,17 @@ function generateInterface(type: CSharpClassOrStruct, options: Options): string 
     'use strict';
 
     let prefixWithI = options && options.prefixWithI;
-    let ignoreInhertitance = options && options.ignoreInheritance && options.ignoreInheritance.indexOf(type.inherits) !== -1;
 
     let tsInterfaceName = prefixWithI ? `I${type.name}` : type.name;
-    let tsExtends = type.inherits && !ignoreInhertitance ? ` extends ${type.inherits}` : '';
+
+    let baseClass;
+    if (type.inherits) {
+        let baseClasses = type.inherits.split(',')
+            .map(i => i.trim())
+            .filter(i => i[0] !== 'I');
+        baseClass = baseClasses.length === 1 ? baseClasses[0] : '';
+    }
+    let tsExtends = baseClass ? ` extends ${baseClass}` : '';
 
     let propertyStrings: string[] = [];
     for (let property of type.properties) {

@@ -7,7 +7,7 @@ let sampleFile = `using System;
 
 namespace MyNamespace.Domain
 {
-    public abstract class MyDto : IMyDto
+    public class MyDto : IDto
     {
         public int Id { get; set; }
         public string Name { get; set; }
@@ -20,12 +20,8 @@ let expectedOutput = `export interface MyDto {
 }`;
 
 describe('vstack-typescript-generation class interface generator', () => {
-    it('should handle the ignoreInheritance option correctly', () => {
-        let options = {
-            ignoreInheritance: ['IMyDto']
-        };
-
-        let result = tsGenerator(sampleFile, options);
+    it('should ignore interface inheritance', () => {
+        let result = tsGenerator(sampleFile);
         expect(result).toEqual(expectedOutput);
     });
 });

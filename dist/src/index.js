@@ -50,9 +50,15 @@ function generateEnum(cSharpEnum, options) {
 function generateInterface(type, options) {
     'use strict';
     var prefixWithI = options && options.prefixWithI;
-    var ignoreInhertitance = options && options.ignoreInheritance && options.ignoreInheritance.indexOf(type.inherits) !== -1;
     var tsInterfaceName = prefixWithI ? "I" + type.name : type.name;
-    var tsExtends = type.inherits && !ignoreInhertitance ? " extends " + type.inherits : '';
+    var baseClass;
+    if (type.inherits) {
+        var baseClasses = type.inherits.split(',')
+            .map(function (i) { return i.trim(); })
+            .filter(function (i) { return i[0] !== 'I'; });
+        baseClass = baseClasses.length === 1 ? baseClasses[0] : '';
+    }
+    var tsExtends = baseClass ? " extends " + baseClass : '';
     var propertyStrings = [];
     for (var _i = 0, _a = type.properties; _i < _a.length; _i++) {
         var property = _a[_i];
