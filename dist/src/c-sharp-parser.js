@@ -74,13 +74,15 @@ var CSharpParser = (function () {
     CSharpParser.parseEnum = function (namespace, name, inherits, body) {
         var entries = [];
         var entryMatch;
-        var entryRegex = /([^\s,]+)\s*=?\s*(\d+)?,?/gm;
+        var entryRegex = /^\s*([\w\d_]+)\s*=?\s*([0-9A-Fx]+)?,?\s*$/gm;
         var getNextEntryMatch = function () { return entryMatch = entryRegex.exec(body); };
         while (getNextEntryMatch() !== null) {
             var entryName = entryMatch[1];
-            var entryValue = parseInt(entryMatch[2], 10);
+            var entryValue = entryMatch[2];
+            var radix = /^[0-9]+$/.test(entryValue) ? 10 : 16;
+            var entryValueParsed = parseInt(entryValue, radix);
             if (entryName.indexOf('[') === -1) {
-                entries.push(new c_sharp_objects_1.CSharpEnumEntry(entryName, entryValue));
+                entries.push(new c_sharp_objects_1.CSharpEnumEntry(entryName, entryValueParsed));
             }
         }
         return new c_sharp_objects_1.CSharpEnum(namespace, name, inherits, entries);

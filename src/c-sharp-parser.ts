@@ -89,14 +89,17 @@ export class CSharpParser {
         let entries: CSharpEnumEntry[] = [];
 
         let entryMatch: RegExpExecArray;
-        let entryRegex = /([^\s,]+)\s*=?\s*(\d+)?,?/gm;
+        let entryRegex = /^\s*([\w\d_]+)\s*=?\s*([0-9A-Fx]+)?,?\s*$/gm;
         let getNextEntryMatch = () => entryMatch = entryRegex.exec(body);
         while (getNextEntryMatch() !== null) {
             let entryName = entryMatch[1];
-            let entryValue = parseInt(entryMatch[2], 10);
+            let entryValue = entryMatch[2];
+
+            let radix = /^[0-9]+$/.test(entryValue) ? 10 : 16;
+            let entryValueParsed = parseInt(entryValue, radix);
 
             if (entryName.indexOf('[') === -1) {
-                entries.push(new CSharpEnumEntry(entryName, entryValue));
+                entries.push(new CSharpEnumEntry(entryName, entryValueParsed));
             }
         }
 

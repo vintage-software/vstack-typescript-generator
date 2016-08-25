@@ -12,9 +12,9 @@ namespace MyNamespace.Domain
         [RainbowColor]
         Red,
         [RainbowColor]
-		Orange,
+        Orange,
         [RainbowColor]
-		Yellow,
+        Yellow,
         [RainbowColor]
         Green,
         [RainbowColor]

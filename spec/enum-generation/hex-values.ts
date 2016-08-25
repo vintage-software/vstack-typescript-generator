@@ -9,28 +9,32 @@ namespace MyNamespace.Domain
 {
     public enum Colors
     {
-        Red,
-        Orange,
-        Yellow = 5,
-        Green = 7,
-        Blue,
-        Indigo,
-        Violent = 12
+        None = 0
+        Red = 1,
+        Orange = 2,
+        Yellow = 4,
+        Green = 8,
+        Blue = 16,
+        Indigo = 32,
+        Violent = 64,
+        All = 0x7FFFFFFF
     }
 }`;
 
 let expectedOutput = `export enum Colors {
-    Red = 0,
-    Orange = 1,
-    Yellow = 5,
-    Green = 7,
-    Blue = 8,
-    Indigo = 9,
-    Violent = 12
+    None = 0,
+    Red = 1,
+    Orange = 2,
+    Yellow = 4,
+    Green = 8,
+    Blue = 16,
+    Indigo = 32,
+    Violent = 64,
+    All = 2147483647
 }`;
 
 describe('vstack-typescript-generation enum generator', () => {
-    it('should transform an enum with explicit and auto-incremented values correctly', () => {
+    it('should transform an enum with hex values correctly', () => {
         let result = tsGenerator(sampleFile);
         expect(result).toEqual(expectedOutput);
     });

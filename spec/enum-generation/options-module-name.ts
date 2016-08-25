@@ -10,8 +10,8 @@ namespace MyNamespace.Domain
     public enum Colors
     {
         Red,
-		Orange,
-		Yellow,
+        Orange,
+        Yellow,
         Green,
         Blue,
         Indigo,
