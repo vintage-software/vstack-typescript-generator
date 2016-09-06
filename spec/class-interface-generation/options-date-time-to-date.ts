@@ -18,12 +18,12 @@ let expectedOutput = `export interface MyDto {
 }`;
 
 describe('vstack-typescript-generation class interface generator', () => {
-	it('should translate DateTime to Date when the dateTimeToDate option is set', () => {
+    it('should translate DateTime to Date when the dateTimeToDate option is set', () => {
         let options = {
             dateTimeToDate: true
         };
 
-		let result = tsGenerator(sampleFile, options);
+        let result = tsGenerator(sampleFile, options);
         expect(result).toEqual(expectedOutput);
-	});
+    });
 });

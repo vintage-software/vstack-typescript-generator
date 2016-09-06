@@ -50,12 +50,12 @@ let expectedOutput = `export interface MyDto {
 }`;
 
 describe('vstack-typescript-generation class interface generator', () => {
-	it('should translate byte to number', () => {
+    it('should translate byte to number', () => {
         let options = {
             dateTimeToDate: true
         };
 
-		let result = tsGenerator(sampleFile, options);
+        let result = tsGenerator(sampleFile, options);
         expect(result).toEqual(expectedOutput);
-	});
+    });
 });

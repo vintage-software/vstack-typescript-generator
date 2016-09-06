@@ -18,8 +18,8 @@ let expectedOutput = `export interface MyDto {
 }`;
 
 describe('vstack-typescript-generation class interface generator', () => {
-	it('should translate DateTime to string by default', () => {
-		let result = tsGenerator(sampleFile);
+    it('should translate DateTime to string by default', () => {
+        let result = tsGenerator(sampleFile);
         expect(result).toEqual(expectedOutput);
-	});
+    });
 });
