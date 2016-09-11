@@ -9,8 +9,8 @@ declare var require: (i: string) => any;
 let pluralize = require('pluralize'); // import not working
 let camelcase = require('camelcase'); // import not working
 
-const primaryFilterRegex = /^(?:IPrimaryFilter)<Dmn.([\w]+)/;
-const primaryDtoFilterRegex = /^(?:IPrimaryRestFilter|BasePrimaryUndeletedFilter|BasePrimaryFilter|IPrimaryDtoFilter)<Dmn.([\w]+)/;
+const primaryFilterRegex = /PrimaryFilter<Dmn.([\w]+)/;
+const primaryDtoFilterRegex = /PrimaryDtoFilter<Dmn.([\w]+)/;
 
 export default function tsGenerator(input: string, options: Options = null) {
     let results: string[] = [];

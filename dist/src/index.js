@@ -4,8 +4,8 @@ var c_sharp_parser_1 = require('./c-sharp-parser');
 var c_sharp_objects_1 = require('./c-sharp-objects');
 var pluralize = require('pluralize');
 var camelcase = require('camelcase');
-var primaryFilterRegex = /^(?:IPrimaryFilter)<Dmn.([\w]+)/;
-var primaryDtoFilterRegex = /^(?:IPrimaryRestFilter|BasePrimaryUndeletedFilter|BasePrimaryFilter|IPrimaryDtoFilter)<Dmn.([\w]+)/;
+var primaryFilterRegex = /PrimaryFilter<Dmn.([\w]+)/;
+var primaryDtoFilterRegex = /PrimaryDtoFilter<Dmn.([\w]+)/;
 function tsGenerator(input, options) {
     if (options === void 0) { options = null; }
     var results = [];
