@@ -17,8 +17,8 @@ export default function tsGenerator(input: string, options: Options = null) {
 
     let types = CSharpParser.parse(input);
     for (let type of types) {
-        let isPrimaryFilter = type.inherits && !!type.inherits.match(primaryFilterRegex);
-        let isPrimaryDtoFilter = type.inherits && !!type.inherits.match(primaryDtoFilterRegex);
+        let isPrimaryFilter = type.inherits && !!type.inherits.join(', ').match(primaryFilterRegex);
+        let isPrimaryDtoFilter = type.inherits && !!type.inherits.join(', ').match(primaryDtoFilterRegex);
 
         if (type instanceof CSharpEnum) {
             results.push(generateEnum(<CSharpEnum>type, options));
@@ -66,9 +66,8 @@ function generateInterface(type: CSharpClassOrStruct, options: Options): string 
 
     let baseClass;
     if (type.inherits) {
-        let baseClasses = type.inherits.split(',')
-            .map(i => i.trim())
-            .filter(i => i[0] !== 'I');
+        let baseClasses = type.inherits
+            .filter(i => i && i.length && i[0] !== 'I');
         baseClass = baseClasses.length === 1 ? baseClasses[0] : '';
     }
     let tsExtends = baseClass ? ` extends ${baseClass}` : '';
@@ -94,7 +93,7 @@ function generateInterface(type: CSharpClassOrStruct, options: Options): string 
 function generatePrimaryFilter(type: CSharpClassOrStruct, options: Options): string {
     'use strict';
 
-    let domainType = type.inherits.match(primaryDtoFilterRegex)[1];
+    let domainType = type.inherits.join(', ').match(primaryDtoFilterRegex)[1];
     let filterGroup = pluralize(domainType);
     let filterType = options && options.dtoModuleName ? `${options.dtoModuleName}.${domainType}` : domainType;
 

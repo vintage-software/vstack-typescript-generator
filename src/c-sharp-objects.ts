@@ -1,10 +1,10 @@
 export class CSharpType {
-    constructor(public namespace: string, public name: string, public inherits: string) {
+    constructor(public namespace: string, public name: string, public inherits: string[]) {
     }
 }
 
 export class CSharpClassOrStruct extends CSharpType {
-    constructor(public namespace: string, public name: string, public inherits: string, public constructors: CSharpContructor[], public properties: CSharpProperty[]) {
+    constructor(public namespace: string, public name: string, public inherits: string[], public constructors: CSharpContructor[], public properties: CSharpProperty[]) {
         super(namespace, name, inherits);
     }
 }
@@ -37,7 +37,7 @@ export class CSharpParameter extends CSharpMember {
 }
 
 export class CSharpEnum extends CSharpType {
-    constructor(public namespace: string, public name: string, public inherits: string, public entries: CSharpEnumEntry[]) {
+    constructor(public namespace: string, public name: string, public inherits: string[], public entries: CSharpEnumEntry[]) {
         super(namespace, name, inherits);
     }
 }

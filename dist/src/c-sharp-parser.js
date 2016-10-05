@@ -15,7 +15,7 @@ var CSharpParser = (function () {
         while (getNextTypeMatch() !== null) {
             var type = typeMatch[2];
             var name_1 = typeMatch[3];
-            var inherits = typeMatch[4];
+            var inherits = CSharpParser.parseInherits(typeMatch[4]);
             var body = typeMatch[5];
             if (type === 'class' || type === 'struct') {
                 types.push(CSharpParser.parseClassOrStruct(namespace, name_1, inherits, body));
@@ -38,6 +38,18 @@ var CSharpParser = (function () {
             .split('\n')
             .map(function (line) { return line.replace(lineCommentRegex, ''); })
             .join('\n');
+    };
+    CSharpParser.parseInherits = function (inheritsStr) {
+        var inherits = [];
+        if (inheritsStr) {
+            var inheritsMatch_1;
+            var inheritsRegex_1 = /(?:[\w\d\.\_]+)(?:\<.+?\>)?/g;
+            var getNextInheritsMatch = function () { return inheritsMatch_1 = inheritsRegex_1.exec(inheritsStr); };
+            while (getNextInheritsMatch() !== null) {
+                inherits.push(inheritsMatch_1[0]);
+            }
+        }
+        return inherits;
     };
     CSharpParser.parseClassOrStruct = function (namespace, name, inherits, body) {
         var constructors = [];

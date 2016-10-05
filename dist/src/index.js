@@ -12,8 +12,8 @@ function tsGenerator(input, options) {
     var types = c_sharp_parser_1.CSharpParser.parse(input);
     for (var _i = 0, types_1 = types; _i < types_1.length; _i++) {
         var type = types_1[_i];
-        var isPrimaryFilter = type.inherits && !!type.inherits.match(primaryFilterRegex);
-        var isPrimaryDtoFilter = type.inherits && !!type.inherits.match(primaryDtoFilterRegex);
+        var isPrimaryFilter = type.inherits && !!type.inherits.join(', ').match(primaryFilterRegex);
+        var isPrimaryDtoFilter = type.inherits && !!type.inherits.join(', ').match(primaryDtoFilterRegex);
         if (type instanceof c_sharp_objects_1.CSharpEnum) {
             results.push(generateEnum(type, options));
         }
@@ -53,9 +53,8 @@ function generateInterface(type, options) {
     var tsInterfaceName = prefixWithI ? "I" + type.name : type.name;
     var baseClass;
     if (type.inherits) {
-        var baseClasses = type.inherits.split(',')
-            .map(function (i) { return i.trim(); })
-            .filter(function (i) { return i[0] !== 'I'; });
+        var baseClasses = type.inherits
+            .filter(function (i) { return i && i.length && i[0] !== 'I'; });
         baseClass = baseClasses.length === 1 ? baseClasses[0] : '';
     }
     var tsExtends = baseClass ? " extends " + baseClass : '';
@@ -76,7 +75,7 @@ function generateInterface(type, options) {
 }
 function generatePrimaryFilter(type, options) {
     'use strict';
-    var domainType = type.inherits.match(primaryDtoFilterRegex)[1];
+    var domainType = type.inherits.join(', ').match(primaryDtoFilterRegex)[1];
     var filterGroup = pluralize(domainType);
     var filterType = options && options.dtoModuleName ? options.dtoModuleName + "." + domainType : domainType;
     var tsConstructorParameters = [];

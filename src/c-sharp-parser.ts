@@ -16,7 +16,7 @@ export class CSharpParser {
         while (getNextTypeMatch() !== null) {
             let type = typeMatch[2];
             let name = typeMatch[3];
-            let inherits = typeMatch[4];
+            let inherits = CSharpParser.parseInherits(typeMatch[4]);
             let body = typeMatch[5];
 
             if (type === 'class' || type === 'struct') {
@@ -46,7 +46,22 @@ export class CSharpParser {
             .join('\n');
     }
 
-    private static parseClassOrStruct(namespace: string, name: string, inherits: string, body: string) {
+    private static parseInherits(inheritsStr: string) {
+        let inherits: string[] = [];
+
+        if (inheritsStr) {
+            let inheritsMatch: RegExpExecArray;
+            let inheritsRegex = /(?:[\w\d\.\_]+)(?:\<.+?\>)?/g;
+            let getNextInheritsMatch = () => inheritsMatch = inheritsRegex.exec(inheritsStr);
+            while (getNextInheritsMatch() !== null) {
+                inherits.push(inheritsMatch[0]);
+            }
+        }
+
+        return inherits;
+    }
+
+    private static parseClassOrStruct(namespace: string, name: string, inherits: string[], body: string) {
         let constructors: CSharpContructor[] = [];
         let constructorMatch: RegExpExecArray;
         let constructorRegex = /public\s+([\w]+)\s*\(((?:.|\n)*?)\)/gm;
@@ -85,7 +100,7 @@ export class CSharpParser {
         return new CSharpClassOrStruct(namespace, name, inherits, constructors, properties);
     }
 
-    private static parseEnum(namespace: string, name: string, inherits: string, body: string) {
+    private static parseEnum(namespace: string, name: string, inherits: string[], body: string) {
         let entries: CSharpEnumEntry[] = [];
 
         let entryMatch: RegExpExecArray;
