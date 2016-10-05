@@ -1,6 +1,6 @@
 {
   "name": "vstack-typescript-generator",
-  "version": "0.1.8",
+  "version": "0.1.9",
   "description": "Tool to generate TypeScript interfaces and TypeScript filter classes for Vstack from C# sources.",
   "main": "dist/src/index.js",
   "scripts": {
