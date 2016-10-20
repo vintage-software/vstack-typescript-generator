@@ -101,17 +101,17 @@ var CSharpParser = (function () {
     };
     CSharpParser.parseMemberTypeName = function (typeName) {
         var lastNameRegex = /\.?([\w<>\[\]\?]+)$/;
-        typeName = typeName.match(lastNameRegex)[1];
         var nullableRegex = /(?:^Nullable<([^\s]+)>$)|(?:^([^\s]+)\?$)/;
         var nullableMatch = nullableRegex.exec(typeName);
         if (nullableMatch) {
-            typeName = (nullableMatch[1] || nullableMatch[2]).match(lastNameRegex)[1];
+            typeName = (nullableMatch[1] || nullableMatch[2]);
         }
-        var collectionRegex = /(?:^(?:List|IEnumerable)<([\w\d]+)>$)|(?:^([\w\d]+)\[\]$)/;
+        var collectionRegex = /(?:List|IEnumerable)<([\w\d\.]+)>$|(?:^([\w\d\.]+)\[\]$)/;
         var collectionMatch = collectionRegex.exec(typeName);
         if (collectionMatch) {
-            typeName = (collectionMatch[1] || collectionMatch[2]).match(lastNameRegex)[1];
+            typeName = (collectionMatch[1] || collectionMatch[2]);
         }
+        typeName = typeName.match(lastNameRegex)[1];
         return new c_sharp_objects_1.CSharpMemberType(typeName, !!nullableMatch, !!collectionMatch);
     };
     return CSharpParser;
