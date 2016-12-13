@@ -21,7 +21,7 @@ export default function tsGenerator(input: string, options: Options = null) {
     let isPrimaryDtoFilter = type.inherits && !!type.inherits.join(', ').match(primaryDtoFilterRegex);
 
     if (type instanceof CSharpEnum) {
-      results.push(generateEnum(<CSharpEnum>type, options));
+      results.push(generateEnum(<CSharpEnum>type));
     } else if (type instanceof CSharpClassOrStruct && !isPrimaryFilter && !isPrimaryDtoFilter) {
       results.push(generateInterface(<CSharpClassOrStruct>type, options));
     } else if (type instanceof CSharpClassOrStruct && isPrimaryDtoFilter) {
@@ -43,7 +43,7 @@ export default function tsGenerator(input: string, options: Options = null) {
   return result;
 }
 
-function generateEnum(cSharpEnum: CSharpEnum, options: Options): string {
+function generateEnum(cSharpEnum: CSharpEnum): string {
   'use strict';
 
   let nextIndex = 0;
