@@ -4,13 +4,13 @@
   "description": "Tool to generate TypeScript interfaces and TypeScript filter classes for Vstack from C# sources.",
   "main": "dist/src/index.js",
   "scripts": {
-    "patch-release": "npm version patch && npm publish && git push --follow-tags",
-    "minor-release": "npm version minor && npm publish && git push --follow-tags",
+    "patch-release": "yarn version patch && yarn publish && git push --follow-tags",
+    "minor-release": "yarn version minor && yarn publish && git push --follow-tags",
     "clean": "rimraf dist & rimraf coverage",
     "lint": "tslint \"src/**/*.ts\"",
-    "build": "npm run clean & tsc -p tsconfig.json",
+    "build": "yarn run clean & tsc -p tsconfig.json",
     "test": "istanbul cover node_modules/jasmine/bin/jasmine.js",
-    "remap-coverage": "npm run remap-coverage-json & npm run remap-coverage-html",
+    "remap-coverage": "yarn run remap-coverage-json & yarn run remap-coverage-html",
     "remap-coverage-json": "remap-istanbul -i coverage/coverage.json -o coverage/coverage-remapped.json",
     "remap-coverage-html": "remap-istanbul -i coverage/coverage-remapped.json -o coverage/lcov-report-remapped -t html",
     "report-coverage": "codecov"
@@ -29,17 +29,17 @@
   "license": "MIT",
   "homepage": "https://github.com/vintage-software/vstack-typescript-generator#readme",
   "dependencies": {
-    "camelcase": "^3.0.0",
-    "pluralize": "1.2.1"
+    "camelcase": "4.0.0",
+    "pluralize": "3.0.0"
   },
   "devDependencies": {
-    "@types/jasmine": "2.2.31",
+    "@types/jasmine": "2.5.38",
     "codecov": "1.0.1",
-    "istanbul": "0.4.4",
-    "jasmine": "2.4.1",
-    "remap-istanbul": "0.6.4",
+    "istanbul": "0.4.5",
+    "jasmine": "2.5.2",
+    "remap-istanbul": "0.8.0",
     "rimraf": "2.5.4",
-    "tslint": "3.7.4",
-    "typescript": "2.0.0"
+    "tslint": "4.0.2",
+    "typescript": "2.1.4"
   }
 }
