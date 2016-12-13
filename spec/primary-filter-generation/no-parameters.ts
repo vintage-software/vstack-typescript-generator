@@ -25,16 +25,16 @@ let sampleFile = `namespace Service.Filters.People
 }`;
 
 let expectedOutput = `export class PeopleWithConditionFilter implements IPrimaryFilter<Person> {
-    constructor() {
-    }
+  constructor() {
+  }
 
-    public getFilterName(): string {
-        return 'WithCondition';
-    }
+  public getFilterName(): string {
+    return 'WithCondition';
+  }
 
-    public getParameters(): string[] {
-        return [];
-    }
+  public getParameters(): string[] {
+    return [];
+  }
 }`;
 
 describe('vstack-typescript-generation primary filter generator', () => {

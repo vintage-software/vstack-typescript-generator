@@ -5,46 +5,46 @@ import tsGenerator from '../../src/index';
 
 let sampleFile = `namespace Services.Filters.Person
 {
-    public class BySomeProperty
-        : IPrimaryDtoFilter<Dmn.Person, PersonMapper, Permissions>
+  public class BySomeProperty
+    : IPrimaryDtoFilter<Dmn.Person, PersonMapper, Permissions>
+  {
+    private readonly dynamic property;
+    private readonly dynamic[] properties;
+
+    public BySomeProperty(dynamic property, dynamic[] properties)
     {
-        private readonly dynamic property;
-        private readonly dynamic[] properties;
-
-        public BySomeProperty(dynamic property, dynamic[] properties)
-        {
-            this.property = property;
-            this.properties = properties;
-        }
-
-        public RestStatus HasPrimaryPermissions(Permissions permissions)
-        {
-            return RestStatus.Ok;
-        }
-
-        public IQueryable<Dmn.Person> PrimaryFilter(PersonMapper mapper)
-        {
-            return something;
-        }
+      this.property = property;
+      this.properties = properties;
     }
+
+    public RestStatus HasPrimaryPermissions(Permissions permissions)
+    {
+      return RestStatus.Ok;
+    }
+
+    public IQueryable<Dmn.Person> PrimaryFilter(PersonMapper mapper)
+    {
+      return something;
+    }
+  }
 }`;
 
 let expectedOutput = `export class PeopleBySomePropertyFilter implements IPrimaryFilter<Person> {
-    constructor(private property: any, private properties: any[]) {
-    }
+  constructor(private property: any, private properties: any[]) {
+  }
 
-    public getFilterName(): string {
-        return 'BySomeProperty';
-    }
+  public getFilterName(): string {
+    return 'BySomeProperty';
+  }
 
-    public getParameters(): string[] {
-        return [encodeURIComponent(this.property.toString()), this.properties.map(i => encodeURIComponent(i.toString())).join(',')];
-    }
+  public getParameters(): string[] {
+    return [encodeURIComponent(this.property.toString()), this.properties.map(i => encodeURIComponent(i.toString())).join(',')];
+  }
 }`;
 
 describe('vstack-typescript-generation primary filter generator', () => {
-    it('should transform a filter with dynamic parameters correctly', () => {
-        let result = tsGenerator(sampleFile);
-        expect(result).toEqual(expectedOutput);
-    });
+  it('should transform a filter with dynamic parameters correctly', () => {
+    let result = tsGenerator(sampleFile);
+    expect(result).toEqual(expectedOutput);
+  });
 });

@@ -5,52 +5,52 @@ import tsGenerator from '../../src/index';
 
 let sampleFile = `namespace Services.Filters.Person
 {
-    public class ByNameAndAge
-        : IPrimaryDtoFilter<Dmn.Person, PersonMapper, Permissions>
+  public class ByNameAndAge
+    : IPrimaryDtoFilter<Dmn.Person, PersonMapper, Permissions>
+  {
+    private readonly string name;
+    private readonly int age;
+
+    public ByNameAndAge(string name, int age)
     {
-        private readonly string name;
-        private readonly int age;
-
-        public ByNameAndAge(string name, int age)
-        {
-            this.name = name;
-            this.age = age;
-        }
-
-        public RestStatus HasPrimaryPermissions(Permissions permissions)
-        {
-            return RestStatus.Ok;
-        }
-
-        public IQueryable<Dmn.Person> PrimaryFilter(PersonMapper mapper)
-        {
-            return something;
-        }
+      this.name = name;
+      this.age = age;
     }
+
+    public RestStatus HasPrimaryPermissions(Permissions permissions)
+    {
+      return RestStatus.Ok;
+    }
+
+    public IQueryable<Dmn.Person> PrimaryFilter(PersonMapper mapper)
+    {
+      return something;
+    }
+  }
 }`;
 
 let expectedOutput = `module filters {
-    export class PeopleByNameAndAgeFilter implements IPrimaryFilter<Person> {
-        constructor(private name: string, private age: number) {
-        }
-
-        public getFilterName(): string {
-            return 'ByNameAndAge';
-        }
-
-        public getParameters(): string[] {
-            return [encodeURIComponent(this.name), this.age.toString()];
-        }
+  export class PeopleByNameAndAgeFilter implements IPrimaryFilter<Person> {
+    constructor(private name: string, private age: number) {
     }
+
+    public getFilterName(): string {
+      return 'ByNameAndAge';
+    }
+
+    public getParameters(): string[] {
+      return [encodeURIComponent(this.name), this.age.toString()];
+    }
+  }
 }`;
 
 describe('vstack-typescript-generation primary filter generator', () => {
-    it('should use the moduleName option correctly', () => {
-        let options = {
-            moduleName: 'filters'
-        };
+  it('should use the moduleName option correctly', () => {
+    let options = {
+      moduleName: 'filters'
+    };
 
-        let result = tsGenerator(sampleFile, options);
-        expect(result).toEqual(expectedOutput);
-    });
+    let result = tsGenerator(sampleFile, options);
+    expect(result).toEqual(expectedOutput);
+  });
 });

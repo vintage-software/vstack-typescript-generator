@@ -7,23 +7,23 @@ let sampleFile = `using System;
 
 namespace MyNamespace.Domain
 {
-    public class MyDto
+  public class MyDto
+  {
+    public string Title
     {
-        public string Title
-        {
-            get;
-            set;
-        }
+      get;
+      set;
     }
+  }
 }`;
 
 let expectedOutput = `export interface MyDto {
-    title: string;
+  title: string;
 }`;
 
 describe('vstack-typescript-generation class interface generator', () => {
-    it('should handle a multiline property correctly', () => {
-        let result = tsGenerator(sampleFile);
-        expect(result).toEqual(expectedOutput);
-    });
+  it('should handle a multiline property correctly', () => {
+    let result = tsGenerator(sampleFile);
+    expect(result).toEqual(expectedOutput);
+  });
 });

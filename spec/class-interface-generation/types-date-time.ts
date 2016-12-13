@@ -7,19 +7,19 @@ let sampleFile = `using System;
 
 namespace MyNamespace.Domain
 {
-    public class MyDto
-    {
-        public DateTime SomeDate { get; set; }
-    }
+  public class MyDto
+  {
+    public DateTime SomeDate { get; set; }
+  }
 }`;
 
 let expectedOutput = `export interface MyDto {
-    someDate: string;
+  someDate: string;
 }`;
 
 describe('vstack-typescript-generation class interface generator', () => {
-    it('should translate DateTime to string by default', () => {
-        let result = tsGenerator(sampleFile);
-        expect(result).toEqual(expectedOutput);
-    });
+  it('should translate DateTime to string by default', () => {
+    let result = tsGenerator(sampleFile);
+    expect(result).toEqual(expectedOutput);
+  });
 });
