@@ -28,11 +28,7 @@ let expectedOutput = ``;
 
 describe('vstack-typescript-generation primary filter generator', () => {
     it('should not transform a non dto filter', () => {
-        let options = {
-            moduleName: 'MyNamespace'
-        };
-
-        let result = tsGenerator(sampleFile, options);
+        let result = tsGenerator(sampleFile);
         expect(result).toEqual(expectedOutput);
     });
 });

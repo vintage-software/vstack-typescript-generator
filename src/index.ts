@@ -29,18 +29,7 @@ export default function tsGenerator(input: string, options: Options = null) {
     }
   }
 
-  let result = results.join('\n\n');
-
-  if (result && options && options.moduleName) {
-    let indentedResult = result
-      .split('\n')
-      .map(line => line ? `  ${line}` : '')
-      .join('\n');
-
-    result = `module ${options.moduleName} {\n${indentedResult}\n}`;
-  }
-
-  return result;
+  return results.join('\n\n');
 }
 
 function generateEnum(cSharpEnum: CSharpEnum): string {
@@ -90,8 +79,6 @@ function generatePrimaryFilter(type: CSharpClassOrStruct, options: Options): str
   'use strict';
 
   let domainType = type.inherits.join(', ').match(primaryDtoFilterRegex)[1];
-  let filterGroup = pluralize(domainType);
-  let filterType = options && options.dtoModuleName ? `${options.dtoModuleName}.${domainType}` : domainType;
 
   let tsConstructorParameters: string[] = [];
   let filterParameters: string[] = [];
@@ -136,7 +123,7 @@ function generatePrimaryFilter(type: CSharpClassOrStruct, options: Options): str
   }
 
   let result = '';
-  result += `export class ${filterGroup}${type.name}Filter implements PrimaryFilter<${filterType}> {\n`;
+  result += `export class ${pluralize(domainType)}${type.name}Filter implements PrimaryFilter<${domainType}> {\n`;
   result += `  constructor(${tsConstructorParameters.join(', ')}) {\n`;
   result += `  }\n\n`;
 
