@@ -60,10 +60,6 @@ function generateEnum(cSharpEnum: CSharpEnum): string {
 function generateInterface(type: CSharpClassOrStruct, options: Options): string {
   'use strict';
 
-  let prefixWithI = options && options.prefixWithI;
-
-  let tsInterfaceName = prefixWithI ? `I${type.name}` : type.name;
-
   let baseClass;
   if (type.inherits) {
     let baseClasses = type.inherits
@@ -79,7 +75,7 @@ function generateInterface(type: CSharpClassOrStruct, options: Options): string 
       tsPropertyName += '?';
     }
 
-    let tsType = Utility.translateType(property.type.name, options) || `${prefixWithI ? 'I' : ''}${property.type.name}`;
+    let tsType = Utility.translateType(property.type.name, options) || property.type.name;
     if (property.type.isCollection) {
       tsType += '[]';
     }
@@ -87,7 +83,7 @@ function generateInterface(type: CSharpClassOrStruct, options: Options): string 
     propertyStrings.push(`${tsPropertyName}: ${tsType}`);
   }
 
-  return `export interface ${tsInterfaceName}${tsExtends} {\n  ${propertyStrings.join(';\n  ')};\n}`;
+  return `export interface ${type.name}${tsExtends} {\n  ${propertyStrings.join(';\n  ')};\n}`;
 }
 
 function generatePrimaryFilter(type: CSharpClassOrStruct, options: Options): string {
