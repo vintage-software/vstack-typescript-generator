@@ -55,7 +55,7 @@ namespace Services.Filters.Person
   }
 }`;
 
-let expectedOutput = `export class PeopleByNameAndAgeFilter implements IPrimaryFilter<Person> {
+let expectedOutput = `export class PeopleByNameAndAgeFilter implements PrimaryFilter<Person> {
   constructor(private name: string, private age: number) {
   }
 
@@ -68,7 +68,7 @@ let expectedOutput = `export class PeopleByNameAndAgeFilter implements IPrimaryF
   }
 }
 
-export class EmployeesByNameAndAgeFilter implements IPrimaryFilter<Employee> {
+export class EmployeesByNameAndAgeFilter implements PrimaryFilter<Employee> {
   constructor(private name: string, private age: number) {
   }
 

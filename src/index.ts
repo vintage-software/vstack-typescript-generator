@@ -134,7 +134,7 @@ function generatePrimaryFilter(type: CSharpClassOrStruct, options: Options): str
   }
 
   let result = '';
-  result += `export class ${filterGroup}${type.name}Filter implements IPrimaryFilter<${filterType}> {\n`;
+  result += `export class ${filterGroup}${type.name}Filter implements PrimaryFilter<${filterType}> {\n`;
   result += `  constructor(${tsConstructorParameters.join(', ')}) {\n`;
   result += `  }\n\n`;
 

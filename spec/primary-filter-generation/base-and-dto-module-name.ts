@@ -30,7 +30,7 @@ let sampleFile = `namespace Services.Filters.Person
 }`;
 
 let expectedOutput = `module filters {
-  export class PeopleByNameAndAgeFilter implements IPrimaryFilter<dto.Person> {
+  export class PeopleByNameAndAgeFilter implements PrimaryFilter<dto.Person> {
     constructor(private name: string, private age: number) {
     }
 
