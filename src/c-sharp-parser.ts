@@ -74,10 +74,15 @@ export class CSharpParser {
         let parameters = parameterList.length ? parameterList
           .split(',')
           .map(parameter => {
-            let parameterMatch = parameter.trim().match(/([^\s]+)\s+([\w\d]+)/);
+            let parameterMatch = parameter.trim().match(/([^\s]+)\s+([\w\d]+)(?:\s+=\s+((?:[\w\d]+)|(?:"[\w\d ]+")))?/);
             let parameterType = CSharpParser.parseMemberTypeName(parameterMatch[1]);
             let parameterName = parameterMatch[2];
-            return new CSharpParameter(parameterType, parameterName);
+            let rawDefaultParameter = parameterMatch[3];
+
+            let defaultValue = rawDefaultParameter && rawDefaultParameter.startsWith('"') && rawDefaultParameter.endsWith('"') ?
+              `'${rawDefaultParameter.substr(1, rawDefaultParameter.length - 2)}'` : rawDefaultParameter;
+
+            return new CSharpParameter(parameterType, parameterName, defaultValue);
           }) : [];
 
         constructors.push(new CSharpContructor(parameters));

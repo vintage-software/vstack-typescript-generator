@@ -31,7 +31,7 @@ export class CSharpProperty extends CSharpMember {
 }
 
 export class CSharpParameter extends CSharpMember {
-  constructor(public type: CSharpMemberType, public name: string) {
+  constructor(public type: CSharpMemberType, public name: string, public defaultValue: string) {
     super(type, name);
   }
 }

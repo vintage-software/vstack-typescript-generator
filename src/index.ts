@@ -129,7 +129,12 @@ function generateFilter(type: CSharpClassOrStruct, options: Options, filterType:
           if (parameter.type.isCollection) {
             tsParameterType += '[]';
           }
-          tsConstructorParameters.push(`private ${parameter.name}: ${tsParameterType}`);
+
+          let tsConstructorParameter = parameter.defaultValue ?
+            `private ${parameter.name}: ${tsParameterType} = ${parameter.defaultValue}` :
+            `private ${parameter.name}: ${tsParameterType}`
+
+          tsConstructorParameters.push(tsConstructorParameter);
 
           let filterParameter: string;
           if (parameter.type.isCollection) {
@@ -152,6 +157,11 @@ function generateFilter(type: CSharpClassOrStruct, options: Options, filterType:
               filterParameter = `encodeURIComponent(${filterParameter})`;
             }
           }
+
+          if (parameter.defaultValue === 'null') {
+            filterParameter = `this.${parameter.name} ? ${filterParameter} : null`;
+          }
+
           filterParameters.push(filterParameter);
         }
       }
