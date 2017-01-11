@@ -5,7 +5,7 @@ export class CSharpType {
 
 export class CSharpClassOrStruct extends CSharpType {
   constructor(public namespace: string, public name: string, public inherits: string[], public constructors: CSharpContructor[], public properties: CSharpProperty[]) {
-  super(namespace, name, inherits);
+    super(namespace, name, inherits);
   }
 }
 
@@ -26,19 +26,19 @@ export class CSharpMember {
 
 export class CSharpProperty extends CSharpMember {
   constructor(public type: CSharpMemberType, public name: string) {
-  super(type, name);
+    super(type, name);
   }
 }
 
 export class CSharpParameter extends CSharpMember {
   constructor(public type: CSharpMemberType, public name: string) {
-  super(type, name);
+    super(type, name);
   }
 }
 
 export class CSharpEnum extends CSharpType {
   constructor(public namespace: string, public name: string, public inherits: string[], public entries: CSharpEnumEntry[]) {
-  super(namespace, name, inherits);
+    super(namespace, name, inherits);
   }
 }
 
