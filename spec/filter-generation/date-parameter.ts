@@ -29,8 +29,9 @@ let sampleFile = `namespace Services.Filters.Person
   }
 }`;
 
-let expectedOutput = `export class PeopleByBirthdateFilter implements PrimaryFilter<Person> {
-  constructor(private birthdate: string, private birthdates: string[]) {
+let expectedOutput = `export class PeopleByBirthdatePrimaryFilter extends PrimaryFilter<Person> {
+  constructor(private birthdate: Date, private birthdates: Date[]) {
+    super();
   }
 
   public getFilterName(): string {
@@ -38,13 +39,21 @@ let expectedOutput = `export class PeopleByBirthdateFilter implements PrimaryFil
   }
 
   public getParameters(): string[] {
-    return [encodeURIComponent(this.birthdate), this.birthdates.map(i => encodeURIComponent(i)).join(',')];
+    return [encodeURIComponent(this.birthdate.toISOString()), this.birthdates.map(i => encodeURIComponent(i.toISOString())).join(',')];
+  }
+
+  protected __dummy(): Person {
+    return null;
   }
 }`;
 
 describe('vstack-typescript-generation primary filter generator', () => {
-  it('should transform a filter with date as string parameters correctly', () => {
-    let result = tsGenerator(sampleFile);
+  it('should transform a filter with date parameters correctly', () => {
+    let options = {
+      dateTimeToDate: true
+    };
+
+    let result = tsGenerator(sampleFile, options);
     expect(result).toEqual(expectedOutput);
   });
 });

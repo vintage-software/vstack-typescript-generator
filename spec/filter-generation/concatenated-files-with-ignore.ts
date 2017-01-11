@@ -56,8 +56,9 @@ namespace Services.Filters.Person
   }
 }`;
 
-let expectedOutput = `export class EmployeesByNameAndAgeFilter implements PrimaryFilter<Employee> {
+let expectedOutput = `export class EmployeesByNameAndAgePrimaryFilter extends PrimaryFilter<Employee> {
   constructor(private name: string, private age: number) {
+    super();
   }
 
   public getFilterName(): string {
@@ -66,6 +67,10 @@ let expectedOutput = `export class EmployeesByNameAndAgeFilter implements Primar
 
   public getParameters(): string[] {
     return [encodeURIComponent(this.name), this.age.toString()];
+  }
+
+  protected __dummy(): Employee {
+    return null;
   }
 }`;
 

@@ -29,8 +29,9 @@ let sampleFile = `namespace Services.Filters.Person
   }
 }`;
 
-let expectedOutput = `export class PeopleByNamesAndAgesFilter implements PrimaryFilter<Person> {
+let expectedOutput = `export class PeopleByNamesAndAgesPrimaryFilter extends PrimaryFilter<Person> {
   constructor(private names: string[], private ages: number[]) {
+    super();
   }
 
   public getFilterName(): string {
@@ -39,6 +40,10 @@ let expectedOutput = `export class PeopleByNamesAndAgesFilter implements Primary
 
   public getParameters(): string[] {
     return [this.names.map(i => encodeURIComponent(i)).join(','), this.ages.map(i => i.toString()).join(',')];
+  }
+
+  protected __dummy(): Person {
+    return null;
   }
 }`;
 

@@ -5,16 +5,16 @@ import tsGenerator from '../../src/index';
 
 let sampleFile = `namespace Services.Filters.Person
 {
-  public class BySomeProperty
+  public class ByNameAndAge
     : IPrimaryDtoFilter<Dmn.Person, PersonMapper, Permissions>
   {
-    private readonly dynamic property;
-    private readonly dynamic[] properties;
+    private readonly string name;
+    private readonly int age;
 
-    public BySomeProperty(dynamic property, dynamic[] properties)
+    public ByNameAndAge(string name, int age)
     {
-      this.property = property;
-      this.properties = properties;
+      this.name = name;
+      this.age = age;
     }
 
     public RestStatus HasPrimaryPermissions(Permissions permissions)
@@ -29,21 +29,26 @@ let sampleFile = `namespace Services.Filters.Person
   }
 }`;
 
-let expectedOutput = `export class PeopleBySomePropertyFilter implements PrimaryFilter<Person> {
-  constructor(private property: any, private properties: any[]) {
+let expectedOutput = `export class PeopleByNameAndAgePrimaryFilter extends PrimaryFilter<Person> {
+  constructor(private name: string, private age: number) {
+    super();
   }
 
   public getFilterName(): string {
-    return 'BySomeProperty';
+    return 'ByNameAndAge';
   }
 
   public getParameters(): string[] {
-    return [encodeURIComponent(this.property.toString()), this.properties.map(i => encodeURIComponent(i.toString())).join(',')];
+    return [encodeURIComponent(this.name), this.age.toString()];
+  }
+
+  protected __dummy(): Person {
+    return null;
   }
 }`;
 
 describe('vstack-typescript-generation primary filter generator', () => {
-  it('should transform a filter with dynamic parameters correctly', () => {
+  it('should transform a primary filter correctly', () => {
     let result = tsGenerator(sampleFile);
     expect(result).toEqual(expectedOutput);
   });

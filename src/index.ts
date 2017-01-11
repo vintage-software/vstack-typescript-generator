@@ -9,23 +9,53 @@ declare var require: (i: string) => any;
 let pluralize = require('pluralize'); // import not working
 let camelcase = require('camelcase'); // import not working
 
-const primaryFilterRegex = /PrimaryFilter<Dmn.([\w]+)/;
-const primaryDtoFilterRegex = /PrimaryDtoFilter<Dmn.([\w]+)/;
+const dtoFilterRegex = /DtoFilter<(?:Dmn\.)?([\w]+)/;
+const primaryDtoFilterRegex = /PrimaryDtoFilter<(?:Dmn\.)?([\w]+)/;
+const elasticDtoFilterRegex = /ElasticDtoFilter<(?:Dmn\.)?([\w]+)/;
+const bypassElasticDtoFilterRegex = /BypassElasticDtoFilter<(?:Dmn\.)?([\w]+)/;
 
 export default function tsGenerator(input: string, options: Options = null) {
   let results: string[] = [];
 
   let types = CSharpParser.parse(input);
   for (let type of types) {
-    let isPrimaryFilter = type.inherits && !!type.inherits.join(', ').match(primaryFilterRegex);
-    let isPrimaryDtoFilter = type.inherits && !!type.inherits.join(', ').match(primaryDtoFilterRegex);
+    let dtoFilterMatch = type.inherits
+      .filter(inherit => inherit.match(primaryDtoFilterRegex) === null)
+      .filter(inherit => inherit.match(elasticDtoFilterRegex) === null)
+      .filter(inherit => inherit.match(bypassElasticDtoFilterRegex) === null)
+      .map(inherit => inherit.match(dtoFilterRegex))
+      .find(match => match !== null);
+
+    let primaryDtoFilterMatch = type.inherits
+      .map(inherit => inherit.match(primaryDtoFilterRegex))
+      .find(match => match !== null);
+
+    let elasticDtoFilterMatch = type.inherits
+      .filter(inherit => inherit.match(bypassElasticDtoFilterRegex) === null)
+      .map(inherit => inherit.match(elasticDtoFilterRegex))
+      .find(match => match !== null);
+
+    let bypassElasticDtoFilterMatch = type.inherits
+      .map(inherit => inherit.match(bypassElasticDtoFilterRegex))
+      .find(match => match !== null);
+
+    let isFilter = type.inherits.some(inherit => inherit.includes('Filter'));
 
     if (type instanceof CSharpEnum) {
       results.push(generateEnum(<CSharpEnum>type));
-    } else if (type instanceof CSharpClassOrStruct && !isPrimaryFilter && !isPrimaryDtoFilter) {
+    } else if (dtoFilterMatch && !primaryDtoFilterMatch) {
+      results.push(generateFilter(<CSharpClassOrStruct>type, options, 'Filter', dtoFilterMatch[1]));
+    } else if (dtoFilterMatch && primaryDtoFilterMatch) {
+      results.push(generateFilter(<CSharpClassOrStruct>type, options, 'Filter', dtoFilterMatch[1]));
+      results.push(generateFilter(<CSharpClassOrStruct>type, options, 'PrimaryFilter', dtoFilterMatch[1]));
+    } else if (primaryDtoFilterMatch) {
+      results.push(generateFilter(<CSharpClassOrStruct>type, options, 'PrimaryFilter', primaryDtoFilterMatch[1]));
+    } else if (elasticDtoFilterMatch) {
+      results.push(generateFilter(<CSharpClassOrStruct>type, options, 'ElasticFilter', elasticDtoFilterMatch[1]));
+    } else if (bypassElasticDtoFilterMatch) {
+      results.push(generateFilter(<CSharpClassOrStruct>type, options, 'BypassElasticFilter', bypassElasticDtoFilterMatch[1]));
+    } else if (isFilter === false) {
       results.push(generateInterface(<CSharpClassOrStruct>type, options));
-    } else if (type instanceof CSharpClassOrStruct && isPrimaryDtoFilter) {
-      results.push(generatePrimaryFilter(<CSharpClassOrStruct>type, options));
     }
   }
 
@@ -75,10 +105,11 @@ function generateInterface(type: CSharpClassOrStruct, options: Options): string 
   return `export interface ${type.name}${tsExtends} {\n  ${propertyStrings.join(';\n  ')};\n}`;
 }
 
-function generatePrimaryFilter(type: CSharpClassOrStruct, options: Options): string {
+function generateFilter(type: CSharpClassOrStruct, options: Options, filterType: string, domainType: string): string {
   'use strict';
 
-  let domainType = type.inherits.join(', ').match(primaryDtoFilterRegex)[1];
+  let tsDomainType = options && options.tsTypeMap && options.tsTypeMap[domainType] ?
+    options.tsTypeMap[domainType] : domainType;
 
   let tsConstructorParameters: string[] = [];
   let filterParameters: string[] = [];
@@ -122,18 +153,22 @@ function generatePrimaryFilter(type: CSharpClassOrStruct, options: Options): str
     }
   }
 
-  let result = '';
-  result += `export class ${pluralize(domainType)}${type.name}Filter implements PrimaryFilter<${domainType}> {\n`;
-  result += `  constructor(${tsConstructorParameters.join(', ')}) {\n`;
-  result += `  }\n\n`;
+  return `
+export class ${pluralize(domainType)}${type.name}${filterType} extends ${filterType}<${tsDomainType}> {
+  constructor(${tsConstructorParameters.join(', ')}) {
+    super();
+  }
 
-  result += `  public getFilterName(): string {\n`;
-  result += `    return '${type.name}';\n`;
-  result += `  }\n\n`;
+  public getFilterName(): string {
+    return '${type.name}';
+  }
 
-  result += `  public getParameters(): string[] {\n`;
-  result += `    return [${filterParameters.join(', ')}];\n`;
-  result += `  }\n`;
-  result += `}`;
-  return result;
+  public getParameters(): string[] {
+    return [${filterParameters.join(', ')}];
+  }
+
+  protected __dummy(): ${tsDomainType} {
+    return null;
+  }
+}`.trim();
 }

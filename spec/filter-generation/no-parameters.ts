@@ -24,8 +24,9 @@ let sampleFile = `namespace Service.Filters.People
     }
 }`;
 
-let expectedOutput = `export class PeopleWithConditionFilter implements PrimaryFilter<Person> {
+let expectedOutput = `export class PeopleWithConditionPrimaryFilter extends PrimaryFilter<Person> {
   constructor() {
+    super();
   }
 
   public getFilterName(): string {
@@ -34,6 +35,10 @@ let expectedOutput = `export class PeopleWithConditionFilter implements PrimaryF
 
   public getParameters(): string[] {
     return [];
+  }
+
+  protected __dummy(): Person {
+    return null;
   }
 }`;
 

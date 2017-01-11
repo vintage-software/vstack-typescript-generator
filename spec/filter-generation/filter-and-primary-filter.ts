@@ -6,7 +6,7 @@ import tsGenerator from '../../src/index';
 let sampleFile = `namespace Services.Filters.Person
 {
   public class ByNameAndAge
-    : IPrimaryDtoFilter<Dmn.Person, PersonMapper, Permissions>
+    : IPrimaryDtoFilter<Dmn.Person, PersonMapper, Permissions>, IDtoFilter<Dmn.Person, PersonMapper, Permissions>
   {
     private readonly string name;
     private readonly int age;
@@ -26,37 +26,17 @@ let sampleFile = `namespace Services.Filters.Person
     {
       return something;
     }
-  }
-}
 
-namespace Services.Filters.Person
-{
-  public class ByNameAndAge
-    : IPrimaryDtoFilter<Dmn.Employee, EmployeeMapper, Permissions>
-  {
-    private readonly string name;
-    private readonly int age;
-
-    public ByNameAndAge(string name, int age)
-    {
-      this.name = name;
-      this.age = age;
-    }
-
-    public RestStatus HasPrimaryPermissions(Permissions permissions)
-    {
-      return RestStatus.Ok;
-    }
-
-    public IQueryable<Dmn.Person> PrimaryFilter(EmployeeMapper mapper)
+    public IQueryable<Dmn.Person> Filter(IQueryable<Dmn.Person> domains)
     {
       return something;
     }
   }
 }`;
 
-let expectedOutput = `export class PeopleByNameAndAgeFilter implements PrimaryFilter<Person> {
+let expectedOutput = `export class PeopleByNameAndAgeFilter extends Filter<Person> {
   constructor(private name: string, private age: number) {
+    super();
   }
 
   public getFilterName(): string {
@@ -65,11 +45,16 @@ let expectedOutput = `export class PeopleByNameAndAgeFilter implements PrimaryFi
 
   public getParameters(): string[] {
     return [encodeURIComponent(this.name), this.age.toString()];
+  }
+
+  protected __dummy(): Person {
+    return null;
   }
 }
 
-export class EmployeesByNameAndAgeFilter implements PrimaryFilter<Employee> {
+export class PeopleByNameAndAgePrimaryFilter extends PrimaryFilter<Person> {
   constructor(private name: string, private age: number) {
+    super();
   }
 
   public getFilterName(): string {
@@ -78,11 +63,15 @@ export class EmployeesByNameAndAgeFilter implements PrimaryFilter<Employee> {
 
   public getParameters(): string[] {
     return [encodeURIComponent(this.name), this.age.toString()];
+  }
+
+  protected __dummy(): Person {
+    return null;
   }
 }`;
 
 describe('vstack-typescript-generation primary filter generator', () => {
-  it('should transform filters from concatentated sources correctly', () => {
+  it('should transform a filter and primary filter combined correctly', () => {
     let result = tsGenerator(sampleFile);
     expect(result).toEqual(expectedOutput);
   });

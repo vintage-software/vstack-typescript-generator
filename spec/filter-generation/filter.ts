@@ -6,7 +6,7 @@ import tsGenerator from '../../src/index';
 let sampleFile = `namespace Services.Filters.Person
 {
   public class ByNameAndAge
-    : IPrimaryDtoFilter<Dmn.Person, PersonMapper, Permissions>
+    : IDtoFilter<Dmn.Person, PersonMapper, Permissions>
   {
     private readonly string name;
     private readonly int age;
@@ -17,20 +17,16 @@ let sampleFile = `namespace Services.Filters.Person
       this.age = age;
     }
 
-    public RestStatus HasPrimaryPermissions(Permissions permissions)
-    {
-      return RestStatus.Ok;
-    }
-
-    public IQueryable<Dmn.Person> PrimaryFilter(PersonMapper mapper)
+    public IQueryable<Dmn.Person> Filter(IQueryable<Dmn.Person> domains)
     {
       return something;
     }
   }
 }`;
 
-let expectedOutput = `export class PeopleByNameAndAgeFilter implements PrimaryFilter<Person> {
+let expectedOutput = `export class PeopleByNameAndAgeFilter extends Filter<Person> {
   constructor(private name: string, private age: number) {
+    super();
   }
 
   public getFilterName(): string {
@@ -39,6 +35,10 @@ let expectedOutput = `export class PeopleByNameAndAgeFilter implements PrimaryFi
 
   public getParameters(): string[] {
     return [encodeURIComponent(this.name), this.age.toString()];
+  }
+
+  protected __dummy(): Person {
+    return null;
   }
 }`;
 

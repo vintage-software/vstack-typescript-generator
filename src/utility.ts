@@ -14,6 +14,8 @@ export class Utility {
       return 'number';
     } else if (csType === 'DateTime') {
       return options && options.dateTimeToDate ? 'Date' : 'string';
+    } else if (options && options.tsTypeMap && options.tsTypeMap[csType]) {
+      return options.tsTypeMap[csType]
     }
   }
 }
