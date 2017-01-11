@@ -118,37 +118,42 @@ function generateFilter(type: CSharpClassOrStruct, options: Options, filterType:
       let tsParameterType = Utility.translateType(parameter.type.name, options);
 
       if (tsParameterType) {
-        let shouldEncode = tsParameterType === 'string' || tsParameterType === 'any' || tsParameterType === 'Date';
-        let shouldToString = tsParameterType !== 'string';
-        let toString = tsParameterType === 'Date' ? 'toISOString' : 'toString';
-
-        if (parameter.type.isCollection) {
-          tsParameterType += '[]';
-        }
-        tsConstructorParameters.push(`private ${parameter.name}: ${tsParameterType}`);
-
-        let filterParameter: string;
-        if (parameter.type.isCollection) {
-          let mapToExpression = 'i';
-          if (shouldToString) {
-            mapToExpression = `i.${toString}()`;
-          }
-          if (shouldEncode) {
-            mapToExpression = `encodeURIComponent(${mapToExpression})`;
-          }
-          let mapCall = mapToExpression !== 'i' ? `.map(i => ${mapToExpression})` : '';
-
-          filterParameter = `this.${parameter.name}${mapCall}.join(',')`;
+        if (parameter.name === 'fieldName') {
+          tsConstructorParameters.push(`private ${parameter.name}: (i: ${domainType}) => any`);
+          filterParameters.push(`getPropertyName(this.${parameter.name})`);
         } else {
-          filterParameter = `this.${parameter.name}`;
-          if (shouldToString) {
-            filterParameter = `${filterParameter}.${toString}()`;
+          let shouldEncode = tsParameterType === 'string' || tsParameterType === 'any' || tsParameterType === 'Date';
+          let shouldToString = tsParameterType !== 'string';
+          let toString = tsParameterType === 'Date' ? 'toISOString' : 'toString';
+
+          if (parameter.type.isCollection) {
+            tsParameterType += '[]';
           }
-          if (shouldEncode) {
-            filterParameter = `encodeURIComponent(${filterParameter})`;
+          tsConstructorParameters.push(`private ${parameter.name}: ${tsParameterType}`);
+
+          let filterParameter: string;
+          if (parameter.type.isCollection) {
+            let mapToExpression = 'i';
+            if (shouldToString) {
+              mapToExpression = `i.${toString}()`;
+            }
+            if (shouldEncode) {
+              mapToExpression = `encodeURIComponent(${mapToExpression})`;
+            }
+            let mapCall = mapToExpression !== 'i' ? `.map(i => ${mapToExpression})` : '';
+
+            filterParameter = `this.${parameter.name}${mapCall}.join(',')`;
+          } else {
+            filterParameter = `this.${parameter.name}`;
+            if (shouldToString) {
+              filterParameter = `${filterParameter}.${toString}()`;
+            }
+            if (shouldEncode) {
+              filterParameter = `encodeURIComponent(${filterParameter})`;
+            }
           }
+          filterParameters.push(filterParameter);
         }
-        filterParameters.push(filterParameter);
       }
     }
   }
