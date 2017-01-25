@@ -1,7 +1,7 @@
 'use strict';
 
 import 'jasmine';
-import tsGenerator from '../../src/index';
+import { tsGenerator } from '../../src/tsgen';
 
 let sampleFile = `using System;
 using GenCol = System.Collections.Generic;

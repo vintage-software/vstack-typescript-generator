@@ -1,0 +1,14 @@
+{
+    "src": [
+        "./**/*.cs"
+    ],
+    "options": {
+        "prefixWithI": false,
+        "dateTimeToDate": false
+    },
+    "references": [
+        "./shared/enums.ts",
+        "./shared/interfaces.ts"
+    ],
+    "outFile": "./test-generated/dtos.ts"
+}

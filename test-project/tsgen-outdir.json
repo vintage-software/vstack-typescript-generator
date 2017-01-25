@@ -1,0 +1,10 @@
+{
+    "src": [
+        "./**/*.cs"
+    ],
+    "options": {
+        "prefixWithI": false,
+        "dateTimeToDate": false
+    },
+    "outDir": "./test-generated"
+}

@@ -14,7 +14,7 @@ const primaryDtoFilterRegex = /PrimaryDtoFilter<(?:Dmn\.)?([\w]+)/;
 const elasticDtoFilterRegex = /ElasticDtoFilter<(?:Dmn\.)?([\w]+)/;
 const bypassElasticDtoFilterRegex = /BypassElasticDtoFilter<(?:Dmn\.)?([\w]+)/;
 
-export default function tsGenerator(input: string, options: Options = null) {
+export function tsGenerator(input: string, options: Options = null) {
   let results: string[] = [];
 
   let types = CSharpParser.parse(input);
