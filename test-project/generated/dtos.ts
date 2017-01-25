@@ -1,3 +1,5 @@
+/* tslint:disable */
+
 import {
   TimeSpan,
   Benefits

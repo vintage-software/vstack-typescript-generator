@@ -85,12 +85,12 @@ function writeOutDir(outputItems: OutputItem[], outputPath: string) {
   for (let outputItem of outputItems)
   {
     let outputFilePath = path.join(outputPath, `${outputItem.name}.ts`);
-    fs.writeFileSync(outputFilePath, outputItem.typescript);
+  fs.writeFileSync(outputFilePath, `/* tslint:disable */\n\n${outputItem.typescript.trim()}\n`);
   }
 }
 
 function writeOutFile(references: string[], outputItems: OutputItem[], outputFilePath: string) {
-  let tsCode = outputItems.map(i => i.typescript);
+  let tsCode = outputItems.map(item => item.typescript);
 
   if (references.length) {
     let importsArray = references
@@ -101,8 +101,12 @@ function writeOutFile(references: string[], outputItems: OutputItem[], outputFil
     }
   }
 
-  let concatenatedTypescript = tsCode.join('\n\n');
-  fs.writeFileSync(outputFilePath, concatenatedTypescript);
+  let concatenatedTypescript = tsCode
+    .map(code => code.trim())
+    .filter(code => code !== undefined && code.length > 0)
+    .join('\n\n');
+
+  fs.writeFileSync(outputFilePath, `/* tslint:disable */\n\n${concatenatedTypescript}\n`);
 }
 
 function generateImportsFromReferencedFile(reference: string, outputFilePath: string) {
