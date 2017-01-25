@@ -7,8 +7,7 @@
     "tsgen": "dist/src/tsgen-cli.js"
   },
   "scripts": {
-    "patch-release": "yarn version patch && yarn publish && git push --follow-tags",
-    "minor-release": "yarn version minor && yarn publish && git push --follow-tags",
+    "release": "yarn version && yarn publish && git push --follow-tags",
     "clean": "rimraf dist & rimraf coverage",
     "lint": "tslint \"src/**/*.ts\"",
     "build": "yarn run clean & yarn run build:typescript",
