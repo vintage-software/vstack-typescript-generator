@@ -1,10 +1,9 @@
-.vscode
-coverage
-dist
-spec
-src
-test-project
-!dist\src
+/.vscode
+/coverage
+/spec
+/src
+/test-project
+/dist/spec
 .gitignore
 .istanbul.yml
 .travis.yml
