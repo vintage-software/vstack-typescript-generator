@@ -64,7 +64,7 @@ export class CSharpParser {
   private static parseClassOrStruct(namespace: string, name: string, inherits: string[], body: string) {
     let constructors: CSharpContructor[] = [];
     let constructorMatch: RegExpExecArray;
-    let constructorRegex = /public\s+([\w]+)\s*\(((?:.|\n)*?)\)/gm;
+    let constructorRegex = /public\s+([\w]+)\s*\(((?:.|\r|\n)*?)\)/gm;
     let getNextConstructorMatch = () => constructorMatch = constructorRegex.exec(body);
     while (getNextConstructorMatch() !== null) {
       let typeName = constructorMatch[1];
