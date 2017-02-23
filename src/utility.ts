@@ -13,8 +13,8 @@ export class Utility {
     } else if (['Byte', 'Int16', 'Int32', 'Int64', 'Single', 'Double', 'Decimal'].indexOf(csType) !== -1) {
       return 'number';
     } else if (csType === 'DateTime') {
-      return options && options.dateTimeToDate ? 'Date' : 'string';
-    } else if (options && options.tsTypeMap && options.tsTypeMap[csType]) {
+      return options.dateTimeToDate ? 'Date' : 'string';
+    } else if (options.tsTypeMap[csType]) {
       return options.tsTypeMap[csType]
     }
   }

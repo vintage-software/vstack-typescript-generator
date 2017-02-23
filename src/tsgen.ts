@@ -1,6 +1,6 @@
 'use strict';
 
-import { Options } from './options';
+import { defaultOptions, Options } from './options';
 import { Utility } from './utility';
 import { CSharpParser } from './c-sharp-parser';
 import { CSharpEnum, CSharpClassOrStruct } from './c-sharp-objects';
@@ -16,6 +16,8 @@ const bypassElasticDtoFilterRegex = /BypassElasticDtoFilter<(?:Dmn\.)?([\w]+)/;
 
 export function tsGenerator(input: string, options: Options = null) {
   let results: string[] = [];
+
+  options = Object.assign({}, defaultOptions, options);
 
   let types = CSharpParser.parse(input);
   for (let type of types) {
@@ -108,8 +110,7 @@ function generateInterface(type: CSharpClassOrStruct, options: Options): string 
 function generateFilter(type: CSharpClassOrStruct, options: Options, filterType: string, domainType: string): string {
   'use strict';
 
-  let tsDomainType = options && options.tsTypeMap && options.tsTypeMap[domainType] ?
-    options.tsTypeMap[domainType] : domainType;
+  let tsDomainType =  options.tsTypeMap[domainType] ? options.tsTypeMap[domainType] : domainType;
 
   let tsConstructorParameters: string[] = [];
   let filterParameters: string[] = [];
