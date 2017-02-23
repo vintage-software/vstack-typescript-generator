@@ -92,7 +92,7 @@ function generateInterface(type: CSharpClassOrStruct, options: Options): string 
   let propertyStrings: string[] = [];
   for (let property of type.properties) {
     let tsPropertyName = camelcase(property.name);
-    if (property.type.isNullable) {
+    if (property.type.isNullable || (options.allPropertiesOptional && tsPropertyName !== 'id')) {
       tsPropertyName += '?';
     }
 
