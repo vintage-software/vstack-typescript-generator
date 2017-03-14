@@ -1,4 +1,3 @@
-import * as camelcase from 'camelcase';
 import * as pluralize from 'pluralize';
 
 import { defaultOptions, Options } from './options';
@@ -88,7 +87,7 @@ function generateInterface(type: CSharpClassOrStruct, options: Options): string 
 
   let propertyStrings: string[] = [];
   for (let property of type.properties) {
-    let tsPropertyName = camelcase(property.name);
+    let tsPropertyName = Utility.transfromPropertyName(property.name);
     if (property.type.isNullable || (options.allPropertiesOptional && tsPropertyName !== 'id')) {
       tsPropertyName += '?';
     }

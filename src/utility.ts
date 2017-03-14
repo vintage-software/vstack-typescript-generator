@@ -1,3 +1,5 @@
+import * as camelcase from 'camelcase';
+
 import { Options } from './options';
 
 export class Utility {
@@ -17,5 +19,15 @@ export class Utility {
     } else if (options.tsTypeMap[csType]) {
       return options.tsTypeMap[csType]
     }
+  }
+
+  public static transfromPropertyName(propertyName: string) {
+    let tsPropertyName = camelcase(propertyName);
+
+    if (propertyName.startsWith('_')) {
+      tsPropertyName = `_${tsPropertyName}`;
+    }
+
+    return tsPropertyName;
   }
 }
