@@ -1,13 +1,10 @@
-'use strict';
+import * as camelcase from 'camelcase';
+import * as pluralize from 'pluralize';
 
 import { defaultOptions, Options } from './options';
 import { Utility } from './utility';
 import { CSharpParser } from './c-sharp-parser';
 import { CSharpEnum, CSharpClassOrStruct } from './c-sharp-objects';
-
-declare var require: (i: string) => any;
-let pluralize = require('pluralize'); // import not working
-let camelcase = require('camelcase'); // import not working
 
 const dtoFilterRegex = /DtoFilter<(?:Dmn\.)?([\w]+)/;
 const primaryDtoFilterRegex = /PrimaryDtoFilter<(?:Dmn\.)?([\w]+)/;
