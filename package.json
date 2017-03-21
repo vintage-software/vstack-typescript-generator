@@ -19,7 +19,7 @@
     "test:generate": "node dist/src/tsgen-cli.js test-project/tsgen-outdir.json && node dist/src/tsgen-cli.js test-project/tsgen-outfile.json",
     "test:compare": "dircompare -c test-project/generated test-project/test-generated",
     "posttest": "remap-istanbul -i coverage/coverage.json -o coverage -t html",
-    "report-coverage": "codecov"
+    "report-coverage": "cat ./coverage/lcov.info | codecov"
   },
   "repository": {
     "type": "git",
