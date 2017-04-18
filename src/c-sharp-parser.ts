@@ -91,7 +91,7 @@ export class CSharpParser {
 
     let properties: CSharpProperty[] = [];
     let propertyMatch: RegExpExecArray;
-    let propertyRegex = /public\s*([^\s]+)\s*([\w\d]+)\s*{\s*get;\s*set;\s*}/gm;
+    let propertyRegex = /public\s*([^\s]+)\s*([\w\d]+)\s*{\s*get;\s*(?:(?:private\s*)?set;)?\s*}/gm;
     let getNextPropertyMatch = () => propertyMatch = propertyRegex.exec(body);
     while (getNextPropertyMatch() !== null) {
       let typeName = propertyMatch[1];
