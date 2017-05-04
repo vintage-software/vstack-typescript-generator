@@ -17,20 +17,20 @@ export function schemaGenerator(inputs: string[]) {
 
   results.push('  const schemas = {');
   types.forEach(type => {
-    const name = Utility.transfromPropertyName(type.name);
-    results.push(`    ${pluralize(name)}: new schema.Entity('${name}'),`);
+    const name = pluralize(Utility.transfromPropertyName(type.name));
+    results.push(`    ${name}: new schema.Entity('${name}'),`);
   });
   removeLastComma(results);
   results.push('  }\n');
 
   types.forEach(type => {
-    const name = Utility.transfromPropertyName(type.name);
+    const name = pluralize(Utility.transfromPropertyName(type.name));
     const relations = type.properties.filter(property => typeNames.indexOf(property.type.name) >= 0);
     if (relations.length) {
       results.push(`  schemas['${name}'].define({`);
       relations.forEach(relation => {
         const name = Utility.transfromPropertyName(relation.name);
-        const typeName = Utility.transfromPropertyName(relation.type.name);
+        const typeName = pluralize(Utility.transfromPropertyName(relation.type.name));
         if (relation.type.isCollection) {
           results.push(`    ${name}: [ schemas['${typeName}'] ],`);
         } else {

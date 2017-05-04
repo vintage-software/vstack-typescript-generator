@@ -2,16 +2,16 @@
 
 export function getSchema(schema: any) {
   const schemas = {
-    employees: new schema.Entity('employee'),
-    people: new schema.Entity('person')
+    employees: new schema.Entity('employees'),
+    people: new schema.Entity('people')
   }
 
-  schemas['employee'].define({
-    manager: schemas['employee']
+  schemas['employees'].define({
+    manager: schemas['employees']
   });
 
-  schemas['person'].define({
-    parents: [ schemas['person'] ]
+  schemas['people'].define({
+    parents: [ schemas['people'] ]
   });
 
   return schemas;
