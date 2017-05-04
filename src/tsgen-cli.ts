@@ -10,6 +10,7 @@ import { Config } from './config';
 import { Options } from './options';
 import { OutputItem } from './output-item';
 import { tsGenerator } from './tsgen';
+import { schemaGenerator } from './schema';
 
 const defaultConfigFileName = 'tsgen.json';
 
@@ -61,6 +62,9 @@ function generateOutput(sourcePaths: string[], options: Options) {
 
     outputItems.push(new OutputItem(name, typescript));
   }
+
+  const csharps = sourcePaths.map(filePath => fs.readFileSync(filePath).toString())
+  outputItems.push(new OutputItem('schema', schemaGenerator(csharps)));
 
   return outputItems;
 }
