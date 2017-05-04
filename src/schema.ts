@@ -18,7 +18,7 @@ export function schemaGenerator(inputs: string[]) {
   results.push('  const schemas = {');
   types.forEach(type => {
     const name = Utility.transfromPropertyName(type.name);
-    results.push(`    ${name}: new schema.Entity('${name}'),`);
+    results.push(`    ${pluralize(name)}: new schema.Entity('${name}'),`);
   });
   removeLastComma(results);
   results.push('  }\n');
@@ -32,9 +32,9 @@ export function schemaGenerator(inputs: string[]) {
         const name = Utility.transfromPropertyName(relation.name);
         const typeName = Utility.transfromPropertyName(relation.type.name);
         if (relation.type.isCollection) {
-          results.push(`    ${pluralize(name)}: [ schemas['${typeName}'] ],`);
+          results.push(`    ${name}: [ schemas['${typeName}'] ],`);
         } else {
-          results.push(`    ${pluralize(name)}: schemas['${typeName}'],`);
+          results.push(`    ${name}: schemas['${typeName}'],`);
         }
       });
       removeLastComma(results);

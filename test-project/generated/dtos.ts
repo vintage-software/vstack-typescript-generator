@@ -30,12 +30,12 @@ export interface Person {
 
 export function getSchema(schema: any) {
   const schemas = {
-    employee: new schema.Entity('employee'),
-    person: new schema.Entity('person')
+    employees: new schema.Entity('employee'),
+    people: new schema.Entity('person')
   }
 
   schemas['employee'].define({
-    managers: schemas['employee']
+    manager: schemas['employee']
   });
 
   schemas['person'].define({
