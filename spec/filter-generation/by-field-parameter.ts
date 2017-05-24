@@ -31,7 +31,7 @@ let expectedOutput = `export class PostalCodeDetailsByFieldElasticFilter extends
   protected __dummy(): PostalCodeDetail {
     return null;
   }
-}`
+}`;
 
 describe('vstack-typescript-generation primary filter generator', () => {
   it('should transform a filter with a field name parameter correctly', () => {

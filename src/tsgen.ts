@@ -129,7 +129,7 @@ function generateFilter(type: CSharpClassOrStruct, options: Options, filterType:
 
           let tsConstructorParameter = parameter.defaultValue ?
             `private ${parameter.name}: ${tsParameterType} = ${parameter.defaultValue}` :
-            `private ${parameter.name}: ${tsParameterType}`
+            `private ${parameter.name}: ${tsParameterType}`;
 
           tsConstructorParameters.push(tsConstructorParameter);
 

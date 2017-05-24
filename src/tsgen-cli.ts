@@ -63,7 +63,7 @@ function generateOutput(sourcePaths: string[], options: Options) {
     outputItems.push(new OutputItem(name, typescript));
   }
 
-  const csharps = sourcePaths.map(filePath => fs.readFileSync(filePath).toString())
+  const csharps = sourcePaths.map(filePath => fs.readFileSync(filePath).toString());
   outputItems.push(new OutputItem('schema', schemaGenerator(csharps)));
 
   return outputItems;

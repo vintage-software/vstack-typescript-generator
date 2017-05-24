@@ -17,7 +17,7 @@ export class Utility {
     } else if (csType === 'DateTime') {
       return options.dateTimeToDate ? 'Date' : 'string';
     } else if (options.tsTypeMap[csType]) {
-      return options.tsTypeMap[csType]
+      return options.tsTypeMap[csType];
     }
   }
 
