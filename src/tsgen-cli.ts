@@ -10,7 +10,7 @@ import { Config } from './config';
 import { Options } from './options';
 import { OutputItem } from './output-item';
 import { tsGenerator } from './tsgen';
-import { generateSchema } from './schema';
+import { generateSchema } from './generate-schema';
 
 const defaultConfigFileName = 'tsgen.json';
 
