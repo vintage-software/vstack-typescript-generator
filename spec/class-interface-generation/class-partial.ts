@@ -1,7 +1,4 @@
-export interface MyDto {
-  id: number;
-  name: string;
-}'use strict';
+'use strict';
 
 import 'jasmine';
 import { tsGenerator } from '../../src/tsgen';
