@@ -4,8 +4,9 @@ import { Utility } from './utility';
 import { CSharpParser } from './c-sharp-parser';
 import { CSharpEnum, CSharpClassOrStruct, CSharpType } from './c-sharp-objects';
 
-export function schemaGenerator(inputs: string[]) {
-  let results: string[] = [];
+export function generateSchema(inputs: string[]) {
+  let result = '';
+
   const types: CSharpClassOrStruct[] = (<CSharpType[]>[].concat.apply([], inputs.map(input => CSharpParser.parse(input))))
     .filter(type => type instanceof CSharpEnum === false)
     .map(type => <CSharpClassOrStruct>type)
@@ -13,50 +14,45 @@ export function schemaGenerator(inputs: string[]) {
 
   const typeNames = types.map(type => type.name);
 
-  results.push('export function getSchema(schema: any) {');
+  result += 'export function getSchema(schema: any) {\n';
 
-  results.push('  const schemas = {');
-  types.forEach(type => {
-    const name = pluralize(Utility.transfromPropertyName(type.name));
-    results.push(`    ${name}: new schema.Entity('${name}'),`);
-  });
-  removeLastComma(results);
-  results.push('  }\n');
+  result += '  const schemas = {\n';
 
-  types.forEach(type => {
+  const schemas = types
+    .map(type => pluralize(Utility.transfromPropertyName(type.name)))
+    .map(name => `    ${name}: new schema.Entity('${name}')`);
+  result += `${schemas.join(',\n')}\n`;
+
+  result += '  }\n\n';
+
+  for (const type of types) {
     const name = pluralize(Utility.transfromPropertyName(type.name));
     const relations = type.properties.filter(property => typeNames.indexOf(property.type.name) >= 0);
     if (relations.length) {
-      results.push(`  schemas['${name}'].define({`);
-      relations.forEach(relation => {
-        const name = Utility.transfromPropertyName(relation.name);
-        const typeName = pluralize(Utility.transfromPropertyName(relation.type.name));
-        if (relation.type.isCollection) {
-          results.push(`    ${name}: [ schemas['${typeName}'] ],`);
-        } else {
-          results.push(`    ${name}: schemas['${typeName}'],`);
-        }
-      });
-      removeLastComma(results);
-      results.push('  });\n');
+      result += `  schemas['${name}'].define({\n`;
+
+      const definition = relations
+        .map(relation => {
+          const name = Utility.transfromPropertyName(relation.name);
+          const typeName = pluralize(Utility.transfromPropertyName(relation.type.name));
+
+          return relation.type.isCollection ?
+            `    ${name}: [ schemas['${typeName}'] ]` : `    ${name}: schemas['${typeName}']`;
+        });
+
+      result += `${definition.join(',\n')}\n`;
+      result += '  });\n\n';
     }
-  });
+  }
 
-  results.push('  return schemas;');
-  results.push('}');
+  result += '  return schemas;\n';
+  result += '}\n';
 
-  return results.join('\n');
+  return result;
 }
 
 function isEntityType(type: CSharpClassOrStruct) {
   return type.properties.find(property => property.name === 'Id')
     || type.name.endsWith('Detail')
     || type.namespace.includes('Dto');
-}
-
-function removeLastComma(results: string[]) {
-  const lastEntry = results[results.length - 1];
-  if (lastEntry && lastEntry[lastEntry.length - 1] === ',') {
-    results[results.length - 1] = lastEntry.substr(0, lastEntry.length - 1);
-  }
 }
