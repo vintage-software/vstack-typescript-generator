@@ -2,8 +2,6 @@
 
 import * as fs from 'fs';
 import * as path from 'path';
-import * as mkdirp from 'mkdirp';
-import * as rimraf from 'rimraf';
 import * as globby from 'globby';
 
 import { Config } from './config';
@@ -11,6 +9,7 @@ import { Options } from './options';
 import { OutputItem } from './output-item';
 import { tsGenerator } from './tsgen';
 import { generateSchema } from './generate-schema';
+import { safeWriteFileSync } from './fs.utilities';
 
 const defaultConfigFileName = 'tsgen.json';
 
@@ -20,10 +19,8 @@ const defaultConfigFileName = 'tsgen.json';
 
   let config = require(configFilePath);
 
-  if (config.outDir && config.outFile) {
-    throw 'Invalid config: cannot specify both outDir and outFile.';
-  } else if (!config.outDir && !config.outFile) {
-    throw 'Invalid config: must specify outDir or outFile.';
+  if (config.outDir === undefined) {
+    throw 'Invalid config: must specify an outDir.';
   }
 
   let sourcePaths = globby.sync(config.src, { cwd: workingDirectory })
@@ -70,39 +67,20 @@ function generateOutput(sourcePaths: string[], options: Options) {
 }
 
 function writeOutput(workingDirectory: string, config: Config, outputItems: OutputItem[]) {
-  if (config.outDir) {
-    let outputPath = path.normalize(path.join(workingDirectory, config.outDir));
-    writeOutDir(outputItems, outputPath);
-  } else {
-    let references = config.references
-      .map(reference => path.normalize(path.join(workingDirectory, reference)));
+  let outputDirPath = path.normalize(path.join(workingDirectory, config.outDir));
+  let generatedFilePath = path.join(outputDirPath, 'generated.ts');
 
-    let outputFilePath = path.normalize(path.join(workingDirectory, config.outFile));
-    writeOutFile(references, outputItems, outputFilePath);
-  }
-}
+  let importPaths = [...(config.imports || [])]
+    .map(importPath => path.isAbsolute(importPath) ? importPath : path.normalize(path.join(workingDirectory, importPath)));
 
-function writeOutDir(outputItems: OutputItem[], outputPath: string) {
-  rimraf.sync(outputPath);
-  mkdirp.sync(outputPath);
-
-  for (let outputItem of outputItems)
-  {
-    let outputFilePath = path.join(outputPath, `${outputItem.name}.ts`);
-  fs.writeFileSync(outputFilePath, `/* tslint:disable */\n\n${outputItem.typescript.trim()}\n`);
-  }
-}
-
-function writeOutFile(references: string[], outputItems: OutputItem[], outputFilePath: string) {
   let tsCode = outputItems.map(item => item.typescript);
 
-  if (references.length) {
-    let importsArray = references
-      .map(reference => generateImportsFromReferencedFile(reference, outputFilePath));
+  if (importPaths.length) {
+    let importCode = importPaths
+      .map(importPath => generateImports(importPath, outputDirPath))
+      .join('\n\n');
 
-    for (let imports of importsArray) {
-      tsCode.unshift(imports);
-    }
+    tsCode.unshift(importCode);
   }
 
   let concatenatedTypescript = tsCode
@@ -110,19 +88,42 @@ function writeOutFile(references: string[], outputItems: OutputItem[], outputFil
     .filter(code => code !== undefined && code.length > 0)
     .join('\n\n');
 
-  fs.writeFileSync(outputFilePath, `/* tslint:disable */\n\n${concatenatedTypescript}\n`);
+  safeWriteFileSync(generatedFilePath, `/* tslint:disable */\n\n${concatenatedTypescript}\n`);
+  writeIndex(workingDirectory, generatedFilePath, config);
 }
 
-function generateImportsFromReferencedFile(reference: string, outputFilePath: string) {
-  let exportRegex = /export\s+(?:(?:(?:enum|interface|function)\s+([0-9A-Za-z_]+))|(?:{\s+([0-9A-Za-z_]+)\s+}))/g;
+function writeIndex(workingDirectory: string, generatedFilePath: string, config: Config) {
+  let outputDirPath = path.dirname(generatedFilePath);
+  let indexFilePath = path.join(outputDirPath, 'index.ts');
 
-  let exports = fs.readFileSync(reference).toString();
+  let exportPaths = [...(config.exports || []), generatedFilePath]
+    .map(exportPath => path.isAbsolute(exportPath) ? exportPath : path.normalize(path.join(workingDirectory, exportPath)));
+
+  let exportCode = exportPaths
+    .map(exportPath => generateExports(exportPath, outputDirPath))
+    .join('\n\n');
+
+  safeWriteFileSync(indexFilePath, `/* tslint:disable */\n\n${exportCode}\n`);
+}
+
+function generateImports(sourcePath: string, outputDirPath: string) {
+  return generateImportsOrExports('import', sourcePath, outputDirPath);
+}
+
+function generateExports(sourcePath: string, outputDirPath: string) {
+  return generateImportsOrExports('export', sourcePath, outputDirPath);
+}
+
+function generateImportsOrExports(type: 'import' | 'export', sourcePath: string, outputDirPath: string) {
+  let exportRegex = /export\s+(?:(?:(?:class|const|enum|interface|function)\s+([0-9A-Za-z_]+))|(?:{\s+([0-9A-Za-z_]+)\s+}))/g;
+
+  let source = fs.readFileSync(sourcePath).toString();
 
   let match, exportedNames = [];
-  while ((match = exportRegex.exec(exports)) !== null) {
+  while ((match = exportRegex.exec(source)) !== null) {
     exportedNames.push(match[1] ? match[1] : match[2]);
   }
 
-  let relativeReferencePath = path.relative(path.dirname(outputFilePath), reference).replace(/\\/g, '/').replace(/\.ts$/, '');
-  return `import {\n  ${exportedNames.join(',\n  ')}\n} from './${relativeReferencePath}';`;
+  let relativeReferencePath = path.relative(outputDirPath, sourcePath).replace(/\\/g, '/').replace(/\.ts$/, '');
+  return `${type} {\n  ${exportedNames.join(',\n  ')}\n} from './${relativeReferencePath}';`;
 }

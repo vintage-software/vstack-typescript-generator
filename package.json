@@ -16,7 +16,7 @@
     "pretest": "yarn run build",
     "test": "yarn run test:spec && yarn run test:generate && yarn run test:compare",
     "test:spec": "istanbul cover node_modules/jasmine/bin/jasmine.js",
-    "test:generate": "node dist/src/tsgen-cli.js test-project/tsgen-outdir.json && node dist/src/tsgen-cli.js test-project/tsgen-outfile.json",
+    "test:generate": "rimraf test-project/test-generated && node dist/src/tsgen-cli.js test-project/tsgen.json",
     "test:compare": "dircompare -c test-project/generated test-project/test-generated",
     "posttest": "remap-istanbul -i coverage/coverage.json -o coverage -t html",
     "report-coverage": "cat ./coverage/lcov.info | codecov"

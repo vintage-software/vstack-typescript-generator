@@ -1,0 +1,17 @@
+{
+  "src": [
+    "./**/*.cs"
+  ],
+  "options": {
+    "prefixWithI": false,
+    "dateTimeToDate": false
+  },
+  "imports": [
+    "./shared/enums.ts",
+    "./shared/interfaces.ts"
+  ],
+  "exports": [
+    "./shared/exports.ts"
+  ],
+  "outDir": "./test-generated"
+}

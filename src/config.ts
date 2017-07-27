@@ -3,7 +3,7 @@ import { Options } from './options';
 export interface Config {
   src: string[];
   options: Options;
-  references: string[];
+  imports: string[];
+  exports: string[];
   outDir: string;
-  outFile: string;
 }

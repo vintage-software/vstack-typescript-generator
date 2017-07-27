@@ -1,14 +1,14 @@
 /* tslint:disable */
 
 import {
-  TimeSpan,
-  Benefits
-} from './../shared/interfaces';
-
-import {
   StatusEnum,
   PositionEnum
 } from './../shared/enums';
+
+import {
+  TimeSpan,
+  Benefits
+} from './../shared/interfaces';
 
 export interface Employee {
   id: number;
