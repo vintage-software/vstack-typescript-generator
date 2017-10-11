@@ -11,7 +11,8 @@
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "declaration": true,
-    "outDir": "./dist"
+    "outDir": "./dist",
+    "newLine": "LF"
   },
   "include": [
     "src/**/*",
