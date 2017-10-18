@@ -2,14 +2,14 @@ import * as pluralize from 'pluralize';
 
 import { Utility } from './utility';
 import { CSharpParser } from './c-sharp-parser';
-import { CSharpEnum, CSharpClassOrStruct, CSharpType } from './c-sharp-objects';
+import { CSharpEnum, CSharpClassOrStructOrInterface, CSharpType } from './c-sharp-objects';
 
 export function generateSchema(inputs: string[]) {
   let result = '';
 
-  const types: CSharpClassOrStruct[] = (<CSharpType[]>[].concat.apply([], inputs.map(input => CSharpParser.parse(input))))
+  const types: CSharpClassOrStructOrInterface[] = (<CSharpType[]>[].concat.apply([], inputs.map(input => CSharpParser.parse(input))))
     .filter(type => type instanceof CSharpEnum === false)
-    .map(type => <CSharpClassOrStruct>type)
+    .map(type => <CSharpClassOrStructOrInterface>type)
     .filter(type => isEntityType(type));
 
   const typeNames = types.map(type => type.name);
@@ -51,7 +51,7 @@ export function generateSchema(inputs: string[]) {
   return result;
 }
 
-function isEntityType(type: CSharpClassOrStruct) {
+function isEntityType(type: CSharpClassOrStructOrInterface) {
   return type.properties.find(property => property.name === 'Id')
     || type.name.endsWith('Detail')
     || type.namespace.includes('Dto');

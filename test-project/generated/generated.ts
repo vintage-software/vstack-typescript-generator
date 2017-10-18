@@ -21,6 +21,16 @@ export interface Employee {
   manager: Employee;
 }
 
+export interface IHuman {
+  name: string;
+  height: number;
+  weight?: number;
+  appendages: string[];
+}
+
+export interface IMammal {
+}
+
 export interface Person {
   id: number;
   firstName: string;

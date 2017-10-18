@@ -6,6 +6,8 @@ export {
 
 export {
   Employee,
+  IHuman,
+  IMammal,
   Person,
   getSchema
 } from './generated';

@@ -3,7 +3,7 @@ export class CSharpType {
   }
 }
 
-export class CSharpClassOrStruct extends CSharpType {
+export class CSharpClassOrStructOrInterface extends CSharpType {
   constructor(public namespace: string, public name: string, public inherits: string[], public constructors: CSharpContructor[], public properties: CSharpProperty[]) {
     super(namespace, name, inherits);
   }

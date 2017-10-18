@@ -1,8 +1,8 @@
-import { CSharpClassOrStruct } from './c-sharp-objects';
+import { CSharpClassOrStructOrInterface } from './c-sharp-objects';
 import { Options } from './options';
 import { Utility } from './utility';
 
-export function generateInterface(type: CSharpClassOrStruct, options: Options): string {
+export function generateInterface(type: CSharpClassOrStructOrInterface, options: Options): string {
   'use strict';
 
   let baseClass;
@@ -28,5 +28,10 @@ export function generateInterface(type: CSharpClassOrStruct, options: Options): 
     propertyStrings.push(`${tsPropertyName}: ${tsType}`);
   }
 
-  return `export interface ${type.name}${tsExtends} {\n  ${propertyStrings.join(';\n  ')};\n}`;
+  let properties = '';
+  if (type.properties.length > 0) {
+    properties = `  ${propertyStrings.join(';\n  ')};\n`;
+  }
+
+  return `export interface ${type.name}${tsExtends} {\n${properties}}`;
 }

@@ -1,6 +1,6 @@
 import { defaultOptions, Options } from './options';
 import { CSharpParser } from './c-sharp-parser';
-import { CSharpEnum, CSharpClassOrStruct } from './c-sharp-objects';
+import { CSharpEnum, CSharpClassOrStructOrInterface } from './c-sharp-objects';
 
 import { generateEnum } from './generate-enum';
 import { generateFilter } from './generate-filter';
@@ -43,18 +43,18 @@ export function tsGenerator(input: string, options: Options = null) {
     if (type instanceof CSharpEnum) {
       results.push(generateEnum(<CSharpEnum>type));
     } else if (dtoFilterMatch && !primaryDtoFilterMatch) {
-      results.push(generateFilter(<CSharpClassOrStruct>type, options, 'Filter', dtoFilterMatch[1]));
+      results.push(generateFilter(<CSharpClassOrStructOrInterface>type, options, 'Filter', dtoFilterMatch[1]));
     } else if (dtoFilterMatch && primaryDtoFilterMatch) {
-      results.push(generateFilter(<CSharpClassOrStruct>type, options, 'Filter', dtoFilterMatch[1]));
-      results.push(generateFilter(<CSharpClassOrStruct>type, options, 'PrimaryFilter', dtoFilterMatch[1]));
+      results.push(generateFilter(<CSharpClassOrStructOrInterface>type, options, 'Filter', dtoFilterMatch[1]));
+      results.push(generateFilter(<CSharpClassOrStructOrInterface>type, options, 'PrimaryFilter', dtoFilterMatch[1]));
     } else if (primaryDtoFilterMatch) {
-      results.push(generateFilter(<CSharpClassOrStruct>type, options, 'PrimaryFilter', primaryDtoFilterMatch[1]));
+      results.push(generateFilter(<CSharpClassOrStructOrInterface>type, options, 'PrimaryFilter', primaryDtoFilterMatch[1]));
     } else if (elasticDtoFilterMatch) {
-      results.push(generateFilter(<CSharpClassOrStruct>type, options, 'ElasticFilter', elasticDtoFilterMatch[1]));
+      results.push(generateFilter(<CSharpClassOrStructOrInterface>type, options, 'ElasticFilter', elasticDtoFilterMatch[1]));
     } else if (bypassElasticDtoFilterMatch) {
-      results.push(generateFilter(<CSharpClassOrStruct>type, options, 'BypassElasticFilter', bypassElasticDtoFilterMatch[1]));
+      results.push(generateFilter(<CSharpClassOrStructOrInterface>type, options, 'BypassElasticFilter', bypassElasticDtoFilterMatch[1]));
     } else if (isFilter === false) {
-      results.push(generateInterface(<CSharpClassOrStruct>type, options));
+      results.push(generateInterface(<CSharpClassOrStructOrInterface>type, options));
     }
   }
 

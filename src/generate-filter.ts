@@ -1,10 +1,10 @@
 import * as pluralize from 'pluralize';
 
-import { CSharpClassOrStruct } from './c-sharp-objects';
+import { CSharpClassOrStructOrInterface } from './c-sharp-objects';
 import { Options } from './options';
 import { Utility } from './utility';
 
-export function generateFilter(type: CSharpClassOrStruct, options: Options, filterType: string, domainType: string): string {
+export function generateFilter(type: CSharpClassOrStructOrInterface, options: Options, filterType: string, domainType: string): string {
   'use strict';
 
   let tsDomainType =  options.tsTypeMap[domainType] ? options.tsTypeMap[domainType] : domainType;
