@@ -10,7 +10,7 @@
     "patch-release": "npm test && npm version patch && npm publish && git push --follow-tags",
     "minor-release": "npm test && npm version minor && npm publish && git push --follow-tags",
     "clean": "rimraf dist & rimraf coverage",
-    "lint": "tslint --project tsconfig.json --type-check",
+    "lint": "tslint --project tsconfig.json --type-check --fix",
     "prebuild": "npm run clean && npm run lint",
     "build": "tsc --project tsconfig.json",
     "pretest": "npm run build",
@@ -38,20 +38,20 @@
     "camelcase": "4.1.0",
     "globby": "6.1.0",
     "mkdirp": "0.5.1",
-    "pluralize": "5.0.0"
+    "pluralize": "7.0.0"
   },
   "devDependencies": {
-    "@types/jasmine": "2.5.47",
-    "@types/mkdirp": "0.3.29",
-    "@types/node": "7.0.22",
-    "@types/rimraf": "0.0.28",
+    "@types/jasmine": "2.6.0",
+    "@types/mkdirp": "0.5.1",
+    "@types/node": "8.0.45",
+    "@types/rimraf": "2.0.2",
     "codecov.io": "0.1.6",
     "dir-compare": "1.4.0",
     "istanbul": "0.4.5",
-    "jasmine": "2.6.0",
+    "jasmine": "2.8.0",
     "remap-istanbul": "0.9.5",
-    "rimraf": "2.6.1",
-    "tslint": "5.3.2",
-    "typescript": "2.3.3"
+    "rimraf": "2.6.2",
+    "tslint": "5.7.0",
+    "typescript": "2.5.3"
   }
 }
