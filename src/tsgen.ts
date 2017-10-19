@@ -1,6 +1,6 @@
-import { defaultOptions, Options } from './options';
+import { CSharpClassOrStructOrInterface, CSharpEnum } from './c-sharp-objects';
 import { CSharpParser } from './c-sharp-parser';
-import { CSharpEnum, CSharpClassOrStructOrInterface } from './c-sharp-objects';
+import { defaultOptions, Options } from './options';
 
 import { generateEnum } from './generate-enum';
 import { generateFilter } from './generate-filter';
@@ -12,33 +12,33 @@ const elasticDtoFilterRegex = /ElasticDtoFilter<(?:Dmn\.)?([\w]+)/;
 const bypassElasticDtoFilterRegex = /BypassElasticDtoFilter<(?:Dmn\.)?([\w]+)/;
 
 export function tsGenerator(input: string, options: Options = null) {
-  let results: string[] = [];
+  const results: string[] = [];
 
   options = Object.assign({}, defaultOptions, options);
 
-  let types = CSharpParser.parse(input);
-  for (let type of types) {
-    let dtoFilterMatch = type.inherits
+  const types = CSharpParser.parse(input);
+  for (const type of types) {
+    const dtoFilterMatch = type.inherits
       .filter(inherit => inherit.match(primaryDtoFilterRegex) === null)
       .filter(inherit => inherit.match(elasticDtoFilterRegex) === null)
       .filter(inherit => inherit.match(bypassElasticDtoFilterRegex) === null)
       .map(inherit => inherit.match(dtoFilterRegex))
       .find(match => match !== null);
 
-    let primaryDtoFilterMatch = type.inherits
+    const primaryDtoFilterMatch = type.inherits
       .map(inherit => inherit.match(primaryDtoFilterRegex))
       .find(match => match !== null);
 
-    let elasticDtoFilterMatch = type.inherits
+    const elasticDtoFilterMatch = type.inherits
       .filter(inherit => inherit.match(bypassElasticDtoFilterRegex) === null)
       .map(inherit => inherit.match(elasticDtoFilterRegex))
       .find(match => match !== null);
 
-    let bypassElasticDtoFilterMatch = type.inherits
+    const bypassElasticDtoFilterMatch = type.inherits
       .map(inherit => inherit.match(bypassElasticDtoFilterRegex))
       .find(match => match !== null);
 
-    let isFilter = type.inherits.some(inherit => inherit.includes('Filter'));
+    const isFilter = type.inherits.some(inherit => inherit.includes('Filter'));
 
     if (type instanceof CSharpEnum) {
       results.push(generateEnum(<CSharpEnum>type));

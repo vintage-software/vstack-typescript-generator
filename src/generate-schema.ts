@@ -1,8 +1,8 @@
 import * as pluralize from 'pluralize';
 
-import { Utility } from './utility';
+import { CSharpClassOrStructOrInterface, CSharpEnum, CSharpType } from './c-sharp-objects';
 import { CSharpParser } from './c-sharp-parser';
-import { CSharpEnum, CSharpClassOrStructOrInterface, CSharpType } from './c-sharp-objects';
+import { Utility } from './utility';
 
 export function generateSchema(inputs: string[]) {
   let result = '';
@@ -33,11 +33,11 @@ export function generateSchema(inputs: string[]) {
 
       const definition = relations
         .map(relation => {
-          const name = Utility.transfromPropertyName(relation.name);
+          const propertyName = Utility.transfromPropertyName(relation.name);
           const typeName = pluralize(Utility.transfromPropertyName(relation.type.name));
 
           return relation.type.isCollection ?
-            `    ${name}: [ schemas['${typeName}'] ]` : `    ${name}: schemas['${typeName}']`;
+            `    ${propertyName}: [ schemas['${typeName}'] ]` : `    ${propertyName}: schemas['${typeName}']`;
         });
 
       result += `${definition.join(',\n')}\n`;

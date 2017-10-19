@@ -1,23 +1,24 @@
-import { CSharpType, CSharpClassOrStructOrInterface, CSharpEnum, CSharpContructor, CSharpParameter, CSharpProperty, CSharpEnumEntry, CSharpMemberType } from './c-sharp-objects';
+import { CSharpClassOrStructOrInterface, CSharpContructor, CSharpEnum, CSharpEnumEntry, CSharpMemberType, CSharpParameter, CSharpProperty, CSharpType } from './c-sharp-objects';
 
 export class CSharpParser {
   public static parse(input: string): CSharpType[] {
     input = CSharpParser.stripIgnored(input);
     input = CSharpParser.stripComments(input);
 
-    let namespaceMatch = input.match(/namespace\s+([\w\.]+)/);
-    let namespace = namespaceMatch ? namespaceMatch[1] : '';
+    const namespaceMatch = input.match(/namespace\s+([\w\.]+)/);
+    const namespace = namespaceMatch ? namespaceMatch[1] : '';
 
-    let types: CSharpType[] = [];
+    const types: CSharpType[] = [];
 
     let typeMatch: RegExpExecArray;
-    let typeRegex = /^([\t ]*)(?:public\s*|partial\s*|abstract\s*)*\s*(enum|class|struct|interface)\s+([\w\d_<>]+)(?:\s*:\s*((?:(?:[\w\d\.\<\>_]+)(?:,\s+)?)+))?\s*\{((?:.|\n|\r)*?)^\1\}/gm;
-    let getNextTypeMatch = () => typeMatch = typeRegex.exec(input);
+    // tslint:disable-next-line:max-line-length
+    const typeRegex = /^([\t ]*)(?:public\s*|partial\s*|abstract\s*)*\s*(enum|class|struct|interface)\s+([\w\d_<>]+)(?:\s*:\s*((?:(?:[\w\d\.\<\>_]+)(?:,\s+)?)+))?\s*\{((?:.|\n|\r)*?)^\1\}/gm;
+    const getNextTypeMatch = () => typeMatch = typeRegex.exec(input);
     while (getNextTypeMatch() !== null) {
-      let type = typeMatch[2];
-      let name = typeMatch[3];
-      let inherits = CSharpParser.parseInherits(typeMatch[4]);
-      let body = typeMatch[5];
+      const type = typeMatch[2];
+      const name = typeMatch[3];
+      const inherits = CSharpParser.parseInherits(typeMatch[4]);
+      const body = typeMatch[5];
 
       if (type === 'class' || type === 'struct') {
         types.push(CSharpParser.parseClassOrStruct(namespace, name, inherits, body));
@@ -32,14 +33,14 @@ export class CSharpParser {
   }
 
   private static stripIgnored(input: string): string {
-    let ignoredRegex = /\/\/\s*ts-generator-ignore\s*.*(enum|class|struct|interface)\s+/gm;
+    const ignoredRegex = /\/\/\s*ts-generator-ignore\s*.*(enum|class|struct|interface)\s+/gm;
 
     return input.replace(ignoredRegex, '');
   }
 
   private static stripComments(input: string): string {
-    let blockCommentRegex = /\/\*([\s\S]*?)\*\//gm;
-    let lineCommentRegex = /\/\/(.*)/g;
+    const blockCommentRegex = /\/\*([\s\S]*?)\*\//gm;
+    const lineCommentRegex = /\/\/(.*)/g;
 
     return input
       .replace(blockCommentRegex, '')
@@ -49,12 +50,12 @@ export class CSharpParser {
   }
 
   private static parseInherits(inheritsStr: string) {
-    let inherits: string[] = [];
+    const inherits: string[] = [];
 
     if (inheritsStr) {
       let inheritsMatch: RegExpExecArray;
-      let inheritsRegex = /(?:[\w\d\.\_]+)(?:\<.+?\>)?/g;
-      let getNextInheritsMatch = () => inheritsMatch = inheritsRegex.exec(inheritsStr);
+      const inheritsRegex = /(?:[\w\d\.\_]+)(?:\<.+?\>)?/g;
+      const getNextInheritsMatch = () => inheritsMatch = inheritsRegex.exec(inheritsStr);
       while (getNextInheritsMatch() !== null) {
         inherits.push(inheritsMatch[0]);
       }
@@ -64,24 +65,24 @@ export class CSharpParser {
   }
 
   private static parseClassOrStruct(namespace: string, name: string, inherits: string[], body: string) {
-    let constructors: CSharpContructor[] = [];
+    const constructors: CSharpContructor[] = [];
     let constructorMatch: RegExpExecArray;
-    let constructorRegex = /public\s+([\w]+)\s*\(((?:.|\r|\n)*?)\)/gm;
-    let getNextConstructorMatch = () => constructorMatch = constructorRegex.exec(body);
+    const constructorRegex = /public\s+([\w]+)\s*\(((?:.|\r|\n)*?)\)/gm;
+    const getNextConstructorMatch = () => constructorMatch = constructorRegex.exec(body);
     while (getNextConstructorMatch() !== null) {
-      let typeName = constructorMatch[1];
-      let parameterList = constructorMatch[2];
+      const typeName = constructorMatch[1];
+      const parameterList = constructorMatch[2];
 
       if (typeName === name) {
-        let parameters = parameterList.length ? parameterList
+        const parameters = parameterList.length ? parameterList
           .split(',')
           .map(parameter => {
-            let parameterMatch = parameter.trim().match(/([^\s]+)\s+([\w\d]+)(?:\s+=\s+((?:[\w\d]+)|(?:"[\w\d ]+")))?/);
-            let parameterType = CSharpParser.parseMemberTypeName(parameterMatch[1]);
-            let parameterName = parameterMatch[2];
-            let rawDefaultParameter = parameterMatch[3];
+            const parameterMatch = parameter.trim().match(/([^\s]+)\s+([\w\d]+)(?:\s+=\s+((?:[\w\d]+)|(?:"[\w\d ]+")))?/);
+            const parameterType = CSharpParser.parseMemberTypeName(parameterMatch[1]);
+            const parameterName = parameterMatch[2];
+            const rawDefaultParameter = parameterMatch[3];
 
-            let defaultValue = rawDefaultParameter && rawDefaultParameter.startsWith('"') && rawDefaultParameter.endsWith('"') ?
+            const defaultValue = rawDefaultParameter && rawDefaultParameter.startsWith('"') && rawDefaultParameter.endsWith('"') ?
               `'${rawDefaultParameter.substr(1, rawDefaultParameter.length - 2)}'` : rawDefaultParameter;
 
             return new CSharpParameter(parameterType, parameterName, defaultValue);
@@ -91,28 +92,28 @@ export class CSharpParser {
       }
     }
 
-    let properties: CSharpProperty[] = CSharpParser.getProperties(body, false);
+    const properties: CSharpProperty[] = CSharpParser.getProperties(body, false);
 
     return new CSharpClassOrStructOrInterface(namespace, name, inherits, constructors, properties);
   }
 
   private static parseInterface(namespace: string, name: string, inherits: string[], body: string) {
-    let properties: CSharpProperty[] = CSharpParser.getProperties(body, true);
+    const properties: CSharpProperty[] = CSharpParser.getProperties(body, true);
     return new CSharpClassOrStructOrInterface(namespace, name, inherits, null, properties);
   }
 
   private static parseEnum(namespace: string, name: string, inherits: string[], body: string) {
-    let entries: CSharpEnumEntry[] = [];
+    const entries: CSharpEnumEntry[] = [];
 
     let entryMatch: RegExpExecArray;
-    let entryRegex = /^\s*([\w\d_]+)\s*=?\s*([0-9A-Fx]+)?,?\s*$/gm;
-    let getNextEntryMatch = () => entryMatch = entryRegex.exec(body);
+    const entryRegex = /^\s*([\w\d_]+)\s*=?\s*([0-9A-Fx]+)?,?\s*$/gm;
+    const getNextEntryMatch = () => entryMatch = entryRegex.exec(body);
     while (getNextEntryMatch() !== null) {
-      let entryName = entryMatch[1];
-      let entryValue = entryMatch[2];
+      const entryName = entryMatch[1];
+      const entryValue = entryMatch[2];
 
-      let radix = /^[0-9]+$/.test(entryValue) ? 10 : 16;
-      let entryValueParsed = parseInt(entryValue, radix);
+      const radix = /^[0-9]+$/.test(entryValue) ? 10 : 16;
+      const entryValueParsed = parseInt(entryValue, radix);
 
       if (entryName.indexOf('[') === -1) {
         entries.push(new CSharpEnumEntry(entryName, entryValueParsed));
@@ -123,16 +124,16 @@ export class CSharpParser {
   }
 
   private static parseMemberTypeName(typeName: string): CSharpMemberType {
-    let lastNameRegex = /\.?([\w<>\[\]\?]+)$/;
+    const lastNameRegex = /\.?([\w<>\[\]\?]+)$/;
 
-    let nullableRegex = /(?:^Nullable<([^\s]+)>$)|(?:^([^\s]+)\?$)/;
-    let nullableMatch = nullableRegex.exec(typeName);
+    const nullableRegex = /(?:^Nullable<([^\s]+)>$)|(?:^([^\s]+)\?$)/;
+    const nullableMatch = nullableRegex.exec(typeName);
     if (nullableMatch) {
       typeName = (nullableMatch[1] || nullableMatch[2]);
     }
 
-    let collectionRegex = /(?:List|IEnumerable)<([\w\d\.]+)>$|(?:^([\w\d\.]+)\[\]$)/;
-    let collectionMatch = collectionRegex.exec(typeName);
+    const collectionRegex = /(?:List|IEnumerable)<([\w\d\.]+)>$|(?:^([\w\d\.]+)\[\]$)/;
+    const collectionMatch = collectionRegex.exec(typeName);
     if (collectionMatch) {
       typeName = (collectionMatch[1] || collectionMatch[2]);
     }
@@ -143,16 +144,16 @@ export class CSharpParser {
   }
 
   private static getProperties(body: string, isInterface: boolean): CSharpProperty[] {
-    let properties: CSharpProperty[] = [];
+    const properties: CSharpProperty[] = [];
     let propertyMatch: RegExpExecArray;
-    let propertyRegex = isInterface ? /\s*([^\s]+)\s*([\w\d]+)\s*{\s*get/gm : /public\s*([^\s]+)\s*([\w\d]+)\s*{\s*get/gm;
+    const propertyRegex = isInterface ? /\s*([^\s]+)\s*([\w\d]+)\s*{\s*get/gm : /public\s*([^\s]+)\s*([\w\d]+)\s*{\s*get/gm;
 
-    let getNextPropertyMatch = () => propertyMatch = propertyRegex.exec(body);
+    const getNextPropertyMatch = () => propertyMatch = propertyRegex.exec(body);
     while (getNextPropertyMatch() !== null) {
-      let typeName = propertyMatch[1];
-      let propertyName = propertyMatch[2];
+      const typeName = propertyMatch[1];
+      const propertyName = propertyMatch[2];
 
-      let memberType = CSharpParser.parseMemberTypeName(typeName);
+      const memberType = CSharpParser.parseMemberTypeName(typeName);
 
       properties.push(new CSharpProperty(memberType, propertyName));
     }

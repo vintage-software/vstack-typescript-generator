@@ -3,7 +3,7 @@
 import 'jasmine';
 import { tsGenerator } from '../../src/tsgen';
 
-let sampleFile = `namespace Services.Filters.Person
+const sampleFile = `namespace Services.Filters.Person
 {
   // ts-generator-ignore
   public class ByNameAndAge
@@ -56,7 +56,7 @@ namespace Services.Filters.Person
   }
 }`;
 
-let expectedOutput = `export class EmployeesByNameAndAgePrimaryFilter extends PrimaryFilter<Employee> {
+const expectedOutput = `export class EmployeesByNameAndAgePrimaryFilter extends PrimaryFilter<Employee> {
   constructor(private name: string, private age: number) {
     super();
   }
@@ -76,7 +76,7 @@ let expectedOutput = `export class EmployeesByNameAndAgePrimaryFilter extends Pr
 
 describe('vstack-typescript-generation primary filter generator', () => {
   it('should ignore filters correctly', () => {
-    let result = tsGenerator(sampleFile);
+    const result = tsGenerator(sampleFile);
     expect(result).toEqual(expectedOutput);
   });
 });

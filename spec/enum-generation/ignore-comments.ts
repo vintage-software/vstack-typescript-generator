@@ -3,7 +3,7 @@
 import 'jasmine';
 import { tsGenerator } from '../../src/tsgen';
 
-let sampleFile = `using System;
+const sampleFile = `using System;
 
 namespace MyNamespace.Domain
 {
@@ -22,7 +22,7 @@ namespace MyNamespace.Domain
   }
 }`;
 
-let expectedOutput = `export enum Colors {
+const expectedOutput = `export enum Colors {
   Red = 0,
   Yellow = 1,
   Blue = 2,
@@ -31,7 +31,7 @@ let expectedOutput = `export enum Colors {
 
 describe('vstack-typescript-generation enum generator', () => {
   it('should ignore comments', () => {
-    let result = tsGenerator(sampleFile);
+    const result = tsGenerator(sampleFile);
     expect(result).toEqual(expectedOutput);
   });
 });

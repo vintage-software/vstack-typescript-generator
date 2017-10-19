@@ -3,7 +3,7 @@
 import 'jasmine';
 import { tsGenerator } from '../../src/tsgen';
 
-let sampleFile = `using System;
+const sampleFile = `using System;
 
 namespace MyNamespace.Domain
 {
@@ -20,7 +20,7 @@ namespace MyNamespace.Domain
   }
 }`;
 
-let expectedOutput = `export interface ThisDto {
+const expectedOutput = `export interface ThisDto {
   id: number;
   thisName: string;
 }
@@ -32,7 +32,7 @@ export interface ThatDto {
 
 describe('vstack-typescript-generation class interface generator', () => {
   it('should transform multiple classes in the same file', () => {
-    let result = tsGenerator(sampleFile);
+    const result = tsGenerator(sampleFile);
     expect(result).toEqual(expectedOutput);
   });
 });

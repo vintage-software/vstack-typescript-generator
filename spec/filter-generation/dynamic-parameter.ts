@@ -3,7 +3,7 @@
 import 'jasmine';
 import { tsGenerator } from '../../src/tsgen';
 
-let sampleFile = `namespace Services.Filters.Person
+const sampleFile = `namespace Services.Filters.Person
 {
   public class BySomeProperty
     : IPrimaryDtoFilter<Dmn.Person, PersonMapper, Permissions>
@@ -29,7 +29,7 @@ let sampleFile = `namespace Services.Filters.Person
   }
 }`;
 
-let expectedOutput = `export class PeopleBySomePropertyPrimaryFilter extends PrimaryFilter<Person> {
+const expectedOutput = `export class PeopleBySomePropertyPrimaryFilter extends PrimaryFilter<Person> {
   constructor(private property: any, private properties: any[]) {
     super();
   }
@@ -49,7 +49,7 @@ let expectedOutput = `export class PeopleBySomePropertyPrimaryFilter extends Pri
 
 describe('vstack-typescript-generation primary filter generator', () => {
   it('should transform a filter with dynamic parameters correctly', () => {
-    let result = tsGenerator(sampleFile);
+    const result = tsGenerator(sampleFile);
     expect(result).toEqual(expectedOutput);
   });
 });

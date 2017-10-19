@@ -3,7 +3,7 @@
 import 'jasmine';
 import { tsGenerator } from '../../src/tsgen';
 
-let sampleFile = `namespace Services.Filters.Person
+const sampleFile = `namespace Services.Filters.Person
 {
   public class ByBirthdate
     : IPrimaryDtoFilter<Dmn.Person, PersonMapper, Permissions>
@@ -29,7 +29,7 @@ let sampleFile = `namespace Services.Filters.Person
   }
 }`;
 
-let expectedOutput = `export class PeopleByBirthdatePrimaryFilter extends PrimaryFilter<Person> {
+const expectedOutput = `export class PeopleByBirthdatePrimaryFilter extends PrimaryFilter<Person> {
   constructor(private birthdate: Date, private birthdates: Date[]) {
     super();
   }
@@ -49,11 +49,11 @@ let expectedOutput = `export class PeopleByBirthdatePrimaryFilter extends Primar
 
 describe('vstack-typescript-generation primary filter generator', () => {
   it('should transform a filter with date parameters correctly', () => {
-    let options = {
+    const options = {
       dateTimeToDate: true
     };
 
-    let result = tsGenerator(sampleFile, options);
+    const result = tsGenerator(sampleFile, options);
     expect(result).toEqual(expectedOutput);
   });
 });

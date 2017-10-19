@@ -3,7 +3,7 @@
 import 'jasmine';
 import { tsGenerator } from '../../src/tsgen';
 
-let sampleFile = `using System;
+const sampleFile = `using System;
 
 namespace MyNamespace.Domain
 {
@@ -14,14 +14,14 @@ namespace MyNamespace.Domain
   }
 }`;
 
-let expectedOutput = `export interface MyDto {
+const expectedOutput = `export interface MyDto {
   id: number;
   name: string;
 }`;
 
 describe('vstack-typescript-generation class interface generator', () => {
   it('should turn inheritence into extends', () => {
-    let result = tsGenerator(sampleFile);
+    const result = tsGenerator(sampleFile);
     expect(result).toEqual(expectedOutput);
   });
 });

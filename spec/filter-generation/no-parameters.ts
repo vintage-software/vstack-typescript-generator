@@ -3,7 +3,7 @@
 import 'jasmine';
 import { tsGenerator } from '../../src/tsgen';
 
-let sampleFile = `namespace Service.Filters.People
+const sampleFile = `namespace Service.Filters.People
 {
     public class WithCondition
         : IPrimaryDtoFilter<Dmn.Person, PersonMapper, Permissions>
@@ -24,7 +24,7 @@ let sampleFile = `namespace Service.Filters.People
     }
 }`;
 
-let expectedOutput = `export class PeopleWithConditionPrimaryFilter extends PrimaryFilter<Person> {
+const expectedOutput = `export class PeopleWithConditionPrimaryFilter extends PrimaryFilter<Person> {
   constructor() {
     super();
   }
@@ -44,7 +44,7 @@ let expectedOutput = `export class PeopleWithConditionPrimaryFilter extends Prim
 
 describe('vstack-typescript-generation primary filter generator', () => {
     it('should transform a filter with zero parameters correctly', () => {
-        let result = tsGenerator(sampleFile);
+        const result = tsGenerator(sampleFile);
         expect(result).toEqual(expectedOutput);
     });
 });

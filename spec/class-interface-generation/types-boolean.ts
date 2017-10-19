@@ -3,7 +3,7 @@
 import 'jasmine';
 import { tsGenerator } from '../../src/tsgen';
 
-let sampleFile = `using System;
+const sampleFile = `using System;
 
 namespace MyNamespace.Domain
 {
@@ -14,14 +14,14 @@ namespace MyNamespace.Domain
   }
 }`;
 
-let expectedOutput = `export interface MyDto {
+const expectedOutput = `export interface MyDto {
   thisBit: boolean;
   thatBit: boolean;
 }`;
 
 describe('vstack-typescript-generation class interface generator', () => {
   it('should translate boolean types correctly', () => {
-    let result = tsGenerator(sampleFile);
+    const result = tsGenerator(sampleFile);
     expect(result).toEqual(expectedOutput);
   });
 });

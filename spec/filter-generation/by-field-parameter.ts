@@ -3,7 +3,7 @@
 import 'jasmine';
 import { tsGenerator } from '../../src/tsgen';
 
-let sampleFile = `namespace Services.Filters.PostalCodeDetailsFilters
+const sampleFile = `namespace Services.Filters.PostalCodeDetailsFilters
 {
     public class ByField
         : ByFieldElasticDtoFilter<PostalCodeDetail, Permissions>
@@ -15,7 +15,7 @@ let sampleFile = `namespace Services.Filters.PostalCodeDetailsFilters
     }
 }`;
 
-let expectedOutput = `export class PostalCodeDetailsByFieldElasticFilter extends ElasticFilter<PostalCodeDetail> {
+const expectedOutput = `export class PostalCodeDetailsByFieldElasticFilter extends ElasticFilter<PostalCodeDetail> {
   constructor(private fieldName: (i: PostalCodeDetail) => any, private value: string) {
     super();
   }
@@ -35,7 +35,7 @@ let expectedOutput = `export class PostalCodeDetailsByFieldElasticFilter extends
 
 describe('vstack-typescript-generation primary filter generator', () => {
   it('should transform a filter with a field name parameter correctly', () => {
-    let result = tsGenerator(sampleFile);
+    const result = tsGenerator(sampleFile);
     expect(result).toEqual(expectedOutput);
   });
 });

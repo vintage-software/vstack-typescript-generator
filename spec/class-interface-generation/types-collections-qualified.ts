@@ -3,7 +3,7 @@
 import 'jasmine';
 import { tsGenerator } from '../../src/tsgen';
 
-let sampleFile = `using System;
+const sampleFile = `using System;
 using GenCol = System.Collections.Generic;
 
 namespace MyNamespace.Domain
@@ -17,7 +17,7 @@ namespace MyNamespace.Domain
   }
 }`;
 
-let expectedOutput = `export interface MyDto {
+const expectedOutput = `export interface MyDto {
   widgets: Widget[];
   arrayOfWidgets: Widget[];
   moreWidgets: Widget[];
@@ -26,7 +26,7 @@ let expectedOutput = `export interface MyDto {
 
 describe('vstack-typescript-generation class interface generator', () => {
   it('should translate collections correctly', () => {
-    let result = tsGenerator(sampleFile);
+    const result = tsGenerator(sampleFile);
     expect(result).toEqual(expectedOutput);
   });
 });

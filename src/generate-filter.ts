@@ -7,12 +7,12 @@ import { Utility } from './utility';
 export function generateFilter(type: CSharpClassOrStructOrInterface, options: Options, filterType: string, domainType: string): string {
   'use strict';
 
-  let tsDomainType =  options.tsTypeMap[domainType] ? options.tsTypeMap[domainType] : domainType;
+  const tsDomainType =  options.tsTypeMap[domainType] ? options.tsTypeMap[domainType] : domainType;
 
-  let tsConstructorParameters: string[] = [];
-  let filterParameters: string[] = [];
+  const tsConstructorParameters: string[] = [];
+  const filterParameters: string[] = [];
   if (type.constructors.length === 1) {
-    for (let parameter of type.constructors[0].parameters) {
+    for (const parameter of type.constructors[0].parameters) {
       let tsParameterType = Utility.translateType(parameter.type.name, options);
 
       if (tsParameterType) {
@@ -20,15 +20,15 @@ export function generateFilter(type: CSharpClassOrStructOrInterface, options: Op
           tsConstructorParameters.push(`private ${parameter.name}: (i: ${domainType}) => any`);
           filterParameters.push(`getPropertyName(this.${parameter.name})`);
         } else {
-          let shouldEncode = tsParameterType === 'string' || tsParameterType === 'any' || tsParameterType === 'Date';
-          let shouldToString = tsParameterType !== 'string';
-          let toString = tsParameterType === 'Date' ? 'toISOString' : 'toString';
+          const shouldEncode = tsParameterType === 'string' || tsParameterType === 'any' || tsParameterType === 'Date';
+          const shouldToString = tsParameterType !== 'string';
+          const toString = tsParameterType === 'Date' ? 'toISOString' : 'toString';
 
           if (parameter.type.isCollection) {
             tsParameterType += '[]';
           }
 
-          let tsConstructorParameter = parameter.defaultValue ?
+          const tsConstructorParameter = parameter.defaultValue ?
             `private ${parameter.name}: ${tsParameterType} = ${parameter.defaultValue}` :
             `private ${parameter.name}: ${tsParameterType}`;
 
@@ -43,7 +43,7 @@ export function generateFilter(type: CSharpClassOrStructOrInterface, options: Op
             if (shouldEncode) {
               mapToExpression = `encodeURIComponent(${mapToExpression})`;
             }
-            let mapCall = mapToExpression !== 'i' ? `.map(i => ${mapToExpression})` : '';
+            const mapCall = mapToExpression !== 'i' ? `.map(i => ${mapToExpression})` : '';
 
             filterParameter = `this.${parameter.name}${mapCall}.join(',')`;
           } else {

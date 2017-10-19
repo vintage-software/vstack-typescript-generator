@@ -3,7 +3,7 @@
 import 'jasmine';
 import { tsGenerator } from '../../src/tsgen';
 
-let sampleFile = `namespace Services.Filters.Person
+const sampleFile = `namespace Services.Filters.Person
 {
   public class ByNameAndAge
     : BaseElasticDtoFilter<Dmn.Person, Permissions>
@@ -19,7 +19,7 @@ let sampleFile = `namespace Services.Filters.Person
   }
 }`;
 
-let expectedOutput = `export class PeopleByNameAndAgeElasticFilter extends ElasticFilter<Person> {
+const expectedOutput = `export class PeopleByNameAndAgeElasticFilter extends ElasticFilter<Person> {
   constructor(private name: string, private age: number) {
     super();
   }
@@ -39,7 +39,7 @@ let expectedOutput = `export class PeopleByNameAndAgeElasticFilter extends Elast
 
 describe('vstack-typescript-generation primary filter generator', () => {
   it('should transform an elastic filter correctly', () => {
-    let result = tsGenerator(sampleFile);
+    const result = tsGenerator(sampleFile);
     expect(result).toEqual(expectedOutput);
   });
 });

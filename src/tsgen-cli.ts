@@ -1,32 +1,32 @@
 #! /usr/bin/env node
 
 import * as fs from 'fs';
-import * as path from 'path';
 import * as globby from 'globby';
+import * as path from 'path';
 
 import { Config } from './config';
+import { safeWriteFileSync } from './fs.utilities';
+import { generateSchema } from './generate-schema';
 import { Options } from './options';
 import { OutputItem } from './output-item';
 import { tsGenerator } from './tsgen';
-import { generateSchema } from './generate-schema';
-import { safeWriteFileSync } from './fs.utilities';
 
 const defaultConfigFileName = 'tsgen.json';
 
 (function() {
-  let configFilePath = getConfigFilePath();
-  let workingDirectory = path.dirname(configFilePath);
+  const configFilePath = getConfigFilePath();
+  const workingDirectory = path.dirname(configFilePath);
 
-  let config = require(configFilePath);
+  const config = require(configFilePath);
 
   if (config.outDir === undefined) {
-    throw 'Invalid config: must specify an outDir.';
+    throw new Error('Invalid config: must specify an outDir.');
   }
 
-  let sourcePaths = globby.sync(config.src, { cwd: workingDirectory })
+  const sourcePaths = globby.sync(config.src, { cwd: workingDirectory })
     .map(file => path.normalize(path.join(workingDirectory, file)));
 
-  let outputItems = generateOutput(sourcePaths, config.options);
+  const outputItems = generateOutput(sourcePaths, config.options);
   writeOutput(workingDirectory, config, outputItems);
 })();
 
@@ -37,25 +37,25 @@ function getConfigFilePath() {
   }
 
   try {
-    let stats = fs.lstatSync(configFileName);
+    const stats = fs.lstatSync(configFileName);
 
     if (!stats.isFile()) {
-      throw `${configFileName} is not a file.`;
+      throw new Error(`${configFileName} is not a file.`);
     }
   } catch (e) {
-    throw `${configFileName} does not exist.`;
+    throw new Error(`${configFileName} does not exist.`);
   }
 
   return path.normalize(path.join(process.cwd(), configFileName));
 }
 
 function generateOutput(sourcePaths: string[], options: Options) {
-  let outputItems = [];
-  for (let filePath of sourcePaths) {
-    let name = path.basename(filePath, '.cs');
+  const outputItems = [];
+  for (const filePath of sourcePaths) {
+    const name = path.basename(filePath, '.cs');
 
-    let csharp = fs.readFileSync(filePath).toString();
-    let typescript = tsGenerator(csharp, options);
+    const csharp = fs.readFileSync(filePath).toString();
+    const typescript = tsGenerator(csharp, options);
 
     outputItems.push(new OutputItem(name, typescript));
   }
@@ -67,23 +67,23 @@ function generateOutput(sourcePaths: string[], options: Options) {
 }
 
 function writeOutput(workingDirectory: string, config: Config, outputItems: OutputItem[]) {
-  let outputDirPath = path.normalize(path.join(workingDirectory, config.outDir));
-  let generatedFilePath = path.join(outputDirPath, 'generated.ts');
+  const outputDirPath = path.normalize(path.join(workingDirectory, config.outDir));
+  const generatedFilePath = path.join(outputDirPath, 'generated.ts');
 
-  let importPaths = [...(config.imports || [])]
+  const importPaths = [...(config.imports || [])]
     .map(importPath => path.isAbsolute(importPath) ? importPath : path.normalize(path.join(workingDirectory, importPath)));
 
-  let tsCode = outputItems.map(item => item.typescript);
+  const tsCode = outputItems.map(item => item.typescript);
 
   if (importPaths.length) {
-    let importCode = importPaths
+    const importCode = importPaths
       .map(importPath => generateImports(importPath, outputDirPath))
       .join('\n\n');
 
     tsCode.unshift(importCode);
   }
 
-  let concatenatedTypescript = tsCode
+  const concatenatedTypescript = tsCode
     .map(code => code.trim())
     .filter(code => code !== undefined && code.length > 0)
     .join('\n\n');
@@ -93,13 +93,13 @@ function writeOutput(workingDirectory: string, config: Config, outputItems: Outp
 }
 
 function writeIndex(workingDirectory: string, generatedFilePath: string, config: Config) {
-  let outputDirPath = path.dirname(generatedFilePath);
-  let indexFilePath = path.join(outputDirPath, 'index.ts');
+  const outputDirPath = path.dirname(generatedFilePath);
+  const indexFilePath = path.join(outputDirPath, 'index.ts');
 
-  let exportPaths = [...(config.exports || []), generatedFilePath]
+  const exportPaths = [...(config.exports || []), generatedFilePath]
     .map(exportPath => path.isAbsolute(exportPath) ? exportPath : path.normalize(path.join(workingDirectory, exportPath)));
 
-  let exportCode = exportPaths
+  const exportCode = exportPaths
     .map(exportPath => generateExports(exportPath, outputDirPath))
     .join('\n\n');
 
@@ -115,15 +115,16 @@ function generateExports(sourcePath: string, outputDirPath: string) {
 }
 
 function generateImportsOrExports(type: 'import' | 'export', sourcePath: string, outputDirPath: string) {
-  let exportRegex = /export\s+(?:(?:(?:class|const|enum|interface|function)\s+([0-9A-Za-z_]+))|(?:{\s+([0-9A-Za-z_]+)\s+}))/g;
+  const exportRegex = /export\s+(?:(?:(?:class|const|enum|interface|function)\s+([0-9A-Za-z_]+))|(?:{\s+([0-9A-Za-z_]+)\s+}))/g;
 
-  let source = fs.readFileSync(sourcePath).toString();
+  const source = fs.readFileSync(sourcePath).toString();
 
-  let match, exportedNames = [];
+  let match: RegExpExecArray;
+  const exportedNames: string[] = [];
   while ((match = exportRegex.exec(source)) !== null) {
     exportedNames.push(match[1] ? match[1] : match[2]);
   }
 
-  let relativeReferencePath = path.relative(outputDirPath, sourcePath).replace(/\\/g, '/').replace(/\.ts$/, '');
+  const relativeReferencePath = path.relative(outputDirPath, sourcePath).replace(/\\/g, '/').replace(/\.ts$/, '');
   return `${type} {\n  ${exportedNames.join(',\n  ')}\n} from './${relativeReferencePath}';`;
 }

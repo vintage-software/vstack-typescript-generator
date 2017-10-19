@@ -7,14 +7,14 @@ export function generateInterface(type: CSharpClassOrStructOrInterface, options:
 
   let baseClass;
   if (type.inherits) {
-    let baseClasses = type.inherits
+    const baseClasses = type.inherits
       .filter(i => i && i.length && i[0] !== 'I');
     baseClass = baseClasses.length === 1 ? baseClasses[0] : '';
   }
-  let tsExtends = baseClass ? ` extends ${baseClass}` : '';
+  const tsExtends = baseClass ? ` extends ${baseClass}` : '';
 
-  let propertyStrings: string[] = [];
-  for (let property of type.properties) {
+  const propertyStrings: string[] = [];
+  for (const property of type.properties) {
     let tsPropertyName = Utility.transfromPropertyName(property.name);
     if (property.type.isNullable || (options.allPropertiesOptional && tsPropertyName !== 'id')) {
       tsPropertyName += '?';

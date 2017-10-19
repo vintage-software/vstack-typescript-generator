@@ -3,7 +3,7 @@
 import 'jasmine';
 import { tsGenerator } from '../../src/tsgen';
 
-let sampleFile = `using System;
+const sampleFile = `using System;
 
 namespace MyNamespace.Domain
 {
@@ -16,7 +16,7 @@ namespace MyNamespace.Domain
   }
 }`;
 
-let expectedOutput = `export interface MyDto {
+const expectedOutput = `export interface MyDto {
   id: number;
   name?: string;
   age?: number;
@@ -25,11 +25,11 @@ let expectedOutput = `export interface MyDto {
 
 describe('vstack-typescript-generation class interface generator', () => {
   it('should generate option properties when the allPropertiesOptional is set', () => {
-    let options = {
+    const options = {
       allPropertiesOptional: true
     };
 
-    let result = tsGenerator(sampleFile, options);
+    const result = tsGenerator(sampleFile, options);
     expect(result).toEqual(expectedOutput);
   });
 });
