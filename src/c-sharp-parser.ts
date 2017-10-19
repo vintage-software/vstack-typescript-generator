@@ -145,11 +145,7 @@ export class CSharpParser {
   private static getProperties(body: string, isInterface: boolean): CSharpProperty[] {
     let properties: CSharpProperty[] = [];
     let propertyMatch: RegExpExecArray;
-    let propertyRegex = /public\s*([^\s]+)\s*([\w\d]+)\s*{\s*get/gm;
-
-    if (isInterface) {
-      propertyRegex = /\s*([^\s]+)\s*([\w\d]+)\s*{\s*get/gm;
-    }
+    let propertyRegex = isInterface ? /\s*([^\s]+)\s*([\w\d]+)\s*{\s*get/gm : /public\s*([^\s]+)\s*([\w\d]+)\s*{\s*get/gm;
 
     let getNextPropertyMatch = () => propertyMatch = propertyRegex.exec(body);
     while (getNextPropertyMatch() !== null) {
