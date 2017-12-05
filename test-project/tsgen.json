@@ -7,8 +7,7 @@
     "dateTimeToDate": false
   },
   "imports": [
-    "./shared/enums.ts",
-    "./shared/interfaces.ts"
+    "./shared/imports.ts"
   ],
   "exports": [
     "./shared/exports.ts"

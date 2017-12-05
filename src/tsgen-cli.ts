@@ -115,7 +115,7 @@ function generateExports(sourcePath: string, outputDirPath: string) {
 }
 
 function generateImportsOrExports(type: 'import' | 'export', sourcePath: string, outputDirPath: string) {
-  const exportRegex = /export\s+(?:(?:(?:class|const|enum|interface|function)\s+([0-9A-Za-z_]+))|(?:{\s+([0-9A-Za-z_]+)\s+}))/g;
+  const exportRegex = /export\s+(?:(?:(?:class|const|enum|interface|function|type)\s+([0-9A-Za-z_]+))|(?:{\s+([0-9A-Za-z_]+)\s+}))/g;
 
   const source = fs.readFileSync(sourcePath).toString();
 

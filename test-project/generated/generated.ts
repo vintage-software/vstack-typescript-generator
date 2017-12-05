@@ -2,13 +2,10 @@
 
 import {
   StatusEnum,
-  PositionEnum
-} from './../shared/enums';
-
-import {
+  PositionEnum,
   TimeSpan,
   Benefits
-} from './../shared/interfaces';
+} from './../shared/imports';
 
 export interface Employee {
   id: number;
