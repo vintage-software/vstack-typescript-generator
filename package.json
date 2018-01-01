@@ -18,7 +18,7 @@
     "test:spec": "istanbul cover node_modules/jasmine/bin/jasmine.js",
     "test:generate": "rimraf test-project/test-generated && node dist/src/tsgen-cli.js test-project/tsgen.json",
     "test:compare": "dircompare -c test-project/generated test-project/test-generated",
-    "posttest": "remap-istanbul -i coverage/coverage.json -o coverage -t html",
+    "posttest": "remap-istanbul -i coverage/coverage.json -o coverage/coverage.json -t json && istanbul report",
     "report-coverage": "cat ./coverage/lcov.info | codecov"
   },
   "repository": {
