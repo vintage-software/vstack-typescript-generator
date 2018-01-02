@@ -72,6 +72,6 @@ export class CSharpEnum extends CSharpType {
 export class CSharpEnumEntry {
   constructor(
     public name: string,
-    public value: number
+    public value: string
   ) { }
 }

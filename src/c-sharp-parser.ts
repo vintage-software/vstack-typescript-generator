@@ -106,17 +106,14 @@ export class CSharpParser {
     const entries: CSharpEnumEntry[] = [];
 
     let entryMatch: RegExpExecArray;
-    const entryRegex = /^\s*([\w\d_]+)\s*=?\s*([0-9A-Fx]+)?,?\s*$/gm;
+    const entryRegex = /^\s*([\w\d_]+)\s*=?\s*((?:0x|-|~)?[0-9A-Za-z_]+)?,?\s*$/gm;
     const getNextEntryMatch = () => entryMatch = entryRegex.exec(body);
     while (getNextEntryMatch() !== null) {
       const entryName = entryMatch[1];
       const entryValue = entryMatch[2];
 
-      const radix = /^[0-9]+$/.test(entryValue) ? 10 : 16;
-      const entryValueParsed = parseInt(entryValue, radix);
-
       if (entryName.indexOf('[') === -1) {
-        entries.push(new CSharpEnumEntry(entryName, entryValueParsed));
+        entries.push(new CSharpEnumEntry(entryName, entryValue));
       }
     }
 
