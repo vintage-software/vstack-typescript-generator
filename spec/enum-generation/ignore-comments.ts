@@ -16,7 +16,7 @@ namespace MyNamespace.Domain
     Blue,
     /*
     Indigo,
-    Violent,
+    Violet,
     */
     Maroon
   }

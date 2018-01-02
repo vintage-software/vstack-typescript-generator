@@ -16,7 +16,7 @@ namespace MyNamespace.Domain
     Green = 8,
     Blue = 16,
     Indigo = 32,
-    Violent = 64,
+    Violet = 64,
     All = 0x7FFFFFFF
   }
 }`;
@@ -29,7 +29,7 @@ const expectedOutput = `export enum Colors {
   Green = 8,
   Blue = 16,
   Indigo = 32,
-  Violent = 64,
+  Violet = 64,
   All = 2147483647
 }`;
 
