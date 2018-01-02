@@ -15,7 +15,7 @@ namespace MyNamespace.Domain
     Green = 7,
     Blue,
     Indigo,
-    Violent = 12
+    Violet = 12
   }
 }`;
 
@@ -26,7 +26,7 @@ const expectedOutput = `export enum Colors {
   Green = 7,
   Blue = 8,
   Indigo = 9,
-  Violent = 12
+  Violet = 12
 }`;
 
 describe('vstack-typescript-generation enum generator', () => {
