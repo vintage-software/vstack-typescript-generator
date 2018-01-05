@@ -6,7 +6,6 @@ import * as path from 'path';
 
 import { Config } from './config';
 import { safeWriteFileSync } from './fs.utilities';
-import { generateSchema } from './generate-schema';
 import { Options } from './options';
 import { OutputItem } from './output-item';
 import { tsGenerator } from './tsgen';
@@ -59,9 +58,6 @@ function generateOutput(sourcePaths: string[], options: Options) {
 
     outputItems.push(new OutputItem(name, typescript));
   }
-
-  const csharps = sourcePaths.map(filePath => fs.readFileSync(filePath).toString());
-  outputItems.push(new OutputItem('schema', generateSchema(csharps)));
 
   return outputItems;
 }
