@@ -16,6 +16,7 @@
   "scripts": {
     "lint": "ts-node ./build/lint.ts",
     "build": "ts-node ./build/build.ts",
+    "test": "ts-node ./build/test.ts",
     "print-coverage": "istanbul report -t text",
     "report-coverage": "cat ./coverage/lcov.info | codecov",
     "prepublishOnly": "yarn run build"
