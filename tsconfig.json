@@ -1,19 +1,33 @@
 {
+  "compileOnSave": false,
   "compilerOptions": {
-    "target": "ES6",
-    "module": "commonjs",
-    "moduleResolution": "node",
-    "sourceMap": true,
-    "emitDecoratorMetadata": true,
-    "experimentalDecorators": true,
-    "removeComments": true,
-    "noImplicitAny": true,
-    "declaration": true,
     "outDir": "./dist",
-    "newLine": "LF"
+    "sourceMap": true,
+    "declaration": false,
+    "moduleResolution": "node",
+    "target": "es5",
+    "module": "commonjs",
+    "noEmitOnError": true,
+    "noImplicitAny": true,
+    "noImplicitReturns": true,
+    "noImplicitThis": true,
+    "newLine": "LF",
+    "lib": [
+      "es6",
+      "es7"
+    ],
+    "plugins": [
+      {
+        "name": "tslint-language-service",
+        "ignoreDefinitionFiles": true
+      }
+    ]
   },
   "include": [
-    "src/**/*",
-    "spec/**/*"
+    "./src/index.ts",
+    "./src/tsgen-cli.ts"
+  ],
+  "exclude": [
+    "*.spec.ts"
   ]
 }

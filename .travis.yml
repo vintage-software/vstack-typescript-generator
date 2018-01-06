@@ -1,10 +1,13 @@
 language: node_js
 node_js:
-- '6.9.4'
+  - 6
+  - stable
+os:
+  - linux
+  - osx
+branches:
+  only: master
 script:
-- yarn test
+- yarn run build
 after_success:
 - yarn run report-coverage
-notifications:
-  slack:
-    secure: ejdJOkG98e17pG685XbP5Q+Mwo1g0m1cTes5GjwYuI5ZlMK78zWIwoaEcfTm0O5e3qctJBK1tmIHHOfT43h8ZPtJSAf74CzV1Cc7N/iDO1BVIuSJfPhspgolSves3hgC11efWHnrc83RlgeESSi8RY7tnne8n0XeAAtd6ZvfEJXbG1rEqm8qKiXnNzZZcgQWqKHHaI2ELDU216CR3MyPE22f0XCjWS5UsWTSxJh6D/ICFwb5j/z1ONpM3QmdPCoBmyqRGQieoGKlozfSgqxoXkwuh7pVPH1GTvkBk/58mdqISVrTqiFXz091QM/j5dj4hKNkGGXqAdElwtRkHQGTf/5mhvjmS2KsOq64JYfPpMe5dCn18UfzCVq+8vAzFGkDEy+P2RKuTRSCbdHbtiRTTl6+MCAHngVwJeVtOdyWTM6GR6Fn1oJUp2azyHAIjNIntAedYOMk3Czl9+rJ4ABkzcb08cDO+yjs4wnCLD5KoLhQj6VtcYiiCFHVDfcyN/b7NFVNYUQuu+NdL7qlnzW0JbJTkZV34dxj5zxuFTY0oVGpuITDIvy8BMFWCbmyeddyuNHi23fmzJ0n322p7ddW912lhgGrIalTn52zn71imhyW8JFGGF1CRBl9dcW0wDPB1uYuSfOITXk9aUrrJg39zqKMw/27SLy45TwR0L+eFH0=

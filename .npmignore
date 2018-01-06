@@ -1,12 +1,7 @@
-/.vscode
-/coverage
-/spec
-/src
-/test-project
-/dist/spec
-.gitignore
-.istanbul.yml
-.travis.yml
+.git/
+src/
+coverage/
+
 tsconfig.json
-tsconfig-spec.json
 tslint.json
+yarn.lock

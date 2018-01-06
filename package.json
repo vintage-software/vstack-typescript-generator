@@ -2,58 +2,52 @@
   "name": "vstack-typescript-generator",
   "version": "0.8.0",
   "description": "Tool to generate TypeScript interfaces and TypeScript filter classes for Vstack from C# sources.",
-  "main": "dist/src/tsgen.js",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
   "bin": {
-    "tsgen": "dist/src/tsgen-cli.js"
+    "tsgen": "./dist/tsgen-cli.js"
   },
-  "scripts": {
-    "patch-release": "npm test && npm version patch && npm publish && git push --follow-tags",
-    "minor-release": "npm test && npm version minor && npm publish && git push --follow-tags",
-    "clean": "rimraf dist & rimraf coverage",
-    "lint": "tslint --project tsconfig.json",
-    "prebuild": "npm run clean && npm run lint",
-    "build": "tsc --project tsconfig.json",
-    "pretest": "npm run build",
-    "test": "npm run test:spec && npm run test:generate && npm run test:compare",
-    "test:spec": "istanbul cover node_modules/jasmine/bin/jasmine.js",
-    "test:generate": "rimraf test-project/test-generated && node dist/src/tsgen-cli.js test-project/tsgen.json",
-    "test:compare": "dircompare -c test-project/generated test-project/test-generated",
-    "posttest": "remap-istanbul -i coverage/coverage.json -o coverage/coverage.json -t json && istanbul report",
-    "report-coverage": "cat ./coverage/lcov.info | codecov"
-  },
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/vintage-software/vstack-typescript-generator.git"
-  },
-  "bugs": {
-    "url": "https://github.com/vintage-software/vstack-typescript-generator/issues"
-  },
+  "repository": "https://github.com/vintage-software/vstack-typescript-generator.git",
   "author": "Vintage Software",
   "contributors": [
     "Kevin Phelps <kphelps@vintagesoftware.com> (https://kevinphelps.me/)"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/vintage-software/vstack-typescript-generator#readme",
+  "scripts": {
+    "lint": "ts-node ./build/lint.ts",
+    "build": "ts-node ./build/build.ts",
+    "print-coverage": "istanbul report -t text",
+    "report-coverage": "cat ./coverage/lcov.info | codecov",
+    "prepublishOnly": "yarn run build"
+  },
   "dependencies": {
     "@types/camelcase": "4.1.0",
     "@types/globby": "6.1.0",
     "@types/pluralize": "0.0.28",
     "camelcase": "4.1.0",
+    "chalk": "2.3.0",
     "globby": "7.1.1",
     "mkdirp": "0.5.1",
-    "pluralize": "7.0.0"
+    "pluralize": "7.0.0",
+    "yargs": "10.0.3"
   },
   "devDependencies": {
+    "@types/camelcase": "4.1.0",
+    "@types/globby": "6.1.0",
     "@types/jasmine": "2.8.3",
     "@types/mkdirp": "0.5.2",
     "@types/node": "8.5.7",
+    "@types/pluralize": "0.0.28",
     "@types/rimraf": "2.0.2",
+    "@types/yargs": "10.0.1",
+    "codecov": "3.0.0",
     "codecov.io": "0.1.6",
     "dir-compare": "1.4.0",
     "istanbul": "0.4.5",
     "jasmine": "2.8.0",
     "remap-istanbul": "0.9.5",
     "rimraf": "2.6.2",
+    "ts-node": "4.1.0",
     "tslint": "5.8.0",
     "tslint-consistent-codestyle": "1.11.0",
     "typescript": "2.6.2"
