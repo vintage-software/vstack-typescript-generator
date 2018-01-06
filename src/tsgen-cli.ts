@@ -5,7 +5,7 @@ import * as globby from 'globby';
 import * as path from 'path';
 
 import { Config } from './config';
-import { safeWriteFileSync } from './fs.utilities';
+import { writeFile } from './helpers/fs.helpers';
 import { Options } from './options';
 import { OutputItem } from './output-item';
 import { tsGenerator } from './tsgen';
@@ -84,7 +84,7 @@ function writeOutput(workingDirectory: string, config: Config, outputItems: Outp
     .filter(code => code !== undefined && code.length > 0)
     .join('\n\n');
 
-  safeWriteFileSync(generatedFilePath, `/* tslint:disable */\n\n${concatenatedTypescript}\n`);
+  writeFile(generatedFilePath, `/* tslint:disable */\n\n${concatenatedTypescript}\n`);
   writeIndex(workingDirectory, generatedFilePath, config);
 }
 
@@ -99,7 +99,7 @@ function writeIndex(workingDirectory: string, generatedFilePath: string, config:
     .map(exportPath => generateExports(exportPath, outputDirPath))
     .join('\n\n');
 
-  safeWriteFileSync(indexFilePath, `/* tslint:disable */\n\n${exportCode}\n`);
+  writeFile(indexFilePath, `/* tslint:disable */\n\n${exportCode}\n`);
 }
 
 function generateImports(sourcePath: string, outputDirPath: string) {
