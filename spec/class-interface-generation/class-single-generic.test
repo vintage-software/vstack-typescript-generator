@@ -1,0 +1,15 @@
+{}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+using System;
+
+namespace MyNamespace.Domain
+{
+  public class MyDto<T>
+  {
+    public T GenericTypeValue { get; set; }
+  }
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+export interface MyDto<T> {
+  genericTypeValue: T;
+}

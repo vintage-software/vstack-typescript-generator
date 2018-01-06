@@ -1,0 +1,28 @@
+{}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+using System;
+
+namespace MyNamespace.Domain
+{
+  public class ThisDto
+  {
+    public int Id { get; set; }
+    public string ThisName { get; set; }
+  }
+
+  public class ThatDto
+  {
+    public int Id { get; set; }
+    public string ThatName { get; set; }
+  }
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+export interface ThisDto {
+  id: number;
+  thisName: string;
+}
+
+export interface ThatDto {
+  id: number;
+  thatName: string;
+}

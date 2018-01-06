@@ -1,0 +1,23 @@
+{
+  "allPropertiesOptional": true
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+using System;
+
+namespace MyNamespace.Domain
+{
+  public class MyDto
+  {
+    public int Id { get; set; }
+    public string Name { get; set; }
+    public int Age { get; set; }
+    public int? Rank { get; set; }
+  }
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+export interface MyDto {
+  id: number;
+  name?: string;
+  age?: number;
+  rank?: number;
+}

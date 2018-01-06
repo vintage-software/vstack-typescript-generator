@@ -1,0 +1,17 @@
+{}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+using System;
+
+namespace MyNamespace.Domain
+{
+  public interface IWhatever
+  {
+    int Weight { get; set; }
+    string Name { get; set; }
+  }
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+export interface IWhatever {
+  weight: number;
+  name: string;
+}

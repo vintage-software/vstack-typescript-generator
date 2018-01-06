@@ -1,0 +1,35 @@
+{}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+using System;
+
+namespace MyNamespace.Domain
+{
+  public class MyDto
+  {
+    private int? id;
+
+    public int Id
+    {
+      get
+      {
+        if (this.id == null)
+        {
+          this.id = this.UserId.GetHashCode();
+        }
+
+        return this.id.Value;
+      }
+      set
+      {
+        this.id = value;
+      }
+    }
+
+    public string UserId { get; set; }
+  }
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+export interface MyDto {
+  id: number;
+  userId: string;
+}

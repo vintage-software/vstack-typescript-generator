@@ -1,0 +1,40 @@
+{}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+namespace Service.Filters.People
+{
+    public class WithCondition
+        : IPrimaryDtoFilter<Dmn.Person, PersonMapper, Permissions>
+    {
+        public WithCondition()
+        {
+        }
+
+        public RestStatus HasPrimaryPermissions(Permissions permissions)
+        {
+            return RestStatus.Ok;
+        }
+
+        public IQueryable<Dmn.Person> PrimaryFilter(PersonMapper mapper)
+        {
+            return something;
+        }
+    }
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+export class PeopleWithConditionPrimaryFilter extends PrimaryFilter<Person> {
+  constructor() {
+    super();
+  }
+
+  public getFilterName(): string {
+    return 'WithCondition';
+  }
+
+  public getParameters(): string[] {
+    return [];
+  }
+
+  protected __dummy(): Person {
+    return null;
+  }
+}

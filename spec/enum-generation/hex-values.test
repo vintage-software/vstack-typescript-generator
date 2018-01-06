@@ -1,0 +1,31 @@
+{}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+using System;
+
+namespace MyNamespace.Domain
+{
+  public enum Colors
+  {
+    None = 0
+    Red = 1,
+    Orange = 2,
+    Yellow = 4,
+    Green = 8,
+    Blue = 16,
+    Indigo = 32,
+    Violet = 64,
+    All = 0x7FFFFFFF
+  }
+}
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+export enum Colors {
+  None = 0,
+  Red = 1,
+  Orange = 2,
+  Yellow = 4,
+  Green = 8,
+  Blue = 16,
+  Indigo = 32,
+  Violet = 64,
+  All = 2147483647
+}

@@ -8,11 +8,10 @@ import { execute } from './helpers/shell.helpers';
   await execute('remap-istanbul -i ./coverage/e2e/coverage.json -o ./coverage/e2e/coverage.json -t json');
   await execute('istanbul report -t lcov');
   await execute('istanbul report -t text-summary');
-  await execute('istanbul check-coverage --statements 90 --branches 90 --functions 90 --lines 90');
+  await execute('istanbul check-coverage --statements 90 --branches 85 --functions 90 --lines 90');
 })();
 
 async function e2e() {
-  await execute('ncp ./package.json ./dist-spec/package.json');
-  await execute('istanbul cover ./dist-spec/src/tsgen-cli.js --dir ./coverage/e2e --print none -- ./test-project/tsgen.json');
+  await execute('istanbul cover ./dist-spec/tsgen-cli.js --dir ./coverage/e2e --print none -- ./test-project/tsgen.json');
   await execute('dircompare -c ./test-project/generated ./test-project/test-generated');
 }
