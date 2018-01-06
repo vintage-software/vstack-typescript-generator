@@ -6,6 +6,8 @@ export function safeWriteFileSync(filePath: string, contents: string) {
 
   ensureDirectoryExists(filePath);
   writeFileSync(filePath, contents);
+
+  console.log(`${filePath} written.`);
 }
 
 export function ensureDirectoryExists(filePath: string) {
