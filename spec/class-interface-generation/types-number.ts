@@ -2,7 +2,7 @@
 
 import 'jasmine';
 
-import { tsGenerator } from '../../src/tsgen';
+import { tsgen } from '../../src/tsgen';
 
 const sampleFile = `using System;
 
@@ -56,7 +56,7 @@ describe('vstack-typescript-generation class interface generator', () => {
       dateTimeToDate: true
     };
 
-    const result = tsGenerator(sampleFile, options);
+    const result = tsgen(sampleFile, options);
     expect(result).toEqual(expectedOutput);
   });
 });

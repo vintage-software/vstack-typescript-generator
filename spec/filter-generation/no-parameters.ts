@@ -2,7 +2,7 @@
 
 import 'jasmine';
 
-import { tsGenerator } from '../../src/tsgen';
+import { tsgen } from '../../src/tsgen';
 
 const sampleFile = `namespace Service.Filters.People
 {
@@ -45,7 +45,7 @@ const expectedOutput = `export class PeopleWithConditionPrimaryFilter extends Pr
 
 describe('vstack-typescript-generation primary filter generator', () => {
     it('should transform a filter with zero parameters correctly', () => {
-        const result = tsGenerator(sampleFile);
+        const result = tsgen(sampleFile);
         expect(result).toEqual(expectedOutput);
     });
 });

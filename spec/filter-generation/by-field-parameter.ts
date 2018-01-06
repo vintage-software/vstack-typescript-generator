@@ -2,7 +2,7 @@
 
 import 'jasmine';
 
-import { tsGenerator } from '../../src/tsgen';
+import { tsgen } from '../../src/tsgen';
 
 const sampleFile = `namespace Services.Filters.PostalCodeDetailsFilters
 {
@@ -36,7 +36,7 @@ const expectedOutput = `export class PostalCodeDetailsByFieldElasticFilter exten
 
 describe('vstack-typescript-generation primary filter generator', () => {
   it('should transform a filter with a field name parameter correctly', () => {
-    const result = tsGenerator(sampleFile);
+    const result = tsgen(sampleFile);
     expect(result).toEqual(expectedOutput);
   });
 });

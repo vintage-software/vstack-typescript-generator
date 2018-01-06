@@ -2,7 +2,7 @@
 
 import 'jasmine';
 
-import { tsGenerator } from '../../src/tsgen';
+import { tsgen } from '../../src/tsgen';
 
 const sampleFile = `namespace Services.Filters.Person
 {
@@ -29,7 +29,7 @@ const expectedOutput = ``;
 
 describe('vstack-typescript-generation primary filter generator', () => {
     it('should not transform a non dto filter', () => {
-        const result = tsGenerator(sampleFile);
+        const result = tsgen(sampleFile);
         expect(result).toEqual(expectedOutput);
     });
 });

@@ -2,7 +2,7 @@
 
 import 'jasmine';
 
-import { tsGenerator } from '../../src/tsgen';
+import { tsgen } from '../../src/tsgen';
 
 const sampleFile = `namespace Services.Filters.Person
 {
@@ -50,7 +50,7 @@ const expectedOutput = `export class PeopleByNamesAndAgesPrimaryFilter extends P
 
 describe('vstack-typescript-generation primary filter generator', () => {
   it('should transform a filter with array parameters correctly', () => {
-    const result = tsGenerator(sampleFile);
+    const result = tsgen(sampleFile);
     expect(result).toEqual(expectedOutput);
   });
 });

@@ -2,7 +2,7 @@
 
 import 'jasmine';
 
-import { tsGenerator } from '../../src/tsgen';
+import { tsgen } from '../../src/tsgen';
 
 const sampleFile = `using System;
 
@@ -32,7 +32,7 @@ const expectedOutput = `export enum Colors {
 
 describe('vstack-typescript-generation enum generator', () => {
   it('should transform an enum with explicit and auto-incremented values correctly', () => {
-    const result = tsGenerator(sampleFile);
+    const result = tsgen(sampleFile);
     expect(result).toEqual(expectedOutput);
   });
 });

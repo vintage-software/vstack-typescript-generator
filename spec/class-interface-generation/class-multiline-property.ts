@@ -2,7 +2,7 @@
 
 import 'jasmine';
 
-import { tsGenerator } from '../../src/tsgen';
+import { tsgen } from '../../src/tsgen';
 
 const sampleFile = `using System;
 
@@ -24,7 +24,7 @@ const expectedOutput = `export interface MyDto {
 
 describe('vstack-typescript-generation class interface generator', () => {
   it('should handle a multiline property correctly', () => {
-    const result = tsGenerator(sampleFile);
+    const result = tsgen(sampleFile);
     expect(result).toEqual(expectedOutput);
   });
 });

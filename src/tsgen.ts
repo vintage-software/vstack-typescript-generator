@@ -11,7 +11,7 @@ const primaryDtoFilterRegex = /PrimaryDtoFilter<(?:Dmn\.)?([\w]+)/;
 const elasticDtoFilterRegex = /ElasticDtoFilter<(?:Dmn\.)?([\w]+)/;
 const bypassElasticDtoFilterRegex = /BypassElasticDtoFilter<(?:Dmn\.)?([\w]+)/;
 
-export function tsGenerator(input: string, options: Options = null) {
+export function tsgen(input: string, options: Options = null) {
   const results: string[] = [];
 
   options = {...defaultOptions, ...options};

@@ -2,7 +2,7 @@
 
 import 'jasmine';
 
-import { tsGenerator } from '../../src/tsgen';
+import { tsgen } from '../../src/tsgen';
 
 const sampleFile = `namespace Services.Filters.Person
 {
@@ -54,7 +54,7 @@ describe('vstack-typescript-generation primary filter generator', () => {
       dateTimeToDate: true
     };
 
-    const result = tsGenerator(sampleFile, options);
+    const result = tsgen(sampleFile, options);
     expect(result).toEqual(expectedOutput);
   });
 });

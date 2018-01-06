@@ -2,7 +2,7 @@
 
 import 'jasmine';
 
-import { tsGenerator } from '../../src/tsgen';
+import { tsgen } from '../../src/tsgen';
 
 const sampleFile = `namespace Services.Filters.Person
 {
@@ -48,7 +48,7 @@ const expectedOutput = `export class PeopleByIdsPrimaryFilter extends PrimaryFil
 
 describe('vstack-typescript-generation primary filter generator', () => {
   it('should transform a filter with an optional collection parameter with null value correctly', () => {
-    const result = tsGenerator(sampleFile);
+    const result = tsgen(sampleFile);
     expect(result).toEqual(expectedOutput);
   });
 });

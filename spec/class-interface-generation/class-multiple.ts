@@ -2,7 +2,7 @@
 
 import 'jasmine';
 
-import { tsGenerator } from '../../src/tsgen';
+import { tsgen } from '../../src/tsgen';
 
 const sampleFile = `using System;
 
@@ -33,7 +33,7 @@ export interface ThatDto {
 
 describe('vstack-typescript-generation class interface generator', () => {
   it('should transform multiple classes in the same file', () => {
-    const result = tsGenerator(sampleFile);
+    const result = tsgen(sampleFile);
     expect(result).toEqual(expectedOutput);
   });
 });

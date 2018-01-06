@@ -8,7 +8,7 @@ import { Config } from './config';
 import { writeFile } from './helpers/fs.helpers';
 import { Options } from './options';
 import { OutputItem } from './output-item';
-import { tsGenerator } from './tsgen';
+import { tsgen } from './tsgen';
 
 const defaultConfigFileName = 'tsgen.json';
 
@@ -54,7 +54,7 @@ function generateOutput(sourcePaths: string[], options: Options) {
     const name = path.basename(filePath, '.cs');
 
     const csharp = fs.readFileSync(filePath).toString();
-    const typescript = tsGenerator(csharp, options);
+    const typescript = tsgen(csharp, options);
 
     outputItems.push(new OutputItem(name, typescript));
   }
