@@ -1,7 +1,7 @@
 import { CSharpClassOrStructOrInterface, CSharpContructor, CSharpEnum, CSharpEnumEntry, CSharpMemberType, CSharpParameter, CSharpProperty, CSharpType } from './c-sharp-objects';
 
 export class CSharpParser {
-  public static parse(input: string): CSharpType[] {
+  static parse(input: string): CSharpType[] {
     input = CSharpParser.stripIgnored(input);
     input = CSharpParser.stripComments(input);
 
@@ -92,13 +92,13 @@ export class CSharpParser {
       }
     }
 
-    const properties: CSharpProperty[] = CSharpParser.getProperties(body, false);
+    const properties = CSharpParser.getProperties(body, false);
 
     return new CSharpClassOrStructOrInterface(namespace, name, inherits, constructors, properties);
   }
 
   private static parseInterface(namespace: string, name: string, inherits: string[], body: string) {
-    const properties: CSharpProperty[] = CSharpParser.getProperties(body, true);
+    const properties = CSharpParser.getProperties(body, true);
     return new CSharpClassOrStructOrInterface(namespace, name, inherits, null, properties);
   }
 

@@ -1,6 +1,7 @@
 'use strict';
 
 import 'jasmine';
+
 import { tsGenerator } from '../../src/tsgen';
 
 const sampleFile = `namespace Service.Filters.People

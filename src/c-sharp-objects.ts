@@ -1,18 +1,18 @@
 export class CSharpType {
   constructor(
-    public readonly namespace: string,
-    public readonly name: string,
-    public readonly inherits: string[]
+    readonly namespace: string,
+    readonly name: string,
+    readonly inherits: string[]
   ) { }
 }
 
 export class CSharpClassOrStructOrInterface extends CSharpType {
   constructor(
-    public readonly namespace: string,
-    public readonly name: string,
-    public readonly inherits: string[],
-    public readonly constructors: CSharpContructor[],
-    public readonly properties: CSharpProperty[]
+    readonly namespace: string,
+    readonly name: string,
+    readonly inherits: string[],
+    readonly constructors: CSharpContructor[],
+    readonly properties: CSharpProperty[]
   ) {
     super(namespace, name, inherits);
   }
@@ -20,29 +20,29 @@ export class CSharpClassOrStructOrInterface extends CSharpType {
 
 export class CSharpMemberType {
   constructor(
-    public readonly name: string,
-    public readonly isNullable: boolean,
-    public readonly isCollection: boolean
+    readonly name: string,
+    readonly isNullable: boolean,
+    readonly isCollection: boolean
   ) { }
 }
 
 export class CSharpContructor {
   constructor(
-    public readonly parameters: CSharpParameter[]
+    readonly parameters: CSharpParameter[]
   ) { }
 }
 
 export class CSharpMember {
   constructor(
-    public readonly type: CSharpMemberType,
-    public readonly name: string
+    readonly type: CSharpMemberType,
+    readonly name: string
   ) { }
 }
 
 export class CSharpProperty extends CSharpMember {
   constructor(
-    public readonly type: CSharpMemberType,
-    public readonly name: string
+    readonly type: CSharpMemberType,
+    readonly name: string
   ) {
     super(type, name);
   }
@@ -50,9 +50,9 @@ export class CSharpProperty extends CSharpMember {
 
 export class CSharpParameter extends CSharpMember {
   constructor(
-    public type: CSharpMemberType,
-    public name: string,
-    public defaultValue: string
+    readonly type: CSharpMemberType,
+    readonly name: string,
+    readonly defaultValue: string
   ) {
     super(type, name);
   }
@@ -60,10 +60,10 @@ export class CSharpParameter extends CSharpMember {
 
 export class CSharpEnum extends CSharpType {
   constructor(
-    public namespace: string,
-    public name: string,
-    public inherits: string[],
-    public entries: CSharpEnumEntry[]
+    readonly namespace: string,
+    readonly name: string,
+    readonly inherits: string[],
+    readonly entries: CSharpEnumEntry[]
   ) {
     super(namespace, name, inherits);
   }
@@ -71,7 +71,7 @@ export class CSharpEnum extends CSharpType {
 
 export class CSharpEnumEntry {
   constructor(
-    public name: string,
-    public value: string
+    readonly name: string,
+    readonly value: string
   ) { }
 }

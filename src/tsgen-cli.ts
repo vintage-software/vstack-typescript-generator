@@ -12,7 +12,7 @@ import { tsGenerator } from './tsgen';
 
 const defaultConfigFileName = 'tsgen.json';
 
-(function() {
+(() => {
   const configFilePath = getConfigFilePath();
   const workingDirectory = path.dirname(configFilePath);
 
@@ -41,7 +41,7 @@ function getConfigFilePath() {
     if (!stats.isFile()) {
       throw new Error(`${configFileName} is not a file.`);
     }
-  } catch (e) {
+  } catch {
     throw new Error(`${configFileName} does not exist.`);
   }
 

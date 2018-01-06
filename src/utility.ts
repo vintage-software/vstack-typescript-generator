@@ -3,7 +3,7 @@ import * as camelcase from 'camelcase';
 import { Options } from './options';
 
 export class Utility {
-  public static translateType(csType: string, options: Options) {
+  static translateType(csType: string, options: Options) {
     if (['string', 'String', 'Guid'].indexOf(csType) !== -1) {
       return 'string';
     } else if (['bool', 'Boolean'].indexOf(csType) !== -1) {
@@ -19,9 +19,11 @@ export class Utility {
     } else if (options.tsTypeMap[csType]) {
       return options.tsTypeMap[csType];
     }
+
+    return undefined;
   }
 
-  public static transfromPropertyName(propertyName: string) {
+  static transfromPropertyName(propertyName: string) {
     let tsPropertyName = camelcase(propertyName);
 
     if (propertyName.startsWith('_')) {

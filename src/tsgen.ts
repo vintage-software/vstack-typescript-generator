@@ -14,7 +14,7 @@ const bypassElasticDtoFilterRegex = /BypassElasticDtoFilter<(?:Dmn\.)?([\w]+)/;
 export function tsGenerator(input: string, options: Options = null) {
   const results: string[] = [];
 
-  options = Object.assign({}, defaultOptions, options);
+  options = {...defaultOptions, ...options};
 
   const types = CSharpParser.parse(input);
   for (const type of types) {
@@ -41,20 +41,20 @@ export function tsGenerator(input: string, options: Options = null) {
     const isFilter = type.inherits.some(inherit => inherit.includes('Filter'));
 
     if (type instanceof CSharpEnum) {
-      results.push(generateEnum(<CSharpEnum>type));
+      results.push(generateEnum(type));
     } else if (dtoFilterMatch && !primaryDtoFilterMatch) {
-      results.push(generateFilter(<CSharpClassOrStructOrInterface>type, options, 'Filter', dtoFilterMatch[1]));
+      results.push(generateFilter(type as CSharpClassOrStructOrInterface, options, 'Filter', dtoFilterMatch[1]));
     } else if (dtoFilterMatch && primaryDtoFilterMatch) {
-      results.push(generateFilter(<CSharpClassOrStructOrInterface>type, options, 'Filter', dtoFilterMatch[1]));
-      results.push(generateFilter(<CSharpClassOrStructOrInterface>type, options, 'PrimaryFilter', dtoFilterMatch[1]));
+      results.push(generateFilter(type as CSharpClassOrStructOrInterface, options, 'Filter', dtoFilterMatch[1]));
+      results.push(generateFilter(type as CSharpClassOrStructOrInterface, options, 'PrimaryFilter', dtoFilterMatch[1]));
     } else if (primaryDtoFilterMatch) {
-      results.push(generateFilter(<CSharpClassOrStructOrInterface>type, options, 'PrimaryFilter', primaryDtoFilterMatch[1]));
+      results.push(generateFilter(type as CSharpClassOrStructOrInterface, options, 'PrimaryFilter', primaryDtoFilterMatch[1]));
     } else if (elasticDtoFilterMatch) {
-      results.push(generateFilter(<CSharpClassOrStructOrInterface>type, options, 'ElasticFilter', elasticDtoFilterMatch[1]));
+      results.push(generateFilter(type as CSharpClassOrStructOrInterface, options, 'ElasticFilter', elasticDtoFilterMatch[1]));
     } else if (bypassElasticDtoFilterMatch) {
-      results.push(generateFilter(<CSharpClassOrStructOrInterface>type, options, 'BypassElasticFilter', bypassElasticDtoFilterMatch[1]));
+      results.push(generateFilter(type as CSharpClassOrStructOrInterface, options, 'BypassElasticFilter', bypassElasticDtoFilterMatch[1]));
     } else if (isFilter === false) {
-      results.push(generateInterface(<CSharpClassOrStructOrInterface>type, options));
+      results.push(generateInterface(type as CSharpClassOrStructOrInterface, options));
     }
   }
 
