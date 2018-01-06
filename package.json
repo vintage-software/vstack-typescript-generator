@@ -10,7 +10,7 @@
     "patch-release": "npm test && npm version patch && npm publish && git push --follow-tags",
     "minor-release": "npm test && npm version minor && npm publish && git push --follow-tags",
     "clean": "rimraf dist & rimraf coverage",
-    "lint": "tslint --project tsconfig.json --type-check --fix",
+    "lint": "tslint --project tsconfig.json",
     "prebuild": "npm run clean && npm run lint",
     "build": "tsc --project tsconfig.json",
     "pretest": "npm run build",
@@ -35,15 +35,18 @@
   "license": "MIT",
   "homepage": "https://github.com/vintage-software/vstack-typescript-generator#readme",
   "dependencies": {
+    "@types/camelcase": "4.1.0",
+    "@types/globby": "6.1.0",
+    "@types/pluralize": "0.0.28",
     "camelcase": "4.1.0",
-    "globby": "6.1.0",
+    "globby": "7.1.1",
     "mkdirp": "0.5.1",
     "pluralize": "7.0.0"
   },
   "devDependencies": {
-    "@types/jasmine": "2.6.0",
-    "@types/mkdirp": "0.5.1",
-    "@types/node": "8.0.45",
+    "@types/jasmine": "2.8.3",
+    "@types/mkdirp": "0.5.2",
+    "@types/node": "8.5.7",
     "@types/rimraf": "2.0.2",
     "codecov.io": "0.1.6",
     "dir-compare": "1.4.0",
@@ -51,7 +54,7 @@
     "jasmine": "2.8.0",
     "remap-istanbul": "0.9.5",
     "rimraf": "2.6.2",
-    "tslint": "5.7.0",
-    "typescript": "2.5.3"
+    "tslint": "5.8.0",
+    "typescript": "2.6.2"
   }
 }
