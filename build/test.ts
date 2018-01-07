@@ -31,12 +31,20 @@ const options = parseFlags(process.argv.slice(2), defaultOptionsFn);
 })();
 
 async function unitTest() {
-  await execute('istanbul cover ./node_modules/jasmine/bin/jasmine.js --dir ./coverage/unit --print none -- --config=jasmine.json');
-  await execute('remap-istanbul -i ./coverage/unit/coverage.json -o ./coverage/unit/coverage.json -t json');
+  await execute(getTestCommand('unit', './node_modules/jasmine/bin/jasmine.js', '--config=jasmine.json'));
+  await execute(getRemapCoverageCommand('unit'));
 }
 
 async function e2eTest() {
-  await execute('istanbul cover ./dist-spec/tsgen-cli.js --dir ./coverage/e2e --print none -- ./test-project/tsgen.json');
-  await execute('remap-istanbul -i ./coverage/e2e/coverage.json -o ./coverage/e2e/coverage.json -t json');
+  await execute(getTestCommand('e2e', './dist-spec/tsgen-cli.js', './test-project/tsgen.json'));
+  await execute(getRemapCoverageCommand('e2e'));
   await execute('dircompare -c ./test-project/generated ./test-project/test-generated');
+}
+
+function getTestCommand(testSet: string, script: string, args: string) {
+  return `istanbul cover ${script} --dir ./coverage/${testSet} --print none -- ${args}`;
+}
+
+function getRemapCoverageCommand(testSet: string) {
+  return `remap-istanbul -i ./coverage/${testSet}/coverage.json -o ./coverage/${testSet}/coverage.json -t json`;
 }
