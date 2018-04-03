@@ -63,7 +63,7 @@ export class EmployeesByNameAndAgePrimaryFilter extends PrimaryFilter<Employee> 
   }
 
   public getParameters(): string[] {
-    return [encodeURIComponent(this.name), this.age.toString()];
+    return [encodeURIComponent(this.name), this.age === null || this.age === undefined ? this.age ? this.age.toString()];
   }
 
   protected __dummy(): Employee {

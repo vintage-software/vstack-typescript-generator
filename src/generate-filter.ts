@@ -22,7 +22,7 @@ export function generateFilter(type: CSharpClassOrStructOrInterface, options: Op
         } else {
           const shouldEncode = tsParameterType === 'string' || tsParameterType === 'any' || tsParameterType === 'Date';
           const shouldToString = tsParameterType !== 'string';
-          const toString = tsParameterType === 'Date' ? 'toISOString' : 'toString';
+          const toStringMethodName = tsParameterType === 'Date' ? 'toISOString' : 'toString';
 
           if (parameter.type.isCollection) {
             tsParameterType += '[]';
@@ -36,20 +36,21 @@ export function generateFilter(type: CSharpClassOrStructOrInterface, options: Op
 
           let filterParameter: string;
           if (parameter.type.isCollection) {
-            let mapToExpression = 'i';
+            const mapVariable = 'value';
+            let mapExpression = mapVariable;
             if (shouldToString) {
-              mapToExpression = `i.${toString}()`;
+              mapExpression = getToStringExpression(mapVariable, toStringMethodName);
             }
             if (shouldEncode) {
-              mapToExpression = `encodeURIComponent(${mapToExpression})`;
+              mapExpression = `encodeURIComponent(${mapExpression})`;
             }
-            const mapCall = mapToExpression !== 'i' ? `.map(i => ${mapToExpression})` : '';
+            const mapCall = mapExpression !== mapVariable ? `.map(${mapVariable} => ${mapExpression})` : '';
 
             filterParameter = `this.${parameter.name}${mapCall}.join(',')`;
           } else {
             filterParameter = `this.${parameter.name}`;
             if (shouldToString) {
-              filterParameter = `${filterParameter}.${toString}()`;
+              filterParameter = getToStringExpression(filterParameter, toStringMethodName);
             }
             if (shouldEncode) {
               filterParameter = `encodeURIComponent(${filterParameter})`;
@@ -84,4 +85,8 @@ export class ${pluralize(domainType)}${type.name}${filterType} extends ${filterT
     return null;
   }
 }`.trim();
+}
+
+function getToStringExpression(variable: string, toStringMethodName: string) {
+  return `${variable} === null || ${variable} === undefined ? ${variable} ? ${variable}.${toStringMethodName}()`;
 }
