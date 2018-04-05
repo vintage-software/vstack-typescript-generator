@@ -88,5 +88,5 @@ export class ${pluralize(domainType)}${type.name}${filterType} extends ${filterT
 }
 
 function getToStringExpression(variable: string, toStringMethodName: string) {
-  return `${variable} === null || ${variable} === undefined ? ${variable} ? ${variable}.${toStringMethodName}()`;
+  return `${variable} === null || ${variable} === undefined ? ${variable} : ${variable}.${toStringMethodName}()`;
 }

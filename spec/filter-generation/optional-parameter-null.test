@@ -36,7 +36,7 @@ export class PeopleByNameAndAgePrimaryFilter extends PrimaryFilter<Person> {
   }
 
   public getParameters(): string[] {
-    return [this.age === null || this.age === undefined ? this.age ? this.age.toString(), this.name ? encodeURIComponent(this.name) : null];
+    return [this.age === null || this.age === undefined ? this.age : this.age.toString(), this.name ? encodeURIComponent(this.name) : null];
   }
 
   protected __dummy(): Person {

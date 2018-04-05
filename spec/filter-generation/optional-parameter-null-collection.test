@@ -34,7 +34,7 @@ export class PeopleByIdsPrimaryFilter extends PrimaryFilter<Person> {
   }
 
   public getParameters(): string[] {
-    return [this.ids ? this.ids.map(value => value === null || value === undefined ? value ? value.toString()).join(',') : null];
+    return [this.ids ? this.ids.map(value => value === null || value === undefined ? value : value.toString()).join(',') : null];
   }
 
   protected __dummy(): Person {
