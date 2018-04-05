@@ -36,7 +36,7 @@ export class PeopleBySomePropertyPrimaryFilter extends PrimaryFilter<Person> {
   }
 
   public getParameters(): string[] {
-    return [encodeURIComponent(this.property === null || this.property === undefined ? this.property : this.property.toString()), this.properties.map(value => encodeURIComponent(value === null || value === undefined ? value : value.toString())).join(',')];
+    return [encodeURIComponent(this.property === null ? null : this.property === undefined ? undefined : this.property.toString()), this.properties.map(value => encodeURIComponent(value === null ? null : value === undefined ? undefined : value.toString())).join(',')];
   }
 
   protected __dummy(): Person {

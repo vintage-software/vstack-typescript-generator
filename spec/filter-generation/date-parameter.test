@@ -38,7 +38,7 @@ export class PeopleByBirthdatePrimaryFilter extends PrimaryFilter<Person> {
   }
 
   public getParameters(): string[] {
-    return [encodeURIComponent(this.birthdate === null || this.birthdate === undefined ? this.birthdate : this.birthdate.toISOString()), this.birthdates.map(value => encodeURIComponent(value === null || value === undefined ? value : value.toISOString())).join(',')];
+    return [encodeURIComponent(this.birthdate === null ? null : this.birthdate === undefined ? undefined : this.birthdate.toISOString()), this.birthdates.map(value => encodeURIComponent(value === null ? null : value === undefined ? undefined : value.toISOString())).join(',')];
   }
 
   protected __dummy(): Person {

@@ -26,7 +26,7 @@ export class PeopleByNameAndAgeElasticFilter extends ElasticFilter<Person> {
   }
 
   public getParameters(): string[] {
-    return [encodeURIComponent(this.name), this.age === null || this.age === undefined ? this.age : this.age.toString()];
+    return [encodeURIComponent(this.name), this.age === null ? null : this.age === undefined ? undefined : this.age.toString()];
   }
 
   protected __dummy(): Person {
