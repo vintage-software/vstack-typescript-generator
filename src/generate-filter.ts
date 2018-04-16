@@ -39,9 +39,8 @@ export function generateFilter(type: CSharpClassOrStructOrInterface, options: Op
             const mapVariable = 'value';
             let mapExpression = mapVariable;
             if (shouldToString) {
-              mapExpression = getToStringExpression(mapVariable, toStringMethodName);
-            }
-            if (shouldEncode) {
+              mapExpression = getToStringExpression(mapVariable, toStringMethodName, shouldEncode);
+            } else if (shouldEncode) {
               mapExpression = `encodeURIComponent(${mapExpression})`;
             }
             const mapCall = mapExpression !== mapVariable ? `.map(${mapVariable} => ${mapExpression})` : '';
@@ -50,9 +49,8 @@ export function generateFilter(type: CSharpClassOrStructOrInterface, options: Op
           } else {
             filterParameter = `this.${parameter.name}`;
             if (shouldToString) {
-              filterParameter = getToStringExpression(filterParameter, toStringMethodName);
-            }
-            if (shouldEncode) {
+              filterParameter = getToStringExpression(filterParameter, toStringMethodName, shouldEncode);
+            } else if (shouldEncode) {
               filterParameter = `encodeURIComponent(${filterParameter})`;
             }
           }
@@ -87,6 +85,9 @@ export class ${pluralize(domainType)}${type.name}${filterType} extends ${filterT
 }`.trim();
 }
 
-function getToStringExpression(variable: string, toStringMethodName: string) {
-  return `${variable} === null ? null : ${variable} === undefined ? undefined : ${variable}.${toStringMethodName}()`;
+function getToStringExpression(variable: string, toStringMethodName: string, shouldEncode: boolean) {
+  const variableExpression = `${variable}.${toStringMethodName}()`;
+  const encodedVariableExpression = shouldEncode ? `encodeURIComponent(${variableExpression})` : variableExpression;
+
+  return `${variable} === null ? null : ${variable} === undefined ? undefined : ${encodedVariableExpression}`;
 }
